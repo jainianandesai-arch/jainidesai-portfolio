@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jaini Desai – Architect of Intelligent Workforce Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #ffffff;
+      font-family: 'Inter', sans-serif;
+      color: #1a1a2e;
+      line-height: 1.6;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 60px;
+      border-bottom: 1px solid #e8edf5;
+      position: sticky;
+      top: 0;
+      background: #ffffff;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 500;
+      color: #1a1a2e;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #6b7280;
+      text-decoration: none;
+      font-weight: 400;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #1e3a8a;
+    }
+
+    .hero {
+      padding: 100px 60px 80px;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #1e3a8a;
+      margin-bottom: 28px;
+      font-weight: 500;
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 68px;
+      font-weight: 400;
+      line-height: 1.05;
+      color: #1a1a2e;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-style: italic;
+      color: #1e3a8a;
+      margin-bottom: 40px;
+      font-weight: 400;
+    }
+
+    .hero-divider {
+      width: 48px;
+      height: 1px;
+      background: #1e3a8a;
+      margin: 0 auto 40px;
+    }
+
+    .hero-bio {
+      font-size: 16px;
+      line-height: 1.9;
+      color: #4b5563;
+      font-weight: 300;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .section {
+      display: none;
+      padding: 60px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .section.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #1e3a8a;
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+
+    .section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 42px;
+      font-weight: 400;
+      color: #1a1a2e;
+      margin-bottom: 48px;
+      letter-spacing: -0.01em;
+    }
+
+    .studio-intro {
+      font-size: 15px;
+      line-height: 1.9;
+      color: #4b5563;
+      font-weight: 300;
+      margin-bottom: 48px;
+    }
+
+    .studio-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .studio-domain {
+      background: #ffffff;
+      border: 1px solid #e8edf5;
+      border-radius: 8px;
+      padding: 28px;
+    }
+
+    .studio-domain-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #1e3a8a;
+      font-weight: 600;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #e8edf5;
+    }
+
+    .studio-entry {
+      display: block;
+      padding: 16px 0;
+      border-bottom: 1px solid #f3f4f6;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .studio-entry:last-child { border-bottom: none; }
+
+    .studio-entry:hover .studio-entry-title { color: #1e3a8a; }
+
+    .studio-entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .studio-entry-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 19px;
+      font-weight: 400;
+      color: #1a1a2e;
+      transition: color 0.2s;
+      line-height: 1.3;
+    }
+
+    .studio-entry-desc {
+      font-size: 12px;
+      color: #6b7280;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    .studio-entry-tag {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #1e3a8a;
+      border: 1px solid #bfdbfe;
+      padding: 3px 10px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .studio-entries-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .studio-entry-mini {
+      display: block;
+      padding: 14px;
+      border: 1px solid #e8edf5;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .studio-entry-mini:hover {
+      border-color: #1e3a8a;
+      background: #f8faff;
+    }
+
+    .studio-entry-mini:hover .studio-entry-mini-title {
+      color: #1e3a8a;
+    }
+
+    .studio-entry-mini-tag {
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #1e3a8a;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .studio-entry-mini-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: #1a1a2e;
+      line-height: 1.3;
+      margin-bottom: 6px;
+      transition: color 0.2s;
+    }
+
+    .studio-entry-mini-desc {
+      font-size: 11px;
+      color: #9ca3af;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    .about-body {
+      font-size: 16px;
+      line-height: 1.9;
+      color: #4b5563;
+      font-weight: 300;
+      max-width: 680px;
+    }
+
+    .about-body p { margin-bottom: 24px; }
+
+    .about-body p:last-child {
+      margin-bottom: 0;
+      color: #1a1a2e;
+      font-weight: 400;
+    }
+
+    .contact-body { max-width: 580px; }
+
+    .contact-body p {
+      font-size: 16px;
+      line-height: 1.9;
+      color: #4b5563;
+      font-weight: 300;
+      margin-bottom: 40px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 20px 0;
+      border-bottom: 1px solid #e8edf5;
+    }
+
+    .contact-item:first-of-type { border-top: 1px solid #e8edf5; }
+
+    .contact-label {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #1e3a8a;
+      font-weight: 500;
+      min-width: 80px;
+    }
+
+    .contact-value {
+      font-size: 15px;
+      color: #1a1a2e;
+      font-weight: 300;
+    }
+
+    .contact-value a { color: #1e3a8a; text-decoration: none; }
+    .contact-value a:hover { text-decoration: underline; }
+
+    footer {
+      padding: 32px 60px;
+      border-top: 1px solid #e8edf5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 80px;
+    }
+
+    .footer-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      color: #9ca3af;
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: #d1d5db;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">Jaini Desai</div>
+    <ul class="nav-links">
+      <li><a onclick="show('hero')" class="active" id="nav-hero">Home</a></li>
+      <li><a onclick="show('studio')" id="nav-studio">Studio</a></li>
+      <li><a onclick="show('about')" id="nav-about">About</a></li>
+      <li><a onclick="show('contact')" id="nav-contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HOME -->
+  <div id="hero" class="section active">
+    <div class="hero">
+      <div class="hero-eyebrow">Workforce Intelligence · People Analytics · AI Enablement</div>
+      <h1>Jaini Desai</h1>
+      <div class="hero-title">Workforce Intelligence, Analytics & AI Transformation Leader</div>
+      <div class="hero-divider"></div>
+      <p class="hero-bio">
+        I have built enterprise people analytics capabilities twice from the ground up, turning fragmented workforce data into trusted, decision-ready intelligence that helps leaders anticipate risk and act with confidence.
+      </p>
+    </div>
+  </div>
+
+  <!-- STUDIO -->
+  <div id="studio" class="section">
+    <div class="section-eyebrow">Frameworks · Simulations · Systems</div>
+    <h2>Studio</h2>
+    <p class="studio-intro">
+      A body of work spanning workforce intelligence, AI enablement, and commercial intelligence —
+      built from the inside of enterprise organizations, not theorized from the outside.
+    </p>
+
+    <!-- FLAGSHIP -->
+    <div style="margin-bottom:20px">
+      <a href="Organizational_Readiness_Intelligence.html" target="_blank" style="display:block;background:#0E1B2A;border-radius:10px;padding:32px 36px;text-decoration:none;transition:opacity 0.2s" onmouseover="this.style.opacity=0.92" onmouseout="this.style.opacity=1">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:20px">
+          <div>
+            <div style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#C8973A;font-weight:600;margin-bottom:12px">Organizational Readiness Intelligence™ · Flagship</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:#ffffff;line-height:1.2;margin-bottom:12px">GTAA Leadership Continuity & Workforce Intelligence</div>
+            <div style="font-size:13px;color:#94a3b8;line-height:1.8;max-width:680px">A boardroom-ready intelligence system assessing 224 people across 13 critical roles — covering leadership pipeline depth, capability gaps, succession nominations, LMI scores, ELV exposure, and talent investment strategy.</div>
+          </div>
+          <div style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#C8973A;border:1px solid #C8973A;padding:6px 14px;white-space:nowrap;flex-shrink:0">Platform</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="studio-grid">
+
+      <!-- AI ENABLEMENT -->
+      <div class="studio-domain">
+        <div class="studio-domain-label">AI Enablement</div>
+        <a class="studio-entry" href="Enterprise_AI_Transformation.html" target="_blank">
+          <div class="studio-entry-header">
+            <div class="studio-entry-title">Enterprise AI Transformation: From Strategy to Value</div>
+            <div class="studio-entry-tag">Framework</div>
+          </div>
+          <div class="studio-entry-desc">A comprehensive framework covering AI opportunity identification, workforce transformation, intelligence platforms, governance, and value realization across the enterprise.</div>
+        </a>
+      </div>
+
+      <!-- WORKFORCE INTELLIGENCE -->
+      <div class="studio-domain">
+        <div class="studio-domain-label">Workforce Intelligence</div>
+        <div class="studio-entries-row">
+          <a class="studio-entry-mini" href="SkillNet_Analytics.html" target="_blank">
+            <div class="studio-entry-mini-tag">Framework</div>
+            <div class="studio-entry-mini-title">Workforce Capability Intelligence</div>
+            <div class="studio-entry-mini-desc">Data-driven workforce planning using Skills Network Analysis, ONA, and psychometric testing.</div>
+          </a>
+          <a class="studio-entry-mini" href="Employee_Lifetime_Value.html" target="_blank">
+            <div class="studio-entry-mini-tag">Framework</div>
+            <div class="studio-entry-mini-title">Employee Lifetime Value</div>
+            <div class="studio-entry-mini-desc">Reframing talent as cumulative financial value and what organizations truly lose when high performers leave.</div>
+          </a>
+          <a class="studio-entry-mini" href="Workforce_Decision_Intelligence.html" target="_blank">
+            <div class="studio-entry-mini-tag">System</div>
+            <div class="studio-entry-mini-title">Workforce Decision Intelligence</div>
+            <div class="studio-entry-mini-desc">An integrated HR intelligence system.</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- COMMERCIAL INTELLIGENCE -->
+      <div class="studio-domain">
+        <div class="studio-domain-label">Commercial Intelligence</div>
+        <a class="studio-entry" href="JainiDesai_Commercial_Intelligence_Platform.html" target="_blank">
+          <div class="studio-entry-header">
+            <div class="studio-entry-title">Commercial Intelligence Platform</div>
+            <div class="studio-entry-tag">Simulation</div>
+          </div>
+          <div class="studio-entry-desc">Transforming consumer, customer, retail, operational, and investment signals into executive-ready growth decisions.</div>
+        </a>
+      </div>
+
+      <!-- SUPPLY CHAIN INTELLIGENCE -->
+      <div class="studio-domain">
+        <div class="studio-domain-label">Supply Chain Intelligence</div>
+        <a class="studio-entry" href="Supply_Chain_Intelligence.html" target="_blank">
+          <div class="studio-entry-header">
+            <div class="studio-entry-title">Supply Chain Intelligence</div>
+            <div class="studio-entry-tag">Simulation</div>
+          </div>
+          <div class="studio-entry-desc">End-to-end supply chain intelligence — from supplier risk and inventory optimization to demand forecasting and logistics performance.</div>
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ABOUT -->
+  <div id="about" class="section">
+    <div class="section-eyebrow">Background</div>
+    <h2>About</h2>
+    <div class="about-body">
+      <p>
+        For fifteen years I have been building analytics infrastructure and designing workforce
+        intelligence systems inside some of Canada's largest enterprises — not as an outside
+        advisor, but as the practitioner accountable for outcomes.
+      </p>
+      <p>
+        My work sits at the intersection of workforce strategy, applied analytics, and AI enablement.
+        I turn complex organizational challenges into clarity — uncovering the insights that reshape
+        how leaders think about their people, their processes, and their future.
+      </p>
+      <p>
+        I am now focused on researching and publishing original frameworks for workforce transformation
+        in the AI era — building the intelligence infrastructure that helps organizations make
+        workforce decisions with the same rigour they bring to finance and operations.
+      </p>
+      <p>That is what I build. That is what this platform is for.</p>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div id="contact" class="section">
+    <div class="section-eyebrow">Get in Touch</div>
+    <h2>Contact</h2>
+    <div class="contact-body">
+      <p>
+        I am open to conversations about workforce transformation, analytics architecture,
+        and building intelligent systems for people decisions.
+      </p>
+      <div class="contact-item">
+        <div class="contact-label">Email</div>
+        <div class="contact-value">
+          <a href="mailto:jainianandesai@gmail.com">jainianandesai@gmail.com</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-label">LinkedIn</div>
+        <div class="contact-value">
+          <a href="https://linkedin.com/in/jainidesai" target="_blank">linkedin.com/in/jainidesai</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-name">Jaini Desai · jainidesai.com</div>
+    <div class="footer-copy">© 2026 · All rights reserved</div>
+  </footer>
+
+  <script>
+    function show(id) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      document.getElementById('nav-' + id).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Read URL parameter and show correct section
+    window.addEventListener('DOMContentLoaded', function() {
+      const params = new URLSearchParams(window.location.search);
+      const section = params.get('section');
+      if (section && document.getElementById(section)) {
+        show(section);
+      }
+    });
+  </script>
+
+</body>
+</html>
