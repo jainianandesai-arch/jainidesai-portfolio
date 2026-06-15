@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkillNet Analytics — Jaini Desai</title>
+<style>
+:root{
+  --navy:#1F3864;--blue:#2E5FA3;--gold:#C8973A;--gold-bg:#fffbf0;--gold-border:#e8d5a3;
+  --ink:#0E1B2A;--muted:#64748B;--line:#E2E8F0;--pale:#F0F5FC;--soft:#F7F8FA;
+  --green:#1f7a4d;--green-bg:#e9f6ef;--yellow:#9a6b08;--yellow-bg:#fff4d9;
+  --white:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#fff;color:var(--ink);font-size:13.5px;line-height:1.6}
+.app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+aside{background:#f9fafb;border-right:1px solid var(--line);padding:24px 16px;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+main{padding:36px 48px 80px;max-width:1100px}
+.brand-name{font-size:17px;font-weight:800;color:var(--navy);letter-spacing:.01em;margin-bottom:4px;padding-bottom:8px;border-bottom:2px solid var(--gold)}
+.brand-title{font-size:10.5px;color:var(--muted);line-height:1.5;margin-bottom:24px}
+.nav-group{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding:12px 10px 4px;font-weight:700}
+.nav-btn{display:block;width:100%;text-align:left;background:none;border:1px solid transparent;border-radius:6px;padding:9px 10px;font-size:12.5px;color:#374151;cursor:pointer;margin:2px 0;transition:all .12s;font-family:inherit}
+.nav-btn:hover{background:#fff;border-color:var(--line);color:var(--navy)}
+.nav-btn.active{background:#fff;border-color:var(--line);box-shadow:0 1px 3px rgba(0,0,0,.06);font-weight:700;color:var(--navy);border-left:3px solid var(--gold)}
+.sidebar-note{font-size:10px;color:var(--muted);line-height:1.5;border-top:1px solid var(--line);padding-top:12px;margin-top:auto}
+.section{display:none}
+.section.active{display:block}
+.page-title{font-size:26px;font-weight:800;color:var(--ink);letter-spacing:-.02em;line-height:1.2;margin-bottom:6px}
+.page-sub{font-size:13px;color:var(--muted);max-width:720px;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+h2{font-size:19px;font-weight:800;color:var(--ink);margin-bottom:8px;margin-top:28px}
+h3{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:8px}
+p{font-size:13px;color:#374151;line-height:1.65;margin-bottom:10px}
+.section-intro{font-size:12.5px;color:var(--muted);font-style:italic;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{border:1px solid var(--line);background:#fff;border-radius:10px;padding:16px;box-shadow:0 1px 2px rgba(14,27,42,.04)}
+.card-navy{background:var(--navy);border-color:var(--navy)}
+.card-navy h3{color:#fff}
+.card-navy p{color:#c5d8f0}
+.card-gold{background:var(--gold-bg);border-color:var(--gold-border)}
+.kpi{font-size:30px;font-weight:800;color:var(--navy);margin-bottom:3px;line-height:1}
+.kpi-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:5px}
+.kpi-note{font-size:11px;color:var(--muted);line-height:1.4}
+.pill{display:inline-block;border-radius:999px;padding:3px 9px;font-size:10.5px;font-weight:700}
+.pill-blue{background:var(--pale);color:var(--navy)}
+.pill-green{background:var(--green-bg);color:var(--green)}
+.pill-yellow{background:var(--yellow-bg);color:var(--yellow)}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th{text-align:left;color:var(--muted);font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid var(--line);padding:9px 11px}
+td{padding:10px 11px;border-bottom:1px solid #f0f3f7;color:var(--ink);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafbfc}
+.td-dim{font-weight:700;color:var(--navy)}
+.quote{background:#f8fafc;border-left:3px solid var(--navy);padding:14px 16px;border-radius:0 7px 7px 0;color:#1e293b;line-height:1.7;margin:12px 0;font-size:13px}
+.quote-gold{background:var(--gold-bg);border-left:3px solid var(--gold);padding:14px 16px;border-radius:0 7px 7px 0;color:#1e293b;line-height:1.7;margin:12px 0;font-size:13px}
+.tag-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.tag{background:var(--pale);border:1px solid #D6E4F7;color:var(--navy);border-radius:5px;padding:4px 10px;font-size:11px;font-weight:700}
+.flow{display:grid;gap:6px;margin:14px 0}
+.flow-4{grid-template-columns:repeat(4,1fr)}
+.flow-3{grid-template-columns:repeat(3,1fr)}
+.step{border:1px solid var(--line);border-radius:7px;padding:10px 6px;text-align:center;background:#fff}
+.step-num{font-size:9px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+.step b{display:block;font-size:11.5px;font-weight:800;color:var(--ink);margin-bottom:2px}
+.step span{font-size:10px;color:var(--muted)}
+.footer{font-size:10.5px;color:var(--muted);margin-top:36px;padding-top:14px;border-top:1px solid var(--line);text-align:center}
+@media(max-width:900px){.app{grid-template-columns:1fr}aside{position:relative;height:auto}.g2,.g3,.g4,.flow-4,.flow-3{grid-template-columns:1fr}main{padding:20px 16px}}
+</style>
+</head>
+<body>
+  <div style="position:sticky;top:0;background:#ffffff;border-bottom:1px solid #e8edf5;padding:16px 40px;display:flex;justify-content:space-between;align-items:center;z-index:999;font-family:'Segoe UI',Arial,sans-serif">
+    <a href="index.html" style="font-family:'Georgia',serif;font-size:16px;font-weight:500;color:#1a1a2e;text-decoration:none;letter-spacing:0.02em">Jaini Desai</a>
+    <div style="display:flex;gap:32px">
+      <a href="index.html?section=hero" style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#6b7280;text-decoration:none;font-weight:400">Home</a>
+      <a href="index.html?section=studio" style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#6b7280;text-decoration:none;font-weight:400">Studio</a>
+      <a href="index.html?section=about" style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#6b7280;text-decoration:none;font-weight:400">About</a>
+      <a href="index.html?section=contact" style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#6b7280;text-decoration:none;font-weight:400">Contact</a>
+    </div>
+  </div>
+<div class="app">
+
+<aside>
+  <div class="brand-name">Jaini Desai</div>
+  <div class="brand-title">Architect of Intelligent Workforce Systems</div>
+  <nav>
+    <div class="nav-group">SkillNet Analytics</div>
+    <button class="nav-btn active" data-s="overview">01 &nbsp;Overview</button>
+    <button class="nav-btn" data-s="components">02 &nbsp;Key Components</button>
+    <button class="nav-btn" data-s="methodology">03 &nbsp;Methodology</button>
+    <button class="nav-btn" data-s="benefits">04 &nbsp;Benefits</button>
+    <button class="nav-btn" data-s="casestudy">05 &nbsp;Case Study</button>
+  </nav>
+  <div class="sidebar-note">Original framework by Jaini Desai · jainidesai.com · All examples use synthetic data.</div>
+</aside>
+
+<main>
+
+<!-- OVERVIEW -->
+<section id="overview" class="section active">
+  <div style="font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px">Workforce Intelligence Framework</div>
+  <div class="page-title">SkillNet Analytics</div>
+  <div style="font-size:14px;color:var(--blue);font-weight:600;margin-top:4px;margin-bottom:20px">A Data-Driven Approach to Workforce Planning</div>
+  <div style="height:1px;background:var(--line);margin-bottom:20px"></div>
+
+  <div style="background:var(--navy);border-radius:10px;padding:28px 32px;margin-bottom:20px">
+    <p style="font-size:17px;font-weight:800;color:#fff;line-height:1.6;margin-bottom:12px">Traditional workforce planning relies on subjective assessments. SkillNet Analytics changes that.</p>
+    <p style="font-size:13.5px;color:#c5d8f0;line-height:1.8;margin:0">By integrating Skills Network Analysis, Organizational Network Analysis, and psychometric testing, SkillNet Analytics delivers deep, objective insights into workforce capabilities — identifying high-potential employees, recognizing transferable skills, and ensuring the right people are placed in the right roles.</p>
+  </div>
+
+  <div class="grid g3" style="margin-bottom:20px">
+    <div class="card">
+      <div class="kpi-label">Methodology</div>
+      <div class="kpi">SNA</div>
+      <div class="kpi-note">Skills Network Analysis — mapping skill interdependencies</div>
+    </div>
+    <div class="card">
+      <div class="kpi-label">Methodology</div>
+      <div class="kpi">ONA</div>
+      <div class="kpi-note">Organizational Network Analysis — distribution of skills across the org</div>
+    </div>
+    <div class="card card-gold">
+      <div class="kpi-label">Methodology</div>
+      <div class="kpi" style="color:var(--gold)">PSY</div>
+      <div class="kpi-note">Psychometric Testing — cognitive ability, personality, behavioral tendencies</div>
+    </div>
+  </div>
+
+  <div class="quote-gold">
+    "SkillNet Analytics is the culmination of seven years of experience in Talent Analytics — reflecting a commitment to enhancing workforce management through data-driven insights."
+    <div style="margin-top:8px;font-size:11px;font-weight:700;color:var(--gold)">— Jaini Desai</div>
+  </div>
+
+  <div class="tag-wrap">
+    <span class="tag">Skills Network Analysis</span>
+    <span class="tag">Organizational Network Analysis</span>
+    <span class="tag">Psychometric Testing</span>
+    <span class="tag">Workforce Planning</span>
+    <span class="tag">Succession Planning</span>
+    <span class="tag">Talent Analytics</span>
+  </div>
+</section>
+
+<!-- KEY COMPONENTS -->
+<section id="components" class="section">
+  <div class="page-title">Key Components</div>
+  <div class="page-sub">Three integrated methodologies that together form the SkillNet Analytics framework.</div>
+
+  <h2>1. Skills Network Analysis (SNA)</h2>
+  <div class="card" style="margin-bottom:20px">
+    <p><strong>Objective:</strong> Map and measure the relationships and interdependencies between various skills within the organization.</p>
+    <p><strong>Method:</strong> Create a co-occurrence matrix and network graph to visualize skill interconnections.</p>
+    <table style="margin-top:12px">
+      <thead><tr><th>Metric</th><th>What it measures</th></tr></thead>
+      <tbody>
+        <tr><td class="td-dim">Degree Centrality</td><td>Number of direct connections a skill has — indicates a highly interconnected skill</td></tr>
+        <tr><td class="td-dim">Betweenness Centrality</td><td>How often a skill lies on the shortest path between others — acts as a bridge skill</td></tr>
+        <tr><td class="td-dim">Closeness Centrality</td><td>How close a skill is to all other skills in the network</td></tr>
+        <tr><td class="td-dim">Eigenvector Centrality</td><td>Influence of a skill — considering not just connections but their importance</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>2. Organizational Network Analysis (ONA)</h2>
+  <div class="card" style="margin-bottom:20px">
+    <p><strong>Objective:</strong> Understand the distribution and connectivity of skills across the organization.</p>
+    <p><strong>Method:</strong> Utilize centrality metrics to identify critical skills and their influence within the network — revealing which skills are concentrated, which are distributed, and where gaps exist.</p>
+  </div>
+
+  <h2>3. Psychometric Testing</h2>
+  <div class="card" style="margin-bottom:20px">
+    <p><strong>Objective:</strong> Assess cognitive abilities, personality traits, and behavioral tendencies.</p>
+    <p><strong>Examples:</strong> McQuaig System, MBTI, Hogan Assessments, DISC Profile.</p>
+    <table style="margin-top:12px">
+      <thead><tr><th>Metric</th><th>What it measures</th></tr></thead>
+      <tbody>
+        <tr><td class="td-dim">Dominance (D)</td><td>Assertiveness, control, and desire for power — drive to lead and make decisions</td></tr>
+        <tr><td class="td-dim">Sociability (S)</td><td>Need for social interaction — preference for engaging and persuading others</td></tr>
+        <tr><td class="td-dim">Relaxation (R)</td><td>Stress tolerance, patience, and steadiness under pressure</td></tr>
+        <tr><td class="td-dim">Compliance (C)</td><td>Adherence to rules, attention to detail, and accuracy</td></tr>
+        <tr><td class="td-dim">Mental Agility</td><td>Cognitive ability — problem-solving speed, logical reasoning, analytical strength</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section id="methodology" class="section">
+  <div class="page-title">Methodology</div>
+  <div class="page-sub">How SkillNet Analytics is applied to identify the right talent for the right roles.</div>
+
+  <div class="flow flow-4" style="margin-bottom:28px">
+    <div class="step"><div class="step-num">Step 01</div><b>Data Collection</b><span>Skills, performance, psychometric assessments</span></div>
+    <div class="step"><div class="step-num">Step 02</div><b>Network Mapping</b><span>Build co-occurrence matrix and skill graph</span></div>
+    <div class="step"><div class="step-num">Step 03</div><b>Centrality Analysis</b><span>Identify critical and bridge skills</span></div>
+    <div class="step"><div class="step-num">Step 04</div><b>Role Matching</b><span>Compare composite scores to ideal role profiles</span></div>
+  </div>
+
+  <div class="card card-navy" style="margin-bottom:20px">
+    <h3>Composite Scoring</h3>
+    <p>Each employee receives a composite score combining SNA metrics and psychometric results. This score is compared against the ideal profile for a target role. The employee with the lowest variance from the ideal score is identified as the best fit — removing subjectivity from talent decisions.</p>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>Leadership Role Profile</h3>
+      <table>
+        <thead><tr><th>Dimension</th><th>Ideal Score</th></tr></thead>
+        <tbody>
+          <tr><td>Leadership</td><td><span class="pill pill-blue">90</span></td></tr>
+          <tr><td>Communication</td><td><span class="pill pill-blue">85</span></td></tr>
+          <tr><td>Problem Solving</td><td><span class="pill pill-blue">80</span></td></tr>
+          <tr><td>Degree Centrality</td><td><span class="pill pill-blue">0.85</span></td></tr>
+          <tr><td>Dominance (D)</td><td><span class="pill pill-blue">85</span></td></tr>
+          <tr><td>Mental Agility</td><td><span class="pill pill-blue">85</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h3>IT Role Profile</h3>
+      <table>
+        <thead><tr><th>Dimension</th><th>Ideal Score</th></tr></thead>
+        <tbody>
+          <tr><td>Python</td><td><span class="pill pill-blue">85</span></td></tr>
+          <tr><td>Java</td><td><span class="pill pill-blue">80</span></td></tr>
+          <tr><td>SQL</td><td><span class="pill pill-blue">80</span></td></tr>
+          <tr><td>Degree Centrality</td><td><span class="pill pill-blue">0.85</span></td></tr>
+          <tr><td>Compliance (C)</td><td><span class="pill pill-blue">85</span></td></tr>
+          <tr><td>Mental Agility</td><td><span class="pill pill-blue">85</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section id="benefits" class="section">
+  <div class="page-title">Benefits</div>
+  <div class="page-sub">What SkillNet Analytics delivers for the organization.</div>
+
+  <div class="grid g2" style="margin-bottom:20px">
+    <div class="card">
+      <h3>Enhanced Decision-Making</h3>
+      <p>Data-driven insights improve the accuracy and objectivity of workforce planning decisions — removing bias and gut instinct from talent selection.</p>
+    </div>
+    <div class="card">
+      <h3>Identifying High Potential</h3>
+      <p>Recognizes and nurtures talent by aligning individuals with suitable roles and promoting internal growth through objective skill mapping.</p>
+    </div>
+    <div class="card">
+      <h3>Promoting Internal Mobility</h3>
+      <p>Leverages transferable skills within the organization — supporting employee development and career progression without external hiring costs.</p>
+    </div>
+    <div class="card">
+      <h3>Reducing Turnover</h3>
+      <p>Increases employee engagement and retention by ensuring the right fit for roles — reducing the financial and cultural cost of misplacement.</p>
+    </div>
+    <div class="card">
+      <h3>Optimizing Recruitment</h3>
+      <p>Identifies the best candidates for specific roles based on a comprehensive analysis of skills, network centrality, and psychometric data.</p>
+    </div>
+    <div class="card card-gold">
+      <h3>Supporting Succession Planning</h3>
+      <p>Provides a clear, data-driven view of internal talent that can be developed for future leadership roles — reducing succession risk across the enterprise.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDY -->
+<section id="casestudy" class="section">
+  <div class="page-title">Case Study</div>
+  <div class="page-sub">Identifying the right fit for Leadership and IT roles using SkillNet Analytics. All data is synthetic and for demonstration purposes only.</div>
+
+  <div class="quote" style="margin-bottom:24px">
+    The methodology analyzes composite scores for each employee against ideal role profiles — calculating variance to identify best fit objectively and consistently.
+  </div>
+
+  <h2>Leadership Role — Results</h2>
+  <div class="card" style="margin-bottom:20px">
+    <table>
+      <thead><tr><th>Employee</th><th>Composite Score</th><th>Variance from Ideal</th><th>Fit</th></tr></thead>
+      <tbody>
+        <tr><td class="td-dim">Employee 5</td><td>87.17</td><td>2.83</td><td><span class="pill pill-green">Best Fit</span></td></tr>
+        <tr><td class="td-dim">Employee 2</td><td>85.67</td><td>4.33</td><td><span class="pill pill-yellow">Strong Candidate</span></td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:12px;font-size:12px;color:var(--muted)">Employee 5 scores highest on leadership composite with the lowest variance from the ideal profile — making them the objective best fit for the leadership role.</p>
+  </div>
+
+  <h2>IT Role — Results</h2>
+  <div class="card" style="margin-bottom:20px">
+    <table>
+      <thead><tr><th>Employee</th><th>Composite Score</th><th>Variance from Ideal</th><th>Fit</th></tr></thead>
+      <tbody>
+        <tr><td class="td-dim">Employee 2</td><td>85.14</td><td>0.14</td><td><span class="pill pill-green">Best Fit</span></td></tr>
+        <tr><td class="td-dim">Employee 5</td><td>85.57</td><td>0.57</td><td><span class="pill pill-yellow">Strong Candidate</span></td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:12px;font-size:12px;color:var(--muted)">Employee 2 emerges as the best fit for the IT role with the lowest variance — demonstrating how the same talent pool can be objectively evaluated across different role requirements.</p>
+  </div>
+
+  <div class="card card-navy">
+    <h3>Key Insight</h3>
+    <p>By integrating Skills Network Analysis, Organizational Network Analysis, and psychometric testing, SkillNet Analytics ensures the right people are placed in the right roles — optimizing talent management and driving organizational success through data, not intuition.</p>
+  </div>
+</section>
+
+</main>
+</div>
+
+<div class="footer">Jaini Desai · Architect of Intelligent Workforce Systems · jainidesai.com · © 2026</div>
+
+<script>
+document.querySelectorAll('.nav-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.s).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+</script>
+</body>
+</html>

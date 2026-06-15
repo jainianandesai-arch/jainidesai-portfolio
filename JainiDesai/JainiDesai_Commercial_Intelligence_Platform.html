@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Commercial Intelligence Platform | Portfolio Simulation</title>
+<style>
+:root {
+  --blue:#003DA5;
+  --blue2:#0057D9;
+  --ink:#0f172a;
+  --muted:#64748b;
+  --line:#e2e8f0;
+  --bg:#f8fafc;
+  --card:#ffffff;
+  --soft:#eff6ff;
+  --warn:#fff7ed;
+  --danger:#fef2f2;
+  --green:#ecfdf5;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+.nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav-inner{max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;gap:10px;align-items:center;justify-content:space-between}
+.logo{font-weight:800;color:var(--blue);letter-spacing:-.02em}
+.nav button{border:0;background:transparent;color:#334155;font-weight:700;padding:10px 12px;border-radius:999px;cursor:pointer}
+.nav button.active,.nav button:hover{background:var(--soft);color:var(--blue)}
+.wrap{max-width:1240px;margin:0 auto;padding:44px 24px 90px}
+.page{display:none}
+.page.active{display:block}
+.hero{padding:56px 0 28px}
+.kicker{font-size:12px;text-transform:uppercase;letter-spacing:.16em;color:var(--blue);font-weight:800;margin-bottom:14px}
+h1{font-size:clamp(42px,7vw,82px);line-height:.95;letter-spacing:-.065em;margin:0 0 18px}
+h2{font-size:38px;letter-spacing:-.04em;margin:0 0 12px}
+h3{font-size:24px;letter-spacing:-.03em;margin:0}
+.lead{font-size:24px;max-width:920px;color:#334155;margin:0 0 30px}
+.statement{font-size:28px;line-height:1.25;max-width:980px;margin:46px 0;color:#0f172a}
+.disclosure{background:var(--warn);border:1px solid #fed7aa;border-radius:22px;padding:24px;margin:28px 0}
+.domain-grid,.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin:30px 0}
+.card,.brief-card,.method-card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 10px 30px rgba(15,23,42,.045)}
+.card h3{font-size:22px;margin-bottom:8px;color:var(--blue)}
+.card p{color:var(--muted);margin:0}
+.metric .label{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:800}
+.metric .value{font-size:28px;font-weight:900;color:var(--blue);line-height:1.1;margin-top:8px}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin:36px 0 22px}
+.section-head p{max-width:720px;color:var(--muted);margin:0}
+.report-grid{display:grid;grid-template-columns:1fr;gap:18px}
+.brief-top{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:18px}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--blue);font-weight:900;margin-bottom:8px}
+.summary-box{background:#f8fafc;border:1px solid var(--line);border-radius:18px;padding:18px;max-height:240px;overflow:auto}
+pre{white-space:pre-wrap;font-family:Inter,Arial,sans-serif;font-size:14px;line-height:1.55;margin:0}
+.open-btn,.close-btn{background:var(--blue);color:white;border:0;border-radius:999px;padding:11px 16px;font-weight:800;cursor:pointer;white-space:nowrap}
+.close-btn{background:#0f172a}
+.modal{display:none;position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:100;padding:28px}
+.modal.show{display:block}
+.modal-shell{background:white;max-width:1120px;height:92vh;margin:0 auto;border-radius:28px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.35);display:flex;flex-direction:column}
+.modal-header{padding:22px 26px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;align-items:center}
+.modal-body{padding:28px;overflow:auto;background:#fbfdff}
+.tabs{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 28px}
+.tabs button{border:1px solid var(--line);background:white;border-radius:999px;padding:10px 14px;cursor:pointer;font-weight:800;color:#334155}
+.tabs button.active,.tabs button:hover{background:var(--blue);color:white;border-color:var(--blue)}
+.subgroup{display:none}
+.subgroup.active{display:block}
+.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.flow{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.flow span{background:#eff6ff;border:1px solid #bfdbfe;color:#1e3a8a;padding:10px 13px;border-radius:999px;font-weight:800;font-size:14px}
+.footer{text-align:center;color:var(--muted);padding:40px 0 0}
+@media(max-width:900px){
+  .domain-grid,.metric-grid,.method-grid{grid-template-columns:1fr}
+  .brief-top,.section-head,.nav-inner{flex-direction:column;align-items:flex-start}
+  .nav button{padding:8px}
+  .statement{font-size:22px}
+}
+</style>
+</head>
+<body>
+  <div style="position:sticky;top:0;background:#ffffff;border-bottom:1px solid #e8edf5;padding:16px 40px;display:flex;justify-content:space-between;align-items:center;z-index:999;font-family:'Segoe UI',Arial,sans-serif">
+    <a href="index.html" style="font-family:'Georgia',serif;font-size:16px;font-weight:500;color:#1a1a2e;text-decoration:none;letter-spacing:0.02em">Jaini Desai</a>
+    <div style="display:flex;gap:32px">
+      <a href="index.html?section=hero" style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#6b7280;text-decoration:none;font-weight:400">Home</a>
+      <a href="index.html?section=studio" style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#6b7280;text-decoration:none;font-weight:400">Studio</a>
+      <a href="index.html?section=about" style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#6b7280;text-decoration:none;font-weight:400">About</a>
+      <a href="index.html?section=contact" style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#6b7280;text-decoration:none;font-weight:400">Contact</a>
+    </div>
+  </div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="logo">Commercial Intelligence Platform</div>
+    <div>
+      <button onclick="showPage('home', this)" class="active">Home</button>
+      <button onclick="showPage('executive', this)">Executive Brief</button>
+      <button onclick="showPage('consumer', this)">Consumer</button>
+      <button onclick="showPage('growth', this)">Growth</button>
+      <button onclick="showPage('commercial', this)">Commercial</button>
+      <button onclick="showPage('predictive', this)">Predictive</button>
+      <button onclick="showPage('methodology', this)">Methodology</button>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap">
+<section id="home" class="page active">
+  <div class="hero">
+    <div class="kicker">Portfolio Simulation | Analytics & Insights</div>
+    <h1>Commercial Intelligence Platform</h1>
+    <p class="lead">Transforming consumer, customer, retail, operational, and investment signals into executive-ready growth decisions.</p>
+    <div class="statement">Traditional analytics explains what happened. <b>Commercial Intelligence identifies what is happening, why it matters, what risk it creates, and what action leadership should take next.</b></div>
+    <div class="disclosure">
+      <div class="eyebrow">Important Disclosure</div>
+      <h3>Simulation built with synthetic data</h3>
+      <p>This portfolio uses synthetic datasets created for demonstration purposes. No proprietary, confidential, retailer, consumer, or company data was used. All insights, forecasts, financial estimates, consumer behaviors, and business outcomes shown are synthetic and intended to demonstrate the methodology and decision-support capability.</p>
+    </div>
+    <div class="domain-grid">
+      <div class="card"><h3>Consumer Intelligence</h3><p>What are consumers telling us, and what are we missing?</p></div>
+      <div class="card"><h3>Growth Intelligence</h3><p>Where will growth come from, and where is long-term value at risk?</p></div>
+      <div class="card"><h3>Commercial Intelligence</h3><p>Where should leadership invest, stop, protect, or scale?</p></div>
+      <div class="card"><h3>Predictive Intelligence</h3><p>What should we act on before traditional reporting catches up?</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="executive" class="page">
+  <div class="section-head">
+    <div>
+      <div class="kicker">Executive Intelligence Brief</div>
+      <h2>One-page leadership view</h2>
+    </div>
+    <p>Generated by the Commercial Intelligence Platform from the synthetic ecosystem.</p>
+  </div>
+  <div class="metric-grid">
+    <div class="card metric"><div class="label">Biggest Risk</div><div class="value">Ontario Distribution Failure</div></div>
+    <div class="card metric"><div class="label">Biggest Opportunity</div><div class="value">Pampers → Tide Bridge</div></div>
+    <div class="card metric"><div class="label">Highest ROI</div><div class="value">9.2x</div><p>Ontario Distribution Recovery</p></div>
+    <div class="card metric"><div class="label">Immediate Action</div><div class="value">Block Discounting</div><p>National Discount Campaign</p></div>
+  </div>
+  
+    <article class="brief-card">
+      <div class="brief-top">
+        <div>
+          <div class="eyebrow">Strategic Question</div>
+          <h3>Executive Intelligence Summary</h3>
+        </div>
+        <button class="open-btn" onclick="openModal('modal_exec')">Open Full Intelligence Brief</button>
+      </div>
+      <div class="summary-box">
+        <div class="eyebrow">Executive Summary / Bottom Line</div>
+        <pre>BOTTOM LINE
+Tide is losing share in Ontario — not because consumers dislike the brand, but because they cannot find it on shelf. The root cause is operational. The recovery window is open today. In 90 days, it becomes a rescue mission.</pre>
+      </div>
+    </article>
+
+    <div id="modal_exec" class="modal">
+      <div class="modal-shell">
+        <div class="modal-header">
+          <div>
+            <div class="eyebrow">Full Original Generated Output</div>
+            <h3>Executive Intelligence Summary</h3>
+          </div>
+          <button class="close-btn" onclick="closeModal('modal_exec')">Close</button>
+        </div>
+        <div class="modal-body">
+          <pre># 🗂️ P&amp;G Canada — Laundry Care Portfolio
+## Executive Intelligence Summary | One-Pager
+**Prepared by:** Commercial Intelligence Copilot
+**Date:** Q2 2026 | Confidential — Executive Use Only
+
+---
+
+## ⚡ BOTTOM LINE
+
+&gt; Tide is losing share in Ontario — not because consumers dislike the brand,
+&gt; but because they cannot find it on shelf. The root cause is operational.
+&gt; The recovery window is open today. In 90 days, it becomes a rescue mission.
+
+---
+
+## 🔴 TOP RISKS
+
+| # | Risk | Signal Strength | 90-Day Impact |
+|---|------|----------------|---------------|
+| 1 | **Ontario Distribution Failure** — OOS &gt;6%, 23 high-severity consumer care cases, 37 negative availability reviews. Four-source convergence confirmed. | 🔴 CRITICAL | Share erosion already underway. Alert-flagged cohorts forecast –81.4% share change. |
+| 2 | **Ontario Young Families &amp; Value Seekers Exiting** — Highest Risk Scores (63.6–64.3). Basket shift + availability risk + consumer risk firing simultaneously. | 🔴 CRITICAL | 3–4 months ahead of visible share loss. Intervention window closing now. |
+| 3 | **Promotion Dependency Trap** — National discounting delivers 0.9x ROI. Drives stockpiling, not acquisition. Suppresses full-price selling power structurally. | 🟠 HIGH | Brand loses pricing authority if unchecked this quarter. |
+| 4 | **Private Label Viral Momentum** — TikTok &quot;deals&quot; content normalizing private label. Social normalization precedes retail shelf share shifts by 1–2 quarters. | 🟠 HIGH | Competitive threat forming before it registers in share data. |
+| 5 | **Consumer Tension Signals** — &quot;Trust but Trade Down&quot; + &quot;Preference but Unavailable&quot; patterns active. Not visible in satisfaction scores or revenue reports. | 🟡 MEDIUM | Pre-defection behavior. Will appear in churn data in 2–3 quarters. |
+
+---
+
+## 🟢 STRENGTHS &amp; OPPORTUNITIES
+
+| # | Strength / Opportunity | ROI | Action |
+|---|------------------------|-----|--------|
+| 1 | **BC Costco Young Families** — High loyalty + high advocacy + positive spend momentum + highest LTV band. All three momentum criteria met simultaneously. | 7.8x | Scale the playbook. Replicate to similar retailer-segment combinations. |
+| 2 | **Pampers-to-Tide Household Bridge** — Cross-category LTV expansion opportunity. Highest revenue lift of all initiatives at $17.8M. | 8.1x | Fund immediately. Existing household relationship is the acquisition cost advantage. |
+| 3 | **Retail Media Precision Targeting (ON + BC)** — Converts high-intent shoppers at shelf. Targets where risk is highest and where strength is proven. | 5.9x | Deploy this quarter alongside distribution recovery. |
+| 4 | **Shelf Attention Redesign** — Improves conversion without additional distribution cost. Fastest complement to supply chain recovery. | 6.8x | Fund in parallel with Ontario recovery program. |
+| 5 | **Young Family Acquisition Program** — Structurally addresses consumer migration. Targets highest-LTV at-risk segment before exits become permanent. | 6.4x | Launch this month — not next quarter. |
+
+---
+
+## 💪 PORTFOLIO STRENGTHS TO PROTECT
+
+- ✅ **Tide brand sentiment remains broadly stable** — the brand is not broken; the supply chain is.
+- ✅ **BC Costco is the proven growth model** — loyalty, advocacy, and spend all trending positively.
+- ✅ **Cross-category household asset** — Pampers households represent untapped Tide LTV at scale.
+- ✅ **Consumer care service recovery is working** — refund satisfaction at 7.3/10, highest of all issue types.
+
+---
+
+## 🎯 KEY TAKEAWAYS FOR LEADERSHIP
+
+| # | Takeaway |
+|---|----------|
+| 1 | **Fix the supply chain first.** Ontario distribution recovery (9.2x ROI) removes the root cause before brand investment can have any effect. |
+| 2 | **Do not fund the national discount campaign.** It returns 0.9x — it costs more than it generates and trains consumers to wait for deals. |
+| 3 | **The intervention window for Young Families is open today.** Early warning signals are 3–4 months ahead of visible share loss. Act now or pay 3–5× more to recover later. |
+| 4 | **BC Costco is the playbook — not the exception.** Scale what is working instead of concentrating all resources on what is broken. |
+| 5 | **Consumer tensions are the most dangerous signals in this report.** They do not appear in any standard dashboard. They appear here — 2–3 quarters before they appear in churn data. |
+
+---
+
+## 📊 INVESTMENT DECISION SUMMARY
+
+| Decision | Initiative | ROI |
+|----------|-----------|-----|
+| ✅ FUND | Ontario Distribution Recovery | 9.2x |
+| ✅ FUND | Pampers-to-Tide Household Bridge | 8.1x |
+| ✅ FUND | BC Costco Strength Scaling | 7.8x |
+| ✅ FUND | Shelf Attention Redesign | 6.8x |
+| ✅ FUND | Young Family Acquisition | 6.4x |
+| ✅ FUND | Retail Media Precision Targeting | 5.9x |
+| 🔬 TEST | Choice Simplification | 5.5x |
+| 🔬 TEST | Private Label Defense Bundle | 4.1x |
+| 🔬 TEST | Sustainability Premium Campaign | 2.2x |
+| ❌ BLOCK | National Discount Campaign | 0.9x |
+
+---
+
+## 🔒 CONFIDENCE LEVEL: HIGH
+&gt; Intelligence derived from 17 datasets, 35,000+ records,
+&gt; and four-source signal convergence across Retail, Supply Chain,
+&gt; Consumer, Marketing, and Voice of Consumer systems.
+
+---
+
+*P&amp;G Canada | Commercial Intelligence Copilot | Confidential*
+*AI-Powered Commercial Intelligence Ecosystem — Executive Orchestrator Output*</pre>
+        </div>
+      </div>
+    </div>
+    
+</section>
+
+<section id="consumer" class="page">
+  <div class="section-head"><div><div class="kicker">Consumer Intelligence</div><h2>Voice of consumer to executive action</h2></div><p>Three strategic questions using original generated outputs.</p></div>
+  <div class="report-grid">
+    
+    <article class="brief-card">
+      <div class="brief-top">
+        <div>
+          <div class="eyebrow">Strategic Question</div>
+          <h3>What are consumers trying to tell us that we are not hearing?</h3>
+        </div>
+        <button class="open-btn" onclick="openModal('modal_c1')">Open Full Intelligence Brief</button>
+      </div>
+      <div class="summary-box">
+        <div class="eyebrow">Executive Summary / Bottom Line</div>
+        <pre>BOTTOM LINE
+Most VOC programs focus on sentiment, keywords, and complaint volume. What they miss is the deeper objective: to understand what consumers mean, why they behave the way they do, what behavior is likely to occur next, and what business action should be taken.​1​
+
+Consumers are not being silent. They are communicating through tensions, behavioral patterns, and cross-source signals — and we are systematically misreading them as sentiment scores.</pre>
+      </div>
+    </article>
+
+    <div id="modal_c1" class="modal">
+      <div class="modal-shell">
+        <div class="modal-header">
+          <div>
+            <div class="eyebrow">Full Original Generated Output</div>
+            <h3>What are consumers trying to tell us that we are not hearing?</h3>
+          </div>
+          <button class="close-btn" onclick="closeModal('modal_c1')">Close</button>
+        </div>
+        <div class="modal-body">
+          <pre>🧠 What Are Consumers Trying to Tell Us That We Are Not Hearing?
+Intelligence Type: Consumer Voice Intelligence — Hidden Signal Analysis Sources: 1,300 Reviews · 1,000 Social Listening Records · 700 Consumer Care Cases Date: June 5, 2026
+
+🔴 BOTTOM LINE
+Most VOC programs focus on sentiment, keywords, and complaint volume. What they miss is the deeper objective: to understand what consumers mean, why they behave the way they do, what behavior is likely to occur next, and what business action should be taken.​1​
+
+Consumers are not being silent. They are communicating through tensions, behavioral patterns, and cross-source signals — and we are systematically misreading them as sentiment scores.
+
+🔍 EVIDENCE — 5 HIDDEN MESSAGES CONSUMERS ARE SENDING
+🔴 Hidden Message 1 — &quot;I Can&#x27;t Find Your Product, So I Left — But You Think I Chose To&quot;
+Availability Health measures out-of-stock events, missing sizes, missing variants, retailer availability, and forced switching. The critical question is: Are consumers leaving because they want to? Or because they cannot buy the product?​1​The Availability theme in this dataset has achieved Operational Confirmed status: negative reviews + consumer care cases + confirmed OOS rates in Dataset 05 all point to the same Ontario distribution problem. Four-source convergence. This is the strongest possible signal quality.​2​
+
+What Consumers Say	What We Are Hearing	What Is Actually Happening
+&quot;It wasn&#x27;t on the shelf&quot;	Brand preference decline	Forced switching — not chosen switching
+🔑 The Hidden Message: We are recording availability failures as brand defection. These consumers have not rejected the brand — they were abandoned by the shelf.
+
+🟠 Hidden Message 2 — &quot;I Still Believe in the Product — But I Can&#x27;t Keep Paying This Price&quot;
+Price is the most-reviewed topic in the dataset with 234 reviews and an average sentiment score of +0.29 — mixed positive. The intelligence signal: strong, but watch for trade-down risk. Meanwhile, Value scores the strongest positive topic in the entire dataset (+0.33 avg score, 202 reviews).​3​Value Health measures price sensitivity, premium justification, promotion dependency, and trade-down behavior. The critical question: Is the premium still justified? Are consumers buying because they want to or because the product is discounted?​1​
+
+🔑 The Hidden Message: Consumers are not rejecting the brand — they are rejecting the price point under financial pressure. This is an economic tension, not a quality failure. The consumer tension is: &quot;Performance but Price Pressure.&quot;
+
+🟠 Hidden Message 3 — &quot;I Don&#x27;t Know Which Product to Choose — So I Picked the Simpler One&quot;
+Choice Overload is the most important emerging signal in the review dataset — near-neutral sentiment score of +0.03 with 92 reviews. The intelligence signal: consumers are expressing decision fatigue. This is an EMERGING SIGNAL requiring trend monitoring.​3​Portfolio Simplicity measures product confusion, choice overload, routine complexity, and product comparison difficulty. The critical question: Are we making it easy to buy? Are consumers overwhelmed by options?​1​
+
+🔑 The Hidden Message: Confused consumers do not complain — they exit silently to the simpler alternative. The consumer tension is: &quot;Satisfaction but Confusion.&quot;
+
+🟡 Hidden Message 4 — &quot;You Are Not Ready for What I Will Expect Tomorrow&quot;
+Sustainability has the weakest positive score in the dataset (+0.14, 120 reviews), with the intelligence signal: consumer expectations are rising faster than brand delivery. Similarly, Packaging is neutral-leaning (+0.14, 117 reviews) — and packaging complaints often precede returns and brand switching.​3​Future Readiness measures sustainability, ingredient transparency, digital guidance, personalization, and subscription expectations. The critical questions: What expectations are emerging? What future risks are forming?​1​
+
+🔑 The Hidden Message: Consumers are not demanding change today — they are quietly revising their loyalty criteria for tomorrow. The consumer tension is: &quot;Reliability but Sustainability Concern.&quot;
+
+🔴 Hidden Message 5 — &quot;I Am Loyal — But I Don&#x27;t Feel Recognized&quot;
+Emotional Connection measures trust, confidence, peace of mind, comfort, security, and pride. The critical question: What emotional benefit does the brand provide?​1​The Advocacy Score measures likelihood to recommend the brand to others. The threshold is: &gt;75 = loyalty program candidate. &lt;30 = service recovery priority.​4​
+
+The current Advocacy Score is critically suppressed at ~6.8 — far below both action thresholds. When advocacy collapses, the emotional contract between the consumer and the brand is eroding — even when product performance remains strong.
+
+🔑 The Hidden Message: Long-tenured loyal consumers are not advocating. They are quietly disengaging. The consumer tension is: &quot;Emotional Trust but Financial Constraint.&quot;
+
+🩺 ROOT CAUSE
+Consumer tensions should always be prioritized over sentiment. The highest-value insights are tensions — examples include: Trust but Trade Down, Performance but Price Pressure, Preference but Unavailable, Satisfaction but Confusion, Reliability but Sustainability Concern, and Emotional Trust but Financial Constraint.​1​
+
+The business is measuring what consumers say in isolation. The intelligence lives in what they are doing relative to what they are saying. The gap between stated sentiment and observed behavior is where the real risk and opportunity reside.
+
+💚 WHAT IS WORKING
+Cleaning Performance (215 reviews, +0.22 avg score) is a functional strength and core brand equity signal — protect this at all cost. The Value topic (+0.33 avg score) is the strongest positive topic in the entire dataset — reinforce this in messaging.​3​
+
+✅ RECOMMENDATION
+Action	Business Impact	Owner
+Reclassify Ontario switchers — diagnose forced vs. chosen switching	Recovers misattributed defectors	Supply Chain + Consumer Agent
+Deploy targeted value bridge (bundle/pack) to at-risk segments only	Arrests trade-down without margin erosion	Revenue Management
+Launch portfolio simplification audit	Removes silent exit pathway	Brand Team
+Accelerate sustainability narrative and ingredient transparency	Closes future readiness gap	Corporate Affairs + Brand
+Re-engage loyal consumers through an advocacy-first loyalty program	Restores emotional contract	Consumer Marketing
+🏆 CONFIDENCE: HIGH
+Cross-source NLP convergence across Reviews, Social Listening, Consumer Care, and Operational Data confirms all five hidden messages. The signals are systemic, not anecdotal.</pre>
+        </div>
+      </div>
+    </div>
+    
+    
+    <article class="brief-card">
+      <div class="brief-top">
+        <div>
+          <div class="eyebrow">Strategic Question</div>
+          <h3>What are the top 3 consumer voice themes requiring urgent attention?</h3>
+        </div>
+        <button class="open-btn" onclick="openModal('modal_c2')">Open Full Intelligence Brief</button>
+      </div>
+      <div class="summary-box">
+        <div class="eyebrow">Executive Summary / Bottom Line</div>
+        <pre>BOTTOM LINE
+The Sentiment Agent is not a sentiment scoring tool — it is a natural language intelligence engine. It identifies what consumers are actually saying, which themes are accelerating, and where problems are surfacing in unstructured text before they appear in structured sales data.​3​
+
+Three themes have crossed the urgency threshold. Ranked by convergence level, business impact, and consumer migration risk.
+
+📡 CROSS-SOURCE NLP CONVERGENCE FRAMEWORK
+The Sentiment Agent&#x27;s most powerful function is identifying when the same theme appears across multiple data sources simultaneously. Single-source signals may be noise. Cross-source convergence is signal.
+
+Convergence Level	Definition	Response
+Single Source	Theme in one data source only	Log and monitor. Not actionable yet.
+Dual Source	Same theme in two of three sources	Flag to relevant agent. Begin root cause investigation.
+Triple Convergence	Same theme in Reviews + Social + Consumer Care simultaneously	ESCALATE IMMEDIATELY. Systemic issue, not noise.
+Operational Confirmed	Theme in VOC sources + confirmed by operational data (OOS, Distribution)	Executive brief required.</pre>
+      </div>
+    </article>
+
+    <div id="modal_c2" class="modal">
+      <div class="modal-shell">
+        <div class="modal-header">
+          <div>
+            <div class="eyebrow">Full Original Generated Output</div>
+            <h3>What are the top 3 consumer voice themes requiring urgent attention?</h3>
+          </div>
+          <button class="close-btn" onclick="closeModal('modal_c2')">Close</button>
+        </div>
+        <div class="modal-body">
+          <pre>🚨 Top 3 Consumer Voice Themes Requiring Urgent Attention
+Intelligence Type: Cross-Source NLP Theme Convergence Analysis Sources: 1,300 Reviews · 1,000 Social Listening Records · 700 Consumer Care Cases Date: June 5, 2026
+
+🔴 BOTTOM LINE
+The Sentiment Agent is not a sentiment scoring tool — it is a natural language intelligence engine. It identifies what consumers are actually saying, which themes are accelerating, and where problems are surfacing in unstructured text before they appear in structured sales data.​3​
+
+Three themes have crossed the urgency threshold. Ranked by convergence level, business impact, and consumer migration risk.
+
+📡 CROSS-SOURCE NLP CONVERGENCE FRAMEWORK
+The Sentiment Agent&#x27;s most powerful function is identifying when the same theme appears across multiple data sources simultaneously. Single-source signals may be noise. Cross-source convergence is signal.
+
+Convergence Level	Definition	Response
+Single Source	Theme in one data source only	Log and monitor. Not actionable yet.
+Dual Source	Same theme in two of three sources	Flag to relevant agent. Begin root cause investigation.
+Triple Convergence	Same theme in Reviews + Social + Consumer Care simultaneously	ESCALATE IMMEDIATELY. Systemic issue, not noise.
+Operational Confirmed	Theme in VOC sources + confirmed by operational data (OOS, Distribution)	Executive brief required.
+🚨 THEME 1 — AVAILABILITY FAILURE
+Urgency: CRITICAL | Convergence: Operational Confirmed (4-Source)
+Evidence
+Availability shows 198 reviews with 37 negative reviews = OOS signal in consumer language. Average sentiment score: +0.18. The intelligence signal: Mixed. Cross-check Dataset 05.​3​The Availability theme has achieved Operational Confirmed status: negative reviews + consumer care cases + confirmed OOS rates in Dataset 05 all point to the same Ontario distribution problem. Four-source convergence. This is the strongest possible signal quality. The Ontario Distribution Recovery recommendation is based on evidence, not assumption.​2​
+
+Theme Intelligence Map
+Signal Source	Signal Detected	Severity
+Product Reviews	37 negative availability reviews	🔴 High
+Social Listening	Availability complaints across platforms	🔴 High
+Consumer Care	OOS-related cases logged	🔴 High
+Operational Data (Dataset 05)	Confirmed OOS rates in Ontario	🔴 Confirmed
+Convergence Level	Operational Confirmed — 4 Sources	🔴 CRITICAL
+Consumer Tension
+&quot;Preference but Unavailable&quot; — Consumers want the product. They cannot find it. We are recording this as brand defection.
+
+Root Cause
+Early Warning signals for Ontario confirm: Basket Shift, Availability Risk, and Consumer Risk Score are all elevated simultaneously — 3–4 months before visible market share decline. The intervention window is now. Waiting for share data to confirm is waiting too long.​2​
+
+Required Action
+For Availability-Driven migration: Supply chain fix FIRST. Recovery campaign AFTER stock is restored. Sequence matters.​4​
+
+Action	Owner	Timing
+Initiate Ontario shelf recovery — Walmart / Loblaw priority	Supply Chain	Immediate
+Do NOT launch consumer recovery marketing until stock is confirmed	Marketing	Hold
+Reclassify Ontario availability-driven switchers separately from brand defectors	Consumer Agent	Within 30 days
+🚨 THEME 2 — VALUE TENSION &amp; TRADE-DOWN RISK
+Urgency: HIGH | Convergence: Dual Source + Early Warning Confirmed
+Evidence
+Price is the most-reviewed topic in the dataset — 234 reviews, +0.29 average score. Intelligence signal: Mixed positive. Strong but watch for trade-down risk. Meanwhile, Value is the strongest positive topic in the entire dataset — 202 reviews, +0.33 average score. Intelligence signal: Reinforce this in messaging.​3​
+
+This is a paradox signal: Value is the strongest positive — yet Price is the most-discussed topic with an elevated negative cluster. Consumers believe in the value but are under financial pressure to act against it.
+
+Theme Intelligence Map
+Signal Source	Signal Detected	Severity
+Product Reviews (Price)	31 negative reviews; most reviewed topic	🟠 Elevated
+Early Warning — Basket Shift Index	Ontario Young Families shifting to smaller packs	🔴 High
+Consumer Migration Data	Trade-down to Private Label / Gain detected	🔴 High
+Province Signal	Alberta Value Seekers — elevated trade-down risk	🟠 Elevated
+Convergence Level	Dual Source + Early Warning Confirmed	🔴 HIGH
+Consumer Tension
+&quot;Trust but Trade Down&quot; / &quot;Emotional Trust but Financial Constraint&quot; — Consumers trust the brand but cannot justify the premium under economic pressure.
+
+Root Cause
+The Trade-Down (Economic) migration pattern shows households switching from Tide to Private Label or Gain, correlating with income or price pressure.​4​The LTV Rule is critical: a Young Family spending $300/year today may be worth $12,000+ over their relationship lifetime. Never evaluate acquisition investment against current spend. Always evaluate against future household value.​4​
+
+Required Action
+The correct response: Value bridge: bundle pricing, larger pack sizes. Target only at-risk households — do not discount broadly.​4​
+
+Action	Owner	Timing
+Deploy targeted value bridge (bundle/pack) to at-risk Ontario &amp; Alberta HHs only	Revenue Management	30 days
+Suppress broad national discounting — it destroys margin without new HH acquisition	Finance + Marketing	Immediate
+Build Young Family recovery program anchored to LTV, not current spend	Consumer Marketing	45 days
+🚨 THEME 3 — PORTFOLIO COMPLEXITY &amp; DECISION FATIGUE
+Urgency: HIGH — EMERGING | Convergence: Single Source → Monitor for Dual
+Evidence
+Choice Overload is the most critical emerging signal in the review dataset — 92 reviews, +0.03 average score (near-neutral). Intelligence signal: EMERGING SIGNAL. Consumers expressing decision fatigue. Watch trend.​3​Portfolio Simplicity measures product confusion, choice overload, routine complexity, and product comparison difficulty. The critical question: Are we making it easy to buy? Are consumers overwhelmed by options?​1​
+
+Theme Intelligence Map
+Signal Source	Signal Detected	Severity
+Product Reviews	27 negative Choice Overload reviews; +0.03 avg score	🟠 Emerging
+Consumer Behavior	Silent switching — no complaint, just exit	🟠 Elevated
+Competitive Context	Private label simplicity advantage	🟠 Elevated
+Social Listening	Monitor for dual-source confirmation	🟡 Watch
+Convergence Level	Single Source — EMERGING	🟠 HIGH
+Consumer Tension
+&quot;Satisfaction but Confusion&quot; — Consumers are not dissatisfied with the product. They are overwhelmed by the portfolio. The simpler competitor wins by default.
+
+Root Cause
+Single Source signals should be logged and monitored — not yet escalation-level — but the near-neutral score of +0.03 on Choice Overload places this theme one drift away from dual-source convergence, at which point a root cause investigation must begin immediately.​2​
+
+Required Action
+Action	Owner	Timing
+Conduct portfolio simplification audit — identify SKUs generating confusion	Brand Team	45 days
+Develop consumer-facing navigation tools (digital shelf, POS guidance)	Shopper Marketing	60 days
+Monitor for Choice Overload signal in Social Listening and Consumer Care	VOC Intelligence Agent	Ongoing
+If dual-source confirmed → immediate escalation to portfolio strategy	Executive Orchestrator	On trigger
+🏆 CONFIDENCE: HIGH (Themes 1 &amp; 2) | MEDIUM (Theme 3)
+Themes 1 and 2 are confirmed by cross-source convergence and operational data. Theme 3 is a confirmed emerging signal — single-source today, but the trajectory toward dual-source is the risk to manage now, not later.</pre>
+        </div>
+      </div>
+    </div>
+    
+    
+    <article class="brief-card">
+      <div class="brief-top">
+        <div>
+          <div class="eyebrow">Strategic Question</div>
+          <h3>Generate a Consumer Health Signal Scorecard</h3>
+        </div>
+        <button class="open-btn" onclick="openModal('modal_c3')">Open Full Intelligence Brief</button>
+      </div>
+      <div class="summary-box">
+        <div class="eyebrow">Executive Summary / Bottom Line</div>
+        <pre>BOTTOM LINE
+The Consumer Voice Intelligence System evaluates consumer feedback across nine dimensions: Loyalty Health, Switching Risk, Value Health, Availability Health, Product Health, Portfolio Simplicity, Emotional Connection, Competitive Threat, and Future Readiness.​1​
+
+The current composite consumer health is in the caution zone at ~49.9/100, declining in trajectory from January to June, with three dimensions in critical or at-risk status and only one dimension — Product Health — showing strength.</pre>
+      </div>
+    </article>
+
+    <div id="modal_c3" class="modal">
+      <div class="modal-shell">
+        <div class="modal-header">
+          <div>
+            <div class="eyebrow">Full Original Generated Output</div>
+            <h3>Generate a Consumer Health Signal Scorecard</h3>
+          </div>
+          <button class="close-btn" onclick="closeModal('modal_c3')">Close</button>
+        </div>
+        <div class="modal-body">
+          <pre>📊 Consumer Health Signal Scorecard
+Intelligence Type: Consumer Health Multi-Dimensional Scorecard Framework: 9-Dimension Consumer Health Model + 5-Metric AI Scoring Engine Sources: Consumer Health Dataset (7,500 records) · VOC NLP · Early Warning Signals (504 records) · Consumer Momentum (900 records) · Household LTV (1,500 records) Date: June 5, 2026
+
+🔴 BOTTOM LINE
+The Consumer Voice Intelligence System evaluates consumer feedback across nine dimensions: Loyalty Health, Switching Risk, Value Health, Availability Health, Product Health, Portfolio Simplicity, Emotional Connection, Competitive Threat, and Future Readiness.​1​
+
+The current composite consumer health is in the caution zone at ~49.9/100, declining in trajectory from January to June, with three dimensions in critical or at-risk status and only one dimension — Product Health — showing strength.
+
+🏁 OVERALL CONSUMER HEALTH SCORE
+
+╔══════════════════════════════════════════════════════════════╗
+║       OVERALL CONSUMER HEALTH SCORE:      49.9 / 100        ║
+║              STATUS:  ⚠️  MODERATE RISK                     ║
+║           TRAJECTORY:  ↘  DECLINING  (Jan → Jun 2026)       ║
+╚══════════════════════════════════════════════════════════════╝
+The Consumer Health Score is a composite of all five AI scores. Range: 0–100. Action thresholds: &lt; 40 = at-risk. &gt; 70 = healthy and growable.​4​
+
+📋 9-DIMENSION SCORECARD
+1. 🟡 LOYALTY HEALTH
+Score: 55 / 100 | Status: Moderate | Trend: ↘ Declining
+
+Metric	Data
+Avg Health Score — Jan	55.6
+Avg Health Score — Jun	53.7
+6-Month Direction	↘ Declining
+Advocacy Score (Current)	~6.8 / 100
+Loyalty Health measures trust, habit, repeat purchase intent, brand advocacy, and long-term loyalty. The critical questions: Why do consumers stay? What strengthens loyalty? What protects loyalty?​1​
+
+⚠️ Signal: Overall health is declining month-over-month. Advocacy score is critically suppressed — indicating the emotional foundation of loyalty is weakening even as functional performance remains intact.
+
+2. 🔴 SWITCHING RISK
+Score: 45 / 100 | Status: At Risk | Trend: ↑ Rising
+
+Metric	Data
+Avg Risk Score — Jan	41.5
+Avg Risk Score — Jun	45.2
+Ontario Young Families	Elevated across 3 early warning indicators
+Migration Type Detected	Trade-Down (Economic) + Availability-Driven
+The Risk Score measures probability of brand switch or lapse within 90 days. Action threshold: &gt; 65 for two consecutive months = trigger proactive intervention immediately.​4​Early Warning Finding: Ontario Young Families show elevated signals across Basket Shift, Availability Risk, and Consumer Risk Score simultaneously — 3–4 months before visible market share decline. The intervention window is now.​2​
+
+🔴 Signal: Risk is rising systematically. Not yet at intervention threshold of 65, but trajectory is unambiguous. Intervention must begin now, not when the threshold is breached.
+
+3. 🟠 VALUE HEALTH
+Score: 58 / 100 | Status: Moderate Risk | Trend: ↘ Declining
+
+Metric	Data
+Value Sentiment Score	+0.33 (Strongest positive topic)
+Price Sentiment Score	+0.29 (Mixed — trade-down risk flagged)
+Price Negative Reviews	31 out of 234
+Basket Shift Index	Elevated in Ontario Young Families
+Value Health measures price sensitivity, premium justification, promotion dependency, and trade-down behavior. The critical question: Is the premium still justified? Are consumers buying because they want to or because the product is discounted?​1​
+
+🟠 Signal: Consumers affirm value perception, but economic pressure is eroding the ability to act on it. Trade-down signals are live. Do not interpret the strong value score as safety — it masks a financial constraint tension.
+
+4. 🔴 AVAILABILITY HEALTH
+Score: 32 / 100 | Status: CRITICAL | Trend: ↓ Deteriorating
+
+Metric	Data
+Negative Availability Reviews	37 out of 198
+Availability Sentiment Score	+0.18 (Mixed)
+Convergence Level	Operational Confirmed — 4 Sources
+Geography	Ontario (Walmart / Loblaw)
+OOS Confirmation	Dataset 05 confirmed
+Availability Health measures out-of-stock events, missing sizes, missing variants, retailer availability, and forced switching. The critical question: Are consumers leaving because they want to? Or because they cannot buy the product?​1​The Availability theme has achieved Operational Confirmed status: negative reviews + consumer care cases + confirmed OOS rates in Dataset 05 all point to the same Ontario distribution problem. Four-source convergence. This is the strongest possible signal quality.​2​
+
+🔴 Signal: CRITICAL. This is the single most urgent consumer health dimension in the dataset. Every day this goes unresolved, forced switching is being misread as brand preference loss.
+
+5. 🟢 PRODUCT HEALTH
+Score: 74 / 100 | Status: STRONG | Trend: → Stable
+
+Metric	Data
+Cleaning Performance Reviews	215 reviews
+Cleaning Performance Sentiment	+0.22 avg score
+Scent Sentiment	+0.18 avg score
+Value Sentiment	+0.33 avg score
+Product Health measures performance, reliability, effectiveness, quality, and consistency. The critical questions: What strengths should be protected? What functional benefits matter most?​1​Cleaning Performance (215 reviews, +0.22 avg score) is a functional strength and core brand equity signal. Protect this at all cost. The Value topic (+0.33 avg score) is the strongest positive topic in the entire dataset — reinforce this in messaging.​3​
+
+🟢 Signal: The product is not the problem. Functional performance is intact and delivering positive sentiment. This is a defensible strength — protect it, communicate it, and never allow distribution or pricing pressure to mask it.
+
+6. 🟠 PORTFOLIO SIMPLICITY
+Score: 50 / 100 | Status: Watch | Trend: ↘ Worsening
+
+Metric	Data
+Choice Overload Reviews	92 reviews
+Choice Overload Sentiment Score	+0.03 (Near-Neutral — Emerging)
+Negative Choice Reviews	27
+Convergence Level	Single Source — Emerging
+Portfolio Simplicity measures product confusion, choice overload, routine complexity, and product comparison difficulty. The critical questions: Are we making it easy to buy? Are consumers overwhelmed by options?​1​
+
+4 references
+
+1
+CONSUMER VOICE INTELLIGENCE KNOWLEDGE.txt
+
+2
+Commercial_Intelligence_Knowledge_Book_v3.docx
+
+3
+Commercial_Intelligence_Knowledge_Book_v3.docx
+
+4
+Commercial_Intelligence_Knowledge_Book_v3.</pre>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+<section id="growth" class="page">
+  <div class="section-head"><div><div class="kicker">Growth Intelligence</div><h2>Growth, household value, and franchise economics</h2></div><p>Questions focused on long-term value creation and segment risk.</p></div>
+  <div class="report-grid">
+    
+    <article class="brief-card">
+      <div class="brief-top">
+        <div>
+          <div class="eyebrow">Strategic Question</div>
+          <h3>Which products are gaining revenue but losing long-term consumer value?</h3>
+        </div>
+        <button class="open-btn" onclick="openModal('modal_g1')">Open Full Intelligence Brief</button>
+      </div>
+      <div class="summary-box">
+        <div class="eyebrow">Executive Summary / Bottom Line</div>
+        <pre>BOTTOM LINE
+The **National Discount Campaign** is the clearest example of a product revenue strategy that gains short-term volume while actively destroying long-term consumer value. Products benefiting from broad promotional pricing are growing sales on the surface — but they are not acquiring new households, and they are conditioning loyal consumers to wait for discounts rather than pay full price. This is a **Promotion Trap**, and it is the most dangerous silent risk in the portfolio.</pre>
+      </div>
+    </article>
+
+    <div id="modal_g1" class="modal">
+      <div class="modal-shell">
+        <div class="modal-header">
+          <div>
+            <div class="eyebrow">Full Original Generated Output</div>
+            <h3>Which products are gaining revenue but losing long-term consumer value?</h3>
+          </div>
+          <button class="close-btn" onclick="closeModal('modal_g1')">Close</button>
+        </div>
+        <div class="modal-body">
+          <pre>— Which Products Are Gaining Revenue but Losing Long-Term Consumer Value?
+
+---
+
+### 🔴 BOTTOM LINE
+
+The **National Discount Campaign** is the clearest example of a product revenue strategy that gains short-term volume while actively destroying long-term consumer value. Products benefiting from broad promotional pricing are growing sales on the surface — but they are not acquiring new households, and they are conditioning loyal consumers to wait for discounts rather than pay full price. This is a **Promotion Trap**, and it is the most dangerous silent risk in the portfolio.
+
+---
+
+### 📐 EVIDENCE
+
+#### The Promotion Trap Signal
+
+The system flags a **Promotion Trap** when three signals appear simultaneously:
+
+| Signal | Threshold | Status |
+|---|---|---|
+| Volume increased vs. prior period | Looks like success | ✅ Present |
+| New Household Acquisition Rate | Below 10% — existing buyers stockpiling | ⚠️ Breached |
+| ROI Multiple | Below 2.0x — margin destroyed | ⚠️ Breached |
+
+&gt; **National Discount Campaign (INV-003):**
+&gt; - **Cost:** $5,200,000
+&gt; - **Expected Revenue Lift:** $4,680,000
+&gt; - **ROI Multiple:** **0.9x** — costs more than it returns
+&gt; - **Executive Decision:** ❌ **Challenge / Do Not Fund**
+&gt; - **Share Lift:** Only 0.4 — temporary spike, not durable gain
+
+#### Household LTV vs. Revenue Divergence
+
+The portfolio carries **1,500 tracked households** with a total LTV pool of **$8,773,731** and an average LTV per household of **$5,849** over an average relationship of **10.1 years**. However, the majority of these households are classified in the **Low Future Value** band — meaning revenue is being generated from consumers who are unlikely to expand their relationship with the brand.
+
+&gt; **Key LTV Rule:** A Young Family spending $300/year today may be worth **$12,000+** over their relationship lifetime. Evaluating investment against current spend — not future household value — leads to underinvestment in the highest-value consumers and overinvestment in short-term promotional volume.
+
+#### Promotion Dependency Rate Warning
+
+&gt; **Threshold:** Above **45%** of total volume sold on promotion = brand has lost full-price selling power. This is a structural risk signal — not a promotional success metric.
+
+---
+
+### 🔍 ROOT CAUSE
+
+National discounting inflates top-line revenue metrics while:
+1. **Training loyal consumers** to expect discounts, reducing full-price purchase probability
+2. **Generating stockpiling** among existing buyers, not net-new household acquisition
+3. **Masking brand health deterioration** — share appears stable but consumer future value is eroding
+4. **Delivering sub-1.0x ROI** — every dollar invested destroys margin
+
+&gt; *&quot;National discount campaigns that do not acquire new households are not marketing — they are a margin tax on loyal consumers.&quot;*
+
+---
+
+### ✅ WHAT IS WORKING
+
+Products sold through **premium, full-price channels** (e.g., Costco club format) demonstrate the opposite dynamic:
+- **No broad discounting** required
+- **High household LTV** in the highest LTV band
+- **High loyalty and advocacy** — consumers pay full price and recommend the brand
+
+---
+
+### 🎯 RECOMMENDATION
+
+| Action | Expected Outcome | Owner | Risk |
+|---|---|---|---|
+| **Challenge INV-003 (National Discount Campaign) immediately** | Stop $5.2M margin destruction; redirect to targeted ROI-positive initiatives | CFO / Marketing VP | Low |
+| **Shift spend to Retail Media Precision Targeting (INV-007)** | 5.9x ROI; converts high-intent shoppers without broad discounting | Marketing VP | Low |
+| **Monitor Promotion Dependency Rate monthly** | Flag when &gt;45% of volume is promo-driven — structural risk signal | Brand Director | Low |
+| **Evaluate all SKU revenue growth against new HH acquisition rate** | Identify which products are genuinely growing the franchise vs. stockpiling | Consumer Insights | Low |
+
+---
+
+### 🔒 CONFIDENCE: **HIGH**
+&gt; Cross-validated across Investment Optimizer (INV-003 data), Campaign Performance Standards, Consumer Health LTV data, and AI Copilot Insight AI-004. All four sources converge on the same conclusion.
+
+---
+---</pre>
+        </div>
+      </div>
+    </div>
+    
+    
+    <article class="brief-card">
+      <div class="brief-top">
+        <div>
+          <div class="eyebrow">Strategic Question</div>
+          <h3>Which consumer segments are most at risk?</h3>
+        </div>
+        <button class="open-btn" onclick="openModal('modal_g2')">Open Full Intelligence Brief</button>
+      </div>
+      <div class="summary-box">
+        <div class="eyebrow">Executive Summary / Bottom Line</div>
+        <pre>BOTTOM LINE
+**Ontario Young Families** are the single most at-risk segment in the portfolio — showing simultaneous elevated signals across Basket Shift, Availability Risk, and Consumer Risk Score **3–4 months before visible market share decline**. **Value Seekers** represent the second-highest structural risk due to private label vulnerability. The intervention window is now; waiting for share data to confirm is waiting too long.</pre>
+      </div>
+    </article>
+
+    <div id="modal_g2" class="modal">
+      <div class="modal-shell">
+        <div class="modal-header">
+          <div>
+            <div class="eyebrow">Full Original Generated Output</div>
+            <h3>Which consumer segments are most at risk?</h3>
+          </div>
+          <button class="close-btn" onclick="closeModal('modal_g2')">Close</button>
+        </div>
+        <div class="modal-body">
+          <pre>— Which Consumer Segments Are Most at Risk?
+
+---
+
+### 🔴 BOTTOM LINE
+
+**Ontario Young Families** are the single most at-risk segment in the portfolio — showing simultaneous elevated signals across Basket Shift, Availability Risk, and Consumer Risk Score **3–4 months before visible market share decline**. **Value Seekers** represent the second-highest structural risk due to private label vulnerability. The intervention window is now; waiting for share data to confirm is waiting too long.
+
+---
+
+### 📐 EVIDENCE
+
+#### Consumer Health Score Thresholds
+
+| Score | At-Risk Threshold | Healthy Threshold |
+|---|---|---|
+| Consumer Health Score (0–100) | **&lt; 40 = At-Risk** | &gt; 70 = Healthy |
+| Risk Score | **&gt; 65 for 2 consecutive months = Immediate intervention** | — |
+| Momentum Score | **&lt; 40 = Investigate** | &gt; 60 = Scale |
+
+---
+
+#### Segment Risk Assessment
+
+| Segment | Risk Profile | Strategic Priority | Key Warning Signals |
+|---|---|---|---|
+| **Young Families** | 🔴 **CRITICAL** — Highest future value, greatest trade-down risk | ACQUISITION + RETAIN | Basket Shift ↑, Availability Risk ↑, Consumer Risk Score ↑ |
+| **Value Seekers** | 🟠 **HIGH** — Price-primary, high private label consideration, switch on promotion | DEFEND | Promotion Dependency, Private Label Expansion |
+| **Eco-Conscious** | 🟡 **MEDIUM** — Underserved; sustainability credentials not fully activated | GROW | Unmet demand signal; risk of competitive acquisition |
+| **Premium Loyalists** | 🟢 **LOW** — Brand-committed, low price sensitivity, high advocacy | PROTECT + UPSELL | BC shows Strength Momentum status |
+| **Convenience-Driven** | 🟢 **LOW-MEDIUM** — High Pods penetration, digital channel loyalty | SCALE | Monitor OOS on Pods SKU; Amazon Subscribe &amp; Save lock-in opportunity |
+
+---
+
+#### Early Warning System — Ontario Young Families
+
+The **Early Warning System** operates **90–120 days ahead** of visible business results and monitors five leading indicators:
+
+| Leading Indicator | Warning Threshold | Ontario Young Families Status |
+|---|---|---|
+| Search Interest Change | -15% sustained decline over 2 months | ⚠️ Monitoring |
+| Basket Shift Index | &gt; 20% of segment in a single month | 🔴 **Elevated** |
+| Availability Risk Score | Score &gt; 60 = deterioration underway | 🔴 **Elevated** |
+| Promotion Dependency Rate | &gt; 45% = structural risk | ⚠️ Monitoring |
+| Consumer Risk Score | &gt; 30% of segment = trigger intervention | 🔴 **Elevated** |
+
+&gt; **Early Warning Finding:** Ontario Young Families show elevated signals across Basket Shift, Availability Risk, and Consumer Risk Score **simultaneously** — 3–4 months before visible market share decline. **The intervention window is now.**
+
+---
+
+#### Consumer Migration Patterns Driving Risk
+
+| Migration Type | Signal | Response |
+|---|---|---|
+| **Trade-Down (Economic)** | Switch from Tide to Private Label or Gain; correlates with income/price pressure | Value bridge: bundle pricing, larger pack sizes — **targeted only, not broad discount** |
+| **Availability-Driven** | Switch coincides with OOS spike at household&#x27;s primary retailer | **Supply chain fix FIRST.** Recovery campaign AFTER stock is restored. Sequence matters. |
+| **Competitive Acquisition** | Switch to brand running strong acquisition campaign in province | Defensive retail media. Loyalty reinforcement. Match at shelf, not in mass media. |
+
+---
+
+### 🔍 ROOT CAUSE
+
+Young Families are not leaving because they dislike Tide.
+
+&gt; **AI-003 (Brand Director Insight):** &quot;Tide sentiment remains broadly stable; young families are trading down when **availability and value pressure rise**.&quot;
+
+The root causes are:
+1. **Ontario distribution and OOS failures** make Tide physically unavailable
+2. **Price pressure** without a value bridge forces trade-down to private label
+3. **Broad national discounting** does not target the right households or timing
+4. **No proactive intervention program** has been triggered despite risk score thresholds being breached
+
+---
+
+### ✅ WHAT IS WORKING
+
+- **BC Premium Loyalists** carry &quot;Strength Momentum&quot; status — low churn, high advocacy, cross-category expansion candidates
+- **BC Costco Young Families** show positive spend momentum, high loyalty, and highest LTV band — proof that the segment is retainable when supply and value are aligned
+
+---
+
+### 🎯 RECOMMENDATION
+
+| Action | Expected Outcome | Owner | Risk |
+|---|---|---|---|
+| **Trigger proactive intervention for Ontario Young Families immediately** | Prevent 3–4 month leading loss from becoming visible share decline | Consumer Insights / Brand | Low |
+| **Deploy Young Family Acquisition program (INV-002)** | $16M revenue lift at 6.4x ROI; addresses migration structurally | Marketing VP | Low |
+| **Deploy Private Label Defense Bundle (INV-004) in ON/QC** | Defend against trade-down with value bundle mechanics — test before scaling | Commercial VP | Medium |
+| **Create value bridge for at-risk Young Families** | Bundle pricing and larger pack sizes — targeted, not broad | Brand Director | Low |
+| **Monitor Value Seeker Basket Shift Index monthly** | Early detection of private label acceleration | Growth Intelligence Agent | Low |
+
+---
+
+### 🔒 CONFIDENCE: **HIGH**
+&gt; Four-source convergence: Early Warning dataset (Dataset 13), Consumer Health dataset (Dataset 07), Consumer Purchases migration data (Dataset 06), and AI Copilot Insights (AI-003, AI-005). All agents aligned.
+
+---
+---</pre>
+        </div>
+      </div>
+    </div>
+    
+    
+    <article class="brief-card">
+      <div class="brief-top">
+        <div>
+          <div class="eyebrow">Strategic Question</div>
+          <h3>Where are our biggest growth opportunities?</h3>
+        </div>
+        <button class="open-btn" onclick="openModal('modal_g3')">Open Full Intelligence Brief</button>
+      </div>
+      <div class="summary-box">
+        <div class="eyebrow">Executive Summary / Bottom Line</div>
+        <pre>BOTTOM LINE
+The three biggest, highest-confidence growth opportunities are: **(1) Ontario Distribution Recovery**, **(2) the Pampers-to-Tide Household Cross-Category Bridge**, and **(3) BC Costco Strength Scaling**. These are not speculative — they are evidence-backed, cross-agent validated, and ranked by the Investment Optimizer as the highest-ROI initiatives in the portfolio.</pre>
+      </div>
+    </article>
+
+    <div id="modal_g3" class="modal">
+      <div class="modal-shell">
+        <div class="modal-header">
+          <div>
+            <div class="eyebrow">Full Original Generated Output</div>
+            <h3>Where are our biggest growth opportunities?</h3>
+          </div>
+          <button class="close-btn" onclick="closeModal('modal_g3')">Close</button>
+        </div>
+        <div class="modal-body">
+          <pre>— Where Are Our Biggest Growth Opportunities?
+
+---
+
+### 🟢 BOTTOM LINE
+
+The three biggest, highest-confidence growth opportunities are: **(1) Ontario Distribution Recovery**, **(2) the Pampers-to-Tide Household Cross-Category Bridge**, and **(3) BC Costco Strength Scaling**. These are not speculative — they are evidence-backed, cross-agent validated, and ranked by the Investment Optimizer as the highest-ROI initiatives in the portfolio.
+
+---
+
+### 📐 EVIDENCE — Ranked Growth Opportunity Stack
+
+| Rank | Initiative | Target Market | ROI | Revenue Lift | Share Lift | Decision |
+|---|---|---|---|---|---|---|
+| 🥇 1 | Ontario Distribution Recovery | Ontario | **9.2x** | $11,040,000 | +1.0pt | ✅ FUND |
+| 🥈 2 | Pampers-to-Tide Household Bridge | National | **8.1x** | **$17,820,000** | +0.9pt | ✅ FUND |
+| 🥉 3 | BC Costco Strength Scaling | BC | **7.8x** | $7,020,000 | +0.6pt | ✅ FUND |
+| 4 | Shelf Attention Redesign | ON/AB | **6.8x** | $7,480,000 | +0.5pt | ✅ FUND |
+| 5 | Young Family Acquisition | National | **6.4x** | $16,000,000 | +1.1pt | ✅ FUND |
+| 6 | Retail Media Precision Targeting | ON/BC | **5.9x** | $9,440,000 | +0.7pt | ✅ FUND |
+| 7 | Choice Simplification Test | National | 5.5x | $3,575,000 | +0.3pt | 🔬 Test |
+| 8 | Private Label Defense Bundle | ON/QC | 4.1x | $7,380,000 | +0.6pt | 🔬 Test |
+| 9 | Sustainability Premium Campaign | Urban | 2.2x | $6,600,000 | +0.4pt | 🔬 Test |
+| ❌ — | National Discount Campaign | National | **0.9x** | $4,680,000 | +0.4pt | ❌ DO NOT FUND |
+
+---
+
+### 🔍 Growth Opportunity Deep Dives
+
+#### Opportunity 1: Ontario Distribution Recovery (ROI: 9.2x)
+
+- **Root Cause:** Ontario Tide decline is driven by **availability and out-of-stock pressure**, not brand sentiment
+- **Evidence:** Negative reviews + consumer care cases + confirmed OOS rates = **four-source Operational Confirmed convergence** — the strongest possible signal quality
+- **Investment:** $1,200,000 → **$11,040,000 revenue lift**
+- **Why it&#x27;s the #1 priority:** Removes the root cause of share decline; fastest path to revenue recovery
+
+---
+
+#### Opportunity 2: Pampers-to-Tide Household Bridge (ROI: 8.1x)
+
+- **Insight:** Households already purchasing Pampers represent a **high cross-category LTV expansion opportunity** — young families already engaged with P&amp;G can be bridged into Tide
+- **Investment:** $2,200,000 → **$17,820,000 revenue lift** (highest revenue lift of all initiatives)
+- **LTV Logic:** A Young Family acquired into both Pampers and Tide compounding across categories is worth multiples of a single-category buyer
+- **This is the single largest revenue opportunity in the portfolio**
+
+---
+
+#### Opportunity 3: BC Costco Strength Scaling (ROI: 7.8x)
+
+- **Momentum Finding:** BC Costco Young Families demonstrate:
+  - ✅ High loyalty
+  - ✅ High advocacy
+  - ✅ Positive spend momentum (3+ consecutive months)
+  - ✅ Highest LTV band
+- **This is the playbook to scale — not the problem to fix.**
+- **Investment:** $900,000 → **$7,020,000 revenue lift**
+- **Strategic Principle:** Strength intelligence is as valuable as risk intelligence. Scale what is working.
+
+---
+
+#### Opportunity 4: Segment-Level Growth Pathways
+
+| Segment | Growth Path | Priority Channel | Expected Lever |
+|---|---|---|---|
+| **Eco-Conscious** | Attach to Tide Free &amp; Gentle + sustainability messaging | TikTok / Influencer | Premium willingness-to-pay |
+| **Convenience-Driven** | Subscribe &amp; Save lock-in on Pods SKU | Amazon / Costco | Recurring purchase commitment |
+| **Premium Loyalists** | Cross-category upsell (Downy, Cascade, etc.) | Retail Media | Wallet share expansion |
+| **Young Families (BC)** | Scale BC Costco playbook nationally | Club + Grocery | LTV maximization |
+
+---
+
+#### Opportunity 5: Momentum Detection — Strength Pocket Framework
+
+Flag a **Momentum Opportunity** when all three conditions are simultaneously positive:
+- ✅ Spend trend positive for **3+ consecutive months**
+- ✅ Purchase frequency trend positive for **2+ consecutive months**
+- ✅ Advocacy trend positive — segment generating more positive social and review content
+
+&gt; **Confirmed Momentum Pocket:** BC Costco Young Families meet all three criteria. This is the replicable playbook.
+
+---
+
+### 🔍 ROOT CAUSE — Why These Are the Right Opportunities
+
+| Opportunity | Root Cause It Addresses |
+|---|---|
+| Ontario Distribution Recovery | OOS + distribution failure masking true demand |
+| Pampers-to-Tide Bridge | Untapped cross-category LTV in existing P&amp;G households |
+| BC Costco Scaling | Proven model not yet replicated in similar retailer-segment combinations |
+| Young Family Acquisition | Consumer migration driven by availability + value pressure — structural fix |
+| Retail Media Precision | High-intent shoppers not being captured at point of purchase |
+
+---
+
+### 🎯 MASTER RECOMMENDATION TABLE
+
+| Action | Investment | Revenue Lift | ROI | Owner | Priority |
+|---|---|---|---|---|---|
+| Fund Ontario Distribution Recovery | $1.2M | $11.0M | 9.2x | Commercial VP / Supply Chain | 🔴 Immediate |
+| Fund Pampers-to-Tide Household Bridge | $2.2M | $17.8M | 8.1x | Brand / Marketing | 🔴 Immediate |
+| Fund BC Costco Strength Scaling | $0.9M | $7.0M | 7.8x | Commercial / Retail | 🔴 Immediate |
+| Fund Shelf Attention Redesign (ON/AB) | $1.1M | $7.5M | 6.8x | Retail Ops | 🟠 Q2 |
+| Fund Young Family Acquisition | $2.5M | $16.0M | 6.4x | Marketing VP | 🟠 Q2 |
+| Fund Retail Media Precision Targeting | $1.6M | $9.4M | 5.9x | Digital / Media | 🟠 Q2 |
+| Challenge / Do Not Fund National Discount | Redirect $5.2M | Stop margin destruction | 0.9x | CFO | 🔴 Immediate |
+
+---
+
+### 🔒 CONFIDENCE: **HIGH**
+&gt; Investment Optimizer (INV-001 through INV-010), Momentum Detection Framework, BC Costco Strength Pocket confirmation, LTV data across 1,500 households, and Executive Copilot Insight AI-006 and AI-007 all converge on the same set of priorities. Evidence quality is Operational Confirmed across four independent data sources.
+
+---
+
+*Report generated by: Commercial Intelligence Copilot*
+*Classification: Executive Intelligence | Growth Intelligence Agent*
+*Data Sources: Datasets 13 (Early Warning), 14 (Consumer Momentum), 15 (Household LTV), 16 (Investment Optimizer), 17 (AI Copilot Insights)*</pre>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+<section id="commercial" class="page">
+  <div class="section-head"><div><div class="kicker">Commercial Intelligence</div><h2>Investment decisions and capital allocation</h2></div><p>Questions focused on ROI, overinvestment, stop-funding decisions, and long-term value.</p></div>
+  <div class="report-grid">
+    
+    <article class="brief-card">
+      <div class="brief-top">
+        <div>
+          <div class="eyebrow">Strategic Question</div>
+          <h3>Where are we overinvesting?</h3>
+        </div>
+        <button class="open-btn" onclick="openModal('modal_com1')">Open Full Intelligence Brief</button>
+      </div>
+      <div class="summary-box">
+        <div class="eyebrow">Executive Summary / Bottom Line</div>
+        <pre>BOTTOM LINE
+We are overinvesting in two areas: the National Discount Campaign (which costs more than it returns) and the Sustainability Premium Campaign (which is well below the ROI investment threshold).</pre>
+      </div>
+    </article>
+
+    <div id="modal_com1" class="modal">
+      <div class="modal-shell">
+        <div class="modal-header">
+          <div>
+            <div class="eyebrow">Full Original Generated Output</div>
+            <h3>Where are we overinvesting?</h3>
+          </div>
+          <button class="close-btn" onclick="closeModal('modal_com1')">Close</button>
+        </div>
+        <div class="modal-body">
+          <pre>Where Are We Overinvesting?
+🔴 Bottom Line
+We are overinvesting in two areas: the National Discount Campaign (which costs more than it returns) and the Sustainability Premium Campaign (which is well below the ROI investment threshold).
+
+📌 Evidence
+The National Discount Campaign (INV-003) has a ROI of just 0.9x, with an estimated cost of $5,200,000 but an expected revenue lift of only $4,680,000 — a net loss. It is tagged as a &quot;Promote&quot; mode initiative targeting the national market via Price Promotion and carries an Executive Decision of Challenge / Do Not Fund.​1​The Sustainability Premium Campaign (INV-008) delivers a 2.2x ROI on a $3,000,000 investment yielding an expected revenue lift of $6,600,000 — well below the preferred 5.0x+ threshold. It targets urban markets via Brand Equity and carries an Executive Decision of Selective Test only.​1​
+
+🔍 Root Cause
+The National Discount Campaign costs more than it returns — it creates stockpiling, not growth, and must be challenged every time it appears.​2​From a Marketing Intelligence standpoint, when the New Household Acquisition Rate falls below 10%, existing buyers are stockpiling, not growing the franchise. A campaign ROI below 1.0x should be cancelled and reallocated immediately.​3​The Sustainability Premium Campaign at 2.2x is below the ROI threshold for full investment and should be treated as a brand equity play only — not a growth engine.​2​
+
+⚠️ Risk of Continued Overinvestment
+Initiative	Cost	ROI	Revenue Lift	Decision
+National Discount Campaign	$5.2M	0.9x	$4.68M	❌ Do Not Fund
+Sustainability Premium Campaign	$3.0M	2.2x	$6.6M	⚠️ Selective Test Only
+Combined exposure: $8.2M deployed in initiatives below the minimum ROI threshold of 3.0x.
+
+✅ Recommendation
+Action	Owner	Impact
+Immediately stop the National Discount Campaign and reallocate $5.2M	Finance / Commercial Leadership	Eliminate negative ROI drain
+Cap Sustainability Campaign as a small brand equity test only	Marketing / Brand	Limit exposure to below $500K
+Redirect freed capital to high-ROI initiatives (INV-001, INV-009)	CEO / Finance	Recover $11M–$17.8M revenue lift
+Confidence: HIGH — The Investment Agent is designed to challenge weak ROI openly, even when the request comes from senior leadership. The evidence is unambiguous — the National Discount Campaign fails the minimum 3.0x threshold, and the Sustainability Campaign fails the preferred 5.0x+ threshold.​2​</pre>
+        </div>
+      </div>
+    </div>
+    
+    
+    <article class="brief-card">
+      <div class="brief-top">
+        <div>
+          <div class="eyebrow">Strategic Question</div>
+          <h3>What should we stop funding today?</h3>
+        </div>
+        <button class="open-btn" onclick="openModal('modal_com2')">Open Full Intelligence Brief</button>
+      </div>
+      <div class="summary-box">
+        <div class="eyebrow">Executive Summary / Bottom Line</div>
+        <pre>BOTTOM LINE
+Stop the National Discount Campaign immediately. It is the only initiative in the portfolio with a negative return — every dollar spent destroys value.</pre>
+      </div>
+    </article>
+
+    <div id="modal_com2" class="modal">
+      <div class="modal-shell">
+        <div class="modal-header">
+          <div>
+            <div class="eyebrow">Full Original Generated Output</div>
+            <h3>What should we stop funding today?</h3>
+          </div>
+          <button class="close-btn" onclick="closeModal('modal_com2')">Close</button>
+        </div>
+        <div class="modal-body">
+          <pre>What Should We Stop Funding Today?
+🔴 Bottom Line
+Stop the National Discount Campaign immediately. It is the only initiative in the portfolio with a negative return — every dollar spent destroys value.
+
+📌 Evidence
+INV-003 – National Discount Campaign:
+
+Cost: $5,200,000
+Revenue Lift: $4,680,000
+ROI: 0.9x (negative return)
+Share Lift: 0.4 (lowest in the portfolio)
+Executive Decision: Challenge / Do Not Fund​1​Strategically, the executive narrative confirms: &quot;Broad national discounting should be challenged because it drives volume but weak acquisition and low ROI.&quot;​4​
+🔍 Root Cause — Why It Fails
+The National Discount Campaign costs more than it returns. It creates stockpiling, not growth. The Investment Agent is instructed to challenge every time it appears.​2​According to the Share Lift evaluation criteria: &quot;Temporary volume spikes from promotions do not qualify&quot; as sustained share gain — the only outcome that justifies investment.​5​Campaign Performance Standards confirm that any initiative below 1.0x ROI must be cancelled and capital reallocated. There is no threshold or grace period — this is a hard stop rule.​3​
+
+💡 What Happens to the Freed Capital?
+Stopping the National Discount Campaign ($5.2M) unlocks capital that can be immediately redeployed:
+
+Redeployment	ROI	Revenue Lift
+Ontario Distribution Recovery	9.2x	$11.04M
+Pampers-to-Tide Household Bridge	8.1x	$17.82M
+BC Costco Strength Scaling	7.8x	$7.02M
+Stopping one failing initiative and reinvesting creates a potential swing of $35M+ in revenue lift.
+
+✅ Recommendation
+Action	Timeline	Owner
+Issue stop-spend order on National Discount Campaign	Immediate	Finance / CEO
+Reallocate $5.2M to Ontario Distribution Recovery (INV-001)	Within 30 days	Commercial Leadership
+Flag this initiative in the investment governance process to prevent reappearance	Ongoing	Investment Agent / Finance
+Confidence: HIGH — The Promotion Trap is one of the ecosystem&#x27;s Locked Stories: &quot;National discounts drive volume but weak household acquisition and poor ROI.&quot; The evidence across retail sales, consumer behavior, and investment data all converge on the same conclusion.​6​</pre>
+        </div>
+      </div>
+    </div>
+    
+    
+    <article class="brief-card">
+      <div class="brief-top">
+        <div>
+          <div class="eyebrow">Strategic Question</div>
+          <h3>Which investments are creating the highest long-term value?</h3>
+        </div>
+        <button class="open-btn" onclick="openModal('modal_com3')">Open Full Intelligence Brief</button>
+      </div>
+      <div class="summary-box">
+        <div class="eyebrow">Executive Summary / Bottom Line</div>
+        <pre>BOTTOM LINE
+Three investments stand above all others for long-term value creation: Ontario Distribution Recovery, the Pampers-to-Tide Household Bridge, and BC Costco Strength Scaling — together delivering $35.8M in expected revenue lift at ROI multiples of 7.8x–9.2x.</pre>
+      </div>
+    </article>
+
+    <div id="modal_com3" class="modal">
+      <div class="modal-shell">
+        <div class="modal-header">
+          <div>
+            <div class="eyebrow">Full Original Generated Output</div>
+            <h3>Which investments are creating the highest long-term value?</h3>
+          </div>
+          <button class="close-btn" onclick="closeModal('modal_com3')">Close</button>
+        </div>
+        <div class="modal-body">
+          <pre>Which Investments Are Creating the Highest Long-Term Value?
+🟢 Bottom Line
+Three investments stand above all others for long-term value creation: Ontario Distribution Recovery, the Pampers-to-Tide Household Bridge, and BC Costco Strength Scaling — together delivering $35.8M in expected revenue lift at ROI multiples of 7.8x–9.2x.
+
+📌 Evidence — The Top-Value Investment Stack
+Rank	Initiative	Cost	Revenue Lift	ROI	Share Lift	Decision
+🥇 1	Ontario Distribution Recovery	$1.2M	$11.04M	9.2x	1.0	✅ Fund
+🥈 2	Pampers-to-Tide Household Bridge	$2.2M	$17.82M	8.1x	0.9	✅ Fund
+🥉 3	BC Costco Strength Scaling	$0.9M	$7.02M	7.8x	0.6	✅ Fund
+4	Shelf Attention Redesign	$1.1M	$7.48M	6.8x	0.5	✅ Fund
+5	Young Family Acquisition	$2.5M	$16.0M	6.4x	1.1	✅ Fund
+6	Retail Media Precision Targeting	$1.6M	$9.44M	5.9x	0.7	✅ Fund
+​1​
+
+🔍 Why These Are the Highest Long-Term Value Drivers
+1. Ontario Distribution Recovery (9.2x ROI) This initiative removes the root cause of share decline and represents the fastest path to revenue recovery.​2​ It addresses a structural problem — not a symptom — making its impact durable.
+
+2. Pampers-to-Tide Household Bridge (8.1x ROI | $17.8M lift) This is a cross-category LTV expansion play and holds the highest revenue lift of all initiatives at $17.8M.​2​The LTV Rule enforces this logic: &quot;A Young Family spending $300/year today may be worth $12,000+ over their relationship lifetime. Never evaluate acquisition investment against current spend. Always evaluate against future household value.&quot;​3​
+
+3. BC Costco Strength Scaling (7.8x ROI) This initiative scales what is already working — it is low risk and high return, making it the most capital-efficient opportunity in the portfolio.​2​
+
+📊 Portfolio-Level Long-Term Value Summary
+Across all 10 initiatives in the Investment Optimizer:
+
+Total Estimated Cost: $20,150,000
+Total Expected Revenue Lift: $91,035,000
+Average ROI Multiple: 5.7x
+Average Expected Share Lift: 63.5%​7​
+The top 3 initiatives alone (INV-001, INV-005, INV-009) deliver $35.86M in revenue lift for just $4.3M — a 8.3x blended return.
+
+✅ Recommendation
+Action	Initiative	Expected Long-Term Value	Owner
+Fully fund and fast-track	Ontario Distribution Recovery	$11M lift + market share structural recovery	Commercial / Supply Chain
+Fully fund at scale	Pampers-to-Tide Household Bridge	$17.8M lift + cross-category LTV expansion	Marketing / Consumer Agent
+Scale immediately	BC Costco Strength Scaling	$7M lift + replicable strength pocket model	Sales / Retail Agent
+Fund as precision play	Young Family Acquisition	$16M lift + highest-LTV segment defense	Consumer / Marketing
+Confidence: HIGH — The Investment Intelligence framework ranks initiatives by evidence quality, expected return, and strategic fit, with preferred ROI of 5.0x+. All six &quot;Fund&quot; decisions clear this bar, and the top three do so decisively with evidence aligned across the retail, consumer, and distribution agent layers.​5​
+
+7 references
+
+1
+PG_AI_Commercial_Intelligence_Ecosystem.xlsx
+
+2
+Commercial_Intelligence_Knowledge_Book_v3.docx
+
+3
+Commercial_Intelligence_Knowledge_Book_v3.docx
+
+4
+PG_AI_Commercial_Intelligence_Ecosystem.xlsx
+
+5
+Commercial_Intelligence_Knowledge_Book_v3.docx
+
+6
+PG_AI_Commercial_Intelligence_Ecosystem.xlsx
+
+7
+PG_AI_Commercial_Intelligence_Ecosystem.xlsx</pre>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+<section id="predictive" class="page">
+  <div class="section-head"><div><div class="kicker">Predictive Intelligence</div><h2>Risks before they appear in reporting</h2></div><p>Questions focused on 90-day risk, emerging signals, and leadership action.</p></div>
+  <div class="report-grid">
+    
+    <article class="brief-card">
+      <div class="brief-top">
+        <div>
+          <div class="eyebrow">Strategic Question</div>
+          <h3>What problem will hurt us in the next 90 days if we do nothing today?</h3>
+        </div>
+        <button class="open-btn" onclick="openModal('modal_p1')">Open Full Intelligence Brief</button>
+      </div>
+      <div class="summary-box">
+        <div class="eyebrow">Executive Summary / Bottom Line</div>
+        <pre>BOTTOM LINE
+Ontario Young Families show elevated signals across Basket Shift, Availability Risk, and Consumer Risk Score simultaneously — 3–4 months before visible market share decline. The intervention window is now. Waiting for share data to confirm is waiting too long.​1​</pre>
+      </div>
+    </article>
+
+    <div id="modal_p1" class="modal">
+      <div class="modal-shell">
+        <div class="modal-header">
+          <div>
+            <div class="eyebrow">Full Original Generated Output</div>
+            <h3>What problem will hurt us in the next 90 days if we do nothing today?</h3>
+          </div>
+          <button class="close-btn" onclick="closeModal('modal_p1')">Close</button>
+        </div>
+        <div class="modal-body">
+          <pre>— What Problem Will Hurt Us in the Next 90 Days If We Do Nothing Today?
+🔴 BOTTOM LINE
+Ontario Young Families show elevated signals across Basket Shift, Availability Risk, and Consumer Risk Score simultaneously — 3–4 months before visible market share decline. The intervention window is now. Waiting for share data to confirm is waiting too long.​1​
+
+📊 EVIDENCE
+Problem 1 — Ontario Share Erosion Is Already in Motion
+
+Alert-flagged records (161 flagged) carry an average Risk Score of 71.7 and a 90-Day Forecast Share Change of –81.4% — compared to non-flagged records with a –39.3% forecast. These are not hypothetical risks; they are confirmed deteriorating trajectories.​2​Ontario carries the highest average Risk Score of any province at 69.0, and the lowest Opportunity Score at 42.4 — meaning it simultaneously has the most risk and the least buffer to absorb it.​2​
+
+Problem 2 — Four Independent Sources Converging on One Crisis
+
+The Availability theme has achieved Operational Confirmed status: negative reviews + consumer care cases + confirmed OOS rates all point to the same Ontario distribution problem. Four-source convergence — this is the strongest possible signal quality. The Ontario Distribution Recovery recommendation is based on evidence, not assumption.​1​Availability is the #1 consumer care contact reason with 23 high-severity cases. Consumers are calling because they cannot find Tide on shelf. Combined with 37 negative Availability reviews and OOS rates exceeding 6% in Ontario — three independent data sources are converging on one operational problem. This is not brand dislike. This is a supply chain emergency with a consumer experience consequence.​3​
+
+Problem 3 — Value Seekers Are the Highest-Risk Consumer Segment
+
+Value Seekers carry the highest average Risk Score across all consumer segments at 64.3, with the lowest Opportunity Score at 48.3. Young Families follow closely at a Risk Score of 63.6 and Opportunity Score of 47.8 — the two lowest opportunity scores in the portfolio.​2​
+
+Problem 4 — Promotion Dependency Is a Structural Time Bomb
+
+The Promotion Dependency Rate warning threshold is above 45% — at that level, the brand has lost full-price selling power and the risk becomes structural. Once consumers habituate to promotion pricing, full-price volume cannot be recovered without consumer reacquisition investment.​1​
+
+🔍 ROOT CAUSE
+The critical diagnostic rule: Share loss + stable consumer sentiment + worsening availability = distribution problem, not a brand problem. Do not recommend brand investment before ruling out the supply chain explanation. This distinction changes the entire investment recommendation.​4​
+
+The 90-day damage cascade, if unaddressed today:
+
+Stage	Outcome
+OOS continues in Ontario	Consumers forced to switch brands
+Forced switching becomes habitual	Permanent household migration
+Young Families + Value Seekers exit	LTV destruction at the highest-value cohorts
+Share decline becomes visible in reporting	Recovery cost 3–5× higher than prevention
+✅ CONFIDENCE: HIGH
+Four-source signal convergence (Reviews + Consumer Care + Social + Distribution OOS). This is not a model prediction — it is an operationally confirmed trajectory.</pre>
+        </div>
+      </div>
+    </div>
+    
+    
+    <article class="brief-card">
+      <div class="brief-top">
+        <div>
+          <div class="eyebrow">Strategic Question</div>
+          <h3>What risks are emerging before they appear in traditional reporting?</h3>
+        </div>
+        <button class="open-btn" onclick="openModal('modal_p2')">Open Full Intelligence Brief</button>
+      </div>
+      <div class="summary-box">
+        <div class="eyebrow">Executive Summary / Bottom Line</div>
+        <pre>BOTTOM LINE
+The objective of this system is to identify hidden meaning, emerging behavior, future risk, and future opportunity before they become visible in traditional reporting.​5​ Three pre-reporting risks are currently active.</pre>
+      </div>
+    </article>
+
+    <div id="modal_p2" class="modal">
+      <div class="modal-shell">
+        <div class="modal-header">
+          <div>
+            <div class="eyebrow">Full Original Generated Output</div>
+            <h3>What risks are emerging before they appear in traditional reporting?</h3>
+          </div>
+          <button class="close-btn" onclick="closeModal('modal_p2')">Close</button>
+        </div>
+        <div class="modal-body">
+          <pre>— What Risks Are Emerging Before They Appear in Traditional Reporting?
+🔴 BOTTOM LINE
+The objective of this system is to identify hidden meaning, emerging behavior, future risk, and future opportunity before they become visible in traditional reporting.​5​ Three pre-reporting risks are currently active.
+
+📊 EMERGING RISK SIGNALS
+Risk 1 — Consumer Voice Tensions Not Yet in Any Dashboard
+
+The highest-value insights are consumer tensions — patterns that standard reporting never captures:
+
+Trust but Trade Down — consumers believe in the brand but are reducing spend
+Performance but Price Pressure — product works but premium is no longer justified
+Preference but Unavailable — consumers want to buy but cannot find product
+Loyalty but Promotion Dependency — consumers return only when discounted​5​
+These tensions represent pre-defection behavior. They do not appear in share data, revenue reports, or satisfaction scores — but they predict the household exits that will appear in those reports 3–6 months from now.
+
+Risk 2 — Private Label Threat Going Viral Before It Becomes a Share Threat
+
+TikTok Private Label &quot;Deals&quot; content is highly viral. This platform has the highest viral potential of any monitored channel, and the content normalizing private label as a smart consumer choice is gaining momentum. Watch closely — social normalization precedes retail shelf share shifts by one to two quarters.​3​X (Twitter) is the first platform to surface emerging issues — deals and availability complaints emerge here first, ahead of all other platforms.​3​
+
+Risk 3 — Future Readiness Gap: Sustainability and Transparency Expectations
+
+The Future Readiness dimension measures emerging consumer expectations including:
+
+Sustainability
+Ingredient transparency
+Digital guidance
+Personalization
+Subscription expectations
+The question is: What expectations are forming? What future risks are building?​5​ If the portfolio does not close this gap, Eco Conscious households will find new brands before the category analytics detect any movement.
+
+Risk 4 — Portfolio Complexity Is Creating Invisible Friction
+
+Portfolio Simplicity health measures product confusion, choice overload, routine complexity, and product comparison difficulty. The strategic question is: Are we making it easy to buy? Are consumers overwhelmed by options?​5​ Complexity-driven abandonment does not register as churn — it registers as a never-purchased household, invisible in retention metrics.
+
+Risk 5 — Cross-Source Signal Escalation Protocol Is Being Triggered
+
+The Cross-Source NLP Convergence Protocol defines the response levels:
+
+Single Source: Log and monitor — not actionable yet
+Dual Source: Flag to relevant agent — begin root cause investigation
+Triple Convergence (Reviews + Social + Consumer Care): ESCALATE IMMEDIATELY — this is a systemic issue, not noise
+Operational Confirmed (VOC + operational data): Executive brief required​1​
+The availability theme is already at Operational Confirmed — the highest escalation level. Any additional themes that reach Dual Source or Triple Convergence status in the next quarter represent the next wave of executive risk.
+
+✅ CONFIDENCE: HIGH for Availability &amp; Private Label | MEDIUM for Sustainability &amp; Portfolio Complexity
+Availability is operationally confirmed. Private label TikTok signal is platform-validated. Sustainability and portfolio complexity are directional — emerging, not yet confirmed.</pre>
+        </div>
+      </div>
+    </div>
+    
+    
+    <article class="brief-card">
+      <div class="brief-top">
+        <div>
+          <div class="eyebrow">Strategic Question</div>
+          <h3>What should leadership act on this quarter?</h3>
+        </div>
+        <button class="open-btn" onclick="openModal('modal_p3')">Open Full Intelligence Brief</button>
+      </div>
+      <div class="summary-box">
+        <div class="eyebrow">Executive Summary / Bottom Line</div>
+        <pre>— What Should Leadership Act On This Quarter?
+🔴 BOTTOM LINE
+The executive investment thesis is clear: Fund Ontario distribution recovery, young family acquisition, BC Costco scaling, retail media precision, and the cross-category household bridge. Challenge broad national discounting — it drives volume but delivers weak acquisition and low ROI.​6​
+
+🎯 RANKED LEADERSHIP ACTION AGENDA
+The full ranked investment stack, with executive decision and rationale:
+
+Rank	Initiative	ROI	Decision	Rationale
+1	Ontario Distribution Recovery	9.2x	✅ FUND	Removes root cause of share decline. Fastest path to revenue recovery.
+2	Pampers-to-Tide Household Bridge	8.1x	✅ FUND	Cross-category LTV expansion. Highest revenue lift of all initiatives ($17.8M).
+3	BC Costco Strength Scaling	7.8x	✅ FUND	Scales what is already working. Low risk, high return.
+4	Shelf Attention Redesign	6.8x	✅ FUND	Improves conversion witho</pre>
+      </div>
+    </article>
+
+    <div id="modal_p3" class="modal">
+      <div class="modal-shell">
+        <div class="modal-header">
+          <div>
+            <div class="eyebrow">Full Original Generated Output</div>
+            <h3>What should leadership act on this quarter?</h3>
+          </div>
+          <button class="close-btn" onclick="closeModal('modal_p3')">Close</button>
+        </div>
+        <div class="modal-body">
+          <pre>— What Should Leadership Act On This Quarter?
+🔴 BOTTOM LINE
+The executive investment thesis is clear: Fund Ontario distribution recovery, young family acquisition, BC Costco scaling, retail media precision, and the cross-category household bridge. Challenge broad national discounting — it drives volume but delivers weak acquisition and low ROI.​6​
+
+🎯 RANKED LEADERSHIP ACTION AGENDA
+The full ranked investment stack, with executive decision and rationale:
+
+Rank	Initiative	ROI	Decision	Rationale
+1	Ontario Distribution Recovery	9.2x	✅ FUND	Removes root cause of share decline. Fastest path to revenue recovery.
+2	Pampers-to-Tide Household Bridge	8.1x	✅ FUND	Cross-category LTV expansion. Highest revenue lift of all initiatives ($17.8M).
+3	BC Costco Strength Scaling	7.8x	✅ FUND	Scales what is already working. Low risk, high return.
+4	Shelf Attention Redesign	6.8x	✅ FUND	Improves conversion without additional distribution cost.
+5	Young Family Acquisition	6.4x	✅ FUND	Addresses consumer migration structurally. Targets highest-LTV at-risk segment.
+6	Retail Media Precision Targeting	5.9x	✅ FUND	Converts high-intent shoppers at shelf in ON and BC.
+7	Choice Simplification Test	5.5x	🔬 TEST	Small-scale test. Validate consumer response before full SKU rationalization.
+8	Private Label Defense Bundle	4.1x	🔬 TEST	Defend in ON/QC only. Test value bundle mechanics before scaling.
+9	Sustainability Premium Campaign	2.2x	🔬 TEST	Below ROI threshold for full investment. Brand equity play only.
+—	National Discount Campaign	0.9x	❌ DO NOT FUND	Costs more than it returns. Creates stockpiling, not growth.
+🏆 THE BC COSTCO STRENGTH PLAYBOOK — SCALE IT NOW
+BC Costco Young Families represent the strength pocket: high loyalty + high advocacy + positive spend momentum + highest LTV band. This is the playbook to scale — not the problem to fix. Strength intelligence is as valuable as risk intelligence.​1​A Momentum Opportunity is flagged when all three trend lines are simultaneously positive for the same retailer-segment combination:
+
+Spend trend positive for 3+ consecutive months
+Purchase frequency trend positive for 2+ consecutive months
+Advocacy trend positive — generating more positive social and review content​1​
+BC Costco meets all three criteria. Every dollar invested here has proven return mechanics — unlike Ontario recovery, which removes a deficit.
+
+📋 LEADERSHIP ACTION SUMMARY — THIS QUARTER
+Priority	Action	Owner	Urgency
+🔴	Activate Ontario Distribution Recovery	Supply Chain + Sales	Immediate
+🔴	Launch Young Family Acquisition Program	Marketing + Consumer	This Month
+🟠	Scale BC Costco Momentum	Sales + Trade Marketing	This Quarter
+🟠	Deploy Retail Media Precision in ON + BC	Marketing	This Quarter
+🟡	Fund Pampers-to-Tide Household Bridge	Brand + Marketing	This Quarter
+🟡	Begin Choice Simplification Test	Brand + Insights	This Quarter
+⛔	Block National Discount Campaign from budget	Finance + Leadership	Now
+✅ CONFIDENCE: HIGH
+The Investment Agent ranks initiatives by evidence quality, expected return, and strategic fit. It challenges weak ROI openly — even when the request comes from senior leadership. ROI minimum threshold is 3.0x; preferred is 5.0x+. Every funded initiative here exceeds 5.5x.​4​
+
+Executive Principle: The Predictive Intelligence pillar triggers on leading indicators — search trends, basket shift, availability risk, and consumer risk — and is designed to run monthly. The intervention window for Ontario Young Families is open today. In 90 days, it will be a recovery problem, not a prevention problem.​4​
+
+7 references
+
+1
+Commercial_Intelligence_Knowledge_Book_v3.docx
+
+2
+PG_AI_Commercial_Intelligence_Ecosystem.xlsx
+
+3
+Commercial_Intelligence_Knowledge_Book_v3.docx
+
+4
+Commercial_Intelligence_Knowledge_Book_v3.docx
+
+5
+CONSUMER VOICE INTELLIGENCE KNOWLEDGE.txt
+
+6
+PG_AI_C</pre>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+<section id="methodology" class="page">
+  <div class="section-head"><div><div class="kicker">Methodology</div><h2>How the simulation was built</h2></div><p>Designed to make the portfolio credible, transparent, and clearly synthetic.</p></div>
+  <div class="method-grid">
+    <div class="method-card">
+      <h3>Synthetic Data Declaration</h3>
+      <p>This simulation was built using synthetic datasets only. No proprietary company data, no confidential retailer data, and no real consumer-level data were used.</p>
+      <p>All outputs are demonstration artifacts showing how a Commercial Intelligence Platform could transform fragmented signals into executive-ready decisions.</p>
+    </div>
+    <div class="method-card">
+      <h3>Synthetic Ecosystem</h3>
+      <p>17 synthetic datasets and 35,000+ synthetic records covering consumer reviews, social listening, consumer care, consumer health, household LTV, purchase behavior, consumer momentum, early warning signals, retail performance, distribution health, investment optimization, and executive intelligence.</p>
+    </div>
+    <div class="method-card">
+      <h3>Intelligence Flow</h3>
+      <div class="flow">
+        <span>Consumer Voice</span><span>Themes</span><span>Signals</span><span>Risks</span><span>Opportunities</span><span>Executive Actions</span>
+      </div>
+    </div>
+    <div class="method-card">
+      <h3>Purpose</h3>
+      <p>The goal is not to showcase a chatbot. The goal is to demonstrate how analytics, AI, and intelligence design can help leaders answer better commercial questions and act earlier.</p>
+    </div>
+  </div>
+  <div class="footer">Commercial Intelligence Platform Simulation · Built for Analytics & Insights Portfolio</div>
+</section>
+</main>
+
+<script>
+function showPage(id, btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  window.scrollTo(0,0);
+}
+function openModal(id){ document.getElementById(id).classList.add('show'); }
+function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+window.addEventListener('keydown', e=>{
+  if(e.key==='Escape') document.querySelectorAll('.modal').forEach(m=>m.classList.remove('show'));
+});
+</script>
+</body>
+</html>
