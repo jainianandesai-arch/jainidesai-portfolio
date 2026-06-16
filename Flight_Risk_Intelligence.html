@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employee Flight Risk Intelligence — Jaini Desai</title>
+<style>
+:root{
+  --navy:#1F3864;--blue:#2E5FA3;--gold:#C8973A;--gold-bg:#fffbf0;--gold-border:#e8d5a3;
+  --ink:#0E1B2A;--muted:#64748B;--line:#E2E8F0;--pale:#F0F5FC;--soft:#F7F8FA;
+  --green:#1f7a4d;--green-bg:#e9f6ef;--yellow:#9a6b08;--yellow-bg:#fff4d9;
+  --red:#a33a3a;--red-bg:#fae9e9;--white:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#fff;color:var(--ink);font-size:13.5px;line-height:1.6}
+.app{display:grid;grid-template-columns:258px 1fr;min-height:100vh}
+aside{background:#f9fafb;border-right:1px solid var(--line);padding:24px 16px;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+main{padding:36px 48px 80px;max-width:1160px}
+.brand-name{font-size:17px;font-weight:800;color:var(--navy);letter-spacing:.01em;margin-bottom:4px;padding-bottom:8px;border-bottom:2px solid var(--gold)}
+.brand-title{font-size:10.5px;color:var(--muted);line-height:1.5;margin-bottom:24px}
+.nav-group{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding:12px 10px 4px;font-weight:700}
+.nav-btn{display:block;width:100%;text-align:left;background:none;border:1px solid transparent;border-radius:6px;padding:9px 10px;font-size:12.5px;color:#374151;cursor:pointer;margin:2px 0;transition:all .12s;font-family:inherit}
+.nav-btn:hover{background:#fff;border-color:var(--line);color:var(--navy)}
+.nav-btn.active{background:#fff;border-color:var(--line);box-shadow:0 1px 3px rgba(0,0,0,.06);font-weight:700;color:var(--navy);border-left:3px solid var(--gold)}
+.sidebar-note{font-size:10px;color:var(--muted);line-height:1.5;border-top:1px solid var(--line);padding-top:12px;margin-top:auto}
+.section{display:none}
+.section.active{display:block}
+.page-title{font-size:26px;font-weight:800;color:var(--ink);letter-spacing:-.02em;line-height:1.2;margin-bottom:6px}
+.page-sub{font-size:13px;color:var(--muted);max-width:720px;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+h2{font-size:19px;font-weight:800;color:var(--ink);margin-bottom:8px;margin-top:28px}
+h2:first-child{margin-top:0}
+h3{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:8px}
+p{font-size:13px;color:#374151;line-height:1.65;margin-bottom:10px}
+p:last-child{margin-bottom:0}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{border:1px solid var(--line);background:#fff;border-radius:10px;padding:16px;box-shadow:0 1px 2px rgba(14,27,42,.04)}
+.card-navy{background:var(--navy);border-color:var(--navy)}
+.card-navy h3{color:#fff}
+.card-navy p{color:#c5d8f0}
+.card-gold{background:var(--gold-bg);border-color:var(--gold-border)}
+.card-red{background:var(--red-bg);border-color:#f5c6c6}
+.card-green{background:var(--green-bg);border-color:#b7e4cc}
+.kpi{font-size:30px;font-weight:800;color:var(--navy);margin-bottom:3px;line-height:1}
+.kpi-blue{color:var(--blue)}
+.kpi-red{color:var(--red)}
+.kpi-green{color:var(--green)}
+.kpi-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:5px}
+.kpi-note{font-size:11px;color:var(--muted);line-height:1.4}
+.pill{display:inline-block;border-radius:999px;padding:3px 9px;font-size:10.5px;font-weight:700}
+.pill-blue{background:var(--pale);color:var(--navy)}
+.pill-green{background:var(--green-bg);color:var(--green)}
+.pill-yellow{background:var(--yellow-bg);color:var(--yellow)}
+.pill-red{background:var(--red-bg);color:var(--red)}
+.pill-gold{background:var(--gold-bg);color:#7a5a10}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th{text-align:left;color:var(--muted);font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid var(--line);padding:9px 11px}
+td{padding:10px 11px;border-bottom:1px solid #f0f3f7;color:var(--ink);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafbfc}
+.td-dim{font-weight:700;color:var(--navy)}
+.td-muted{color:var(--muted);font-size:11.5px}
+.quote{background:#f8fafc;border-left:3px solid var(--navy);padding:14px 16px;border-radius:0 7px 7px 0;color:#1e293b;line-height:1.7;margin:12px 0;font-size:13px}
+.quote-gold{background:var(--gold-bg);border-left:3px solid var(--gold);padding:14px 16px;border-radius:0 7px 7px 0;color:#1e293b;line-height:1.7;margin:12px 0;font-size:13px}
+.tag-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.tag{background:var(--pale);border:1px solid #D6E4F7;color:var(--navy);border-radius:5px;padding:4px 10px;font-size:11px;font-weight:700}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.split-6-4{display:grid;grid-template-columns:6fr 4fr;gap:16px;align-items:start}
+.split-4-6{display:grid;grid-template-columns:4fr 6fr;gap:16px;align-items:start}
+.mono{font-family:'Consolas','Courier New',monospace;font-size:12px}
+.disclaimer{background:var(--yellow-bg);border:1px solid #f0d078;border-radius:8px;padding:12px 16px;font-size:12px;color:var(--yellow);line-height:1.7;margin-bottom:20px}
+.code-block{background:#f1f5f9;border:1px solid var(--line);border-radius:8px;padding:14px 16px;font-family:'Consolas','Courier New',monospace;font-size:12px;line-height:1.85;color:#1e293b;margin:10px 0;white-space:pre-wrap;word-break:break-word}
+.code-block .hl{color:var(--blue);font-weight:700}
+.code-block .good{color:var(--green)}
+.code-block .warn{color:var(--red)}
+.code-block .dim{color:#94a3b8}
+
+/* ── RACE BARS ─────────────────────────────────────────────────────────── */
+.race-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0f3f7}
+.race-row:last-child{border-bottom:none}
+.race-name{font-size:13px;color:var(--ink);width:160px;flex-shrink:0}
+.race-bar-wrap{flex:1;background:#f0f3f7;height:6px;border-radius:99px}
+.race-bar{height:6px;border-radius:99px;background:#cbd5e1}
+.race-bar.win{background:var(--navy)}
+.race-score{font-family:'Consolas',monospace;font-size:12px;color:var(--muted);width:48px;text-align:right}
+.race-score.win{color:var(--navy);font-weight:700}
+.race-badge{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-border);padding:3px 8px;border-radius:99px;white-space:nowrap}
+.race-badge.empty{visibility:hidden}
+
+/* ── COEF BARS ─────────────────────────────────────────────────────────── */
+.coef-row{display:flex;align-items:center;gap:12px;padding:7px 0;border-bottom:1px solid #f0f3f7}
+.coef-row:last-child{border-bottom:none}
+.coef-label{font-family:'Consolas',monospace;font-size:11.5px;color:var(--muted);width:190px;flex-shrink:0}
+.coef-bar-wrap{flex:1;background:#f0f3f7;height:5px}
+.coef-bar{height:5px}
+.coef-bar.pos{background:var(--red)}
+.coef-bar.neg{background:var(--green)}
+.coef-val{font-family:'Consolas',monospace;font-size:11.5px;width:50px;text-align:right;font-weight:700}
+.coef-val.pos{color:var(--red)}
+.coef-val.neg{color:var(--green)}
+
+/* ── RISK CARDS ─────────────────────────────────────────────────────────── */
+.risk-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:16px 0}
+.risk-card{border-radius:10px;padding:20px;text-align:center}
+.risk-card.crit{background:var(--red-bg);border:1px solid #f5c6c6}
+.risk-card.high{background:var(--yellow-bg);border:1px solid #f0d078}
+.risk-card.med{background:var(--pale);border:1px solid #D6E4F7}
+.risk-card.low{background:var(--green-bg);border:1px solid #b7e4cc}
+.risk-num{font-size:40px;font-weight:800;line-height:1;margin-bottom:4px}
+.risk-card.crit .risk-num{color:var(--red)}
+.risk-card.high .risk-num{color:var(--yellow)}
+.risk-card.med  .risk-num{color:var(--blue)}
+.risk-card.low  .risk-num{color:var(--green)}
+.risk-label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--muted);margin-bottom:3px}
+.risk-sub{font-size:11px;color:var(--muted)}
+
+/* ── PIPELINE ───────────────────────────────────────────────────────────── */
+.pipeline{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:14px 0}
+.pipe-step{background:#fff;padding:16px 18px;flex:1;border-right:1px solid var(--line);text-align:center}
+.pipe-step:last-child{border-right:none}
+.pipe-period{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:4px}
+.pipe-name{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px}
+.pipe-file{font-family:'Consolas',monospace;font-size:10.5px;color:var(--muted)}
+
+/* ── APP PREVIEW ────────────────────────────────────────────────────────── */
+.app-preview{border:1px solid var(--line);border-radius:10px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.07)}
+.app-preview-bar{background:#f1f5f9;border-bottom:1px solid var(--line);padding:10px 16px;display:flex;align-items:center;gap:6px}
+.ap-dot{width:10px;height:10px;border-radius:50%}
+.ap-dot:nth-child(1){background:#FC5F57}
+.ap-dot:nth-child(2){background:#FDBC2C}
+.ap-dot:nth-child(3){background:#33C748}
+.ap-url{background:#fff;border:1px solid var(--line);border-radius:4px;padding:3px 12px;font-family:'Consolas',monospace;font-size:11px;color:var(--muted);margin-left:6px}
+.app-preview-body{padding:20px}
+
+/* ── TIMELINE ───────────────────────────────────────────────────────────── */
+.tl{display:flex;flex-direction:column;gap:0}
+.tl-step{display:grid;grid-template-columns:36px 1fr;gap:16px;padding-bottom:28px;position:relative}
+.tl-step:last-child{padding-bottom:0}
+.tl-step::before{content:'';position:absolute;left:17px;top:36px;bottom:0;width:1px;background:var(--line)}
+.tl-step:last-child::before{display:none}
+.tl-num{width:36px;height:36px;border-radius:50%;background:var(--navy);color:#fff;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:1}
+.tl-body h3{padding-top:6px;margin-bottom:8px}
+.tl-body p{font-size:13px;color:#374151;line-height:1.7}
+
+/* ── FEATURE PILLS ──────────────────────────────────────────────────────── */
+.pill-group{margin-bottom:14px}
+.pill-group-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+.pill-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.fpill{font-family:'Consolas',monospace;font-size:11px;background:#f1f5f9;border:1px solid var(--line);border-radius:4px;padding:3px 8px;color:#374151}
+.fpill.trend{background:var(--pale);border-color:#D6E4F7;color:var(--navy)}
+
+/* ── UTIL ───────────────────────────────────────────────────────────────── */
+.mt{margin-top:20px}
+.mt-sm{margin-top:10px}
+.mb{margin-bottom:14px}
+.section-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.btn-demo{display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:#fff;font-size:12px;font-weight:700;padding:10px 20px;border-radius:6px;text-decoration:none;transition:background .15s}
+.btn-demo:hover{background:#16305a}
+.btn-back{display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--muted);font-size:12px;font-weight:600;padding:10px 20px;border-radius:6px;border:1px solid var(--line);text-decoration:none;transition:all .15s}
+.btn-back:hover{border-color:var(--navy);color:var(--navy)}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ── SIDEBAR ──────────────────────────────────────────────────────────── -->
+<aside>
+  <div class="brand-name">Jaini Desai</div>
+  <div class="brand-title">Workforce Intelligence · People Analytics · AI Enablement</div>
+
+  <div class="nav-group">This Project</div>
+  <button class="nav-btn active" onclick="show('overview')">Overview</button>
+  <button class="nav-btn" onclick="show('problem')">01 · Business Problem</button>
+  <button class="nav-btn" onclick="show('data')">02 · The Data</button>
+  <button class="nav-btn" onclick="show('exploration')">03 · Exploration</button>
+  <button class="nav-btn" onclick="show('engineering')">04 · Feature Engineering</button>
+  <button class="nav-btn" onclick="show('models')">05 · Model Selection</button>
+  <button class="nav-btn" onclick="show('results')">06 · Results</button>
+  <button class="nav-btn" onclick="show('deployment')">07 · Deployment</button>
+
+  <div class="nav-group" style="margin-top:8px">Portfolio</div>
+  <button class="nav-btn" onclick="window.location='index.html'">← Back to Studio</button>
+
+  <div class="sidebar-note">
+    <strong>Demonstration project.</strong><br>
+    All data is synthetically generated. CAN North Financial is fictional.
+    Methodology and source code are proprietary.<br><br>
+    <a href="https://can-north-flight-risk.streamlit.app/" target="_blank"
+       style="color:var(--blue);font-weight:700;text-decoration:none">
+      ↗ Open Live Demo
+    </a>
+  </div>
+</aside>
+
+<!-- ── MAIN ─────────────────────────────────────────────────────────────── -->
+<main>
+
+<!-- OVERVIEW -->
+<div id="overview" class="section active">
+  <div class="page-title">Employee Flight Risk Intelligence System</div>
+  <div class="page-sub">
+    A predictive people analytics pipeline that identifies which employees are most
+    likely to leave in the next 90 days — trained on 3 years of longitudinal engagement,
+    performance, commute, and organizational data. Built end-to-end: from data design
+    to deployed Streamlit application.
+  </div>
+
+  <div class="disclaimer">
+    <strong>Demonstration project.</strong> All data is synthetically generated and
+    does not represent real employees or organizations. CAN North Financial is a
+    fictional company created for demonstration purposes. The model, methodology,
+    and analytical framework are genuine and production-ready.
+    Methodology and source code are proprietary.
+  </div>
+
+  <!-- KPI ROW -->
+  <div class="grid g4 mb">
+    <div class="card">
+      <div class="kpi-label">Employees in dataset</div>
+      <div class="kpi kpi-blue">1,400</div>
+      <div class="kpi-note">3 years of longitudinal data per employee</div>
+    </div>
+    <div class="card">
+      <div class="kpi-label">Model recall (test set)</div>
+      <div class="kpi kpi-blue">98%</div>
+      <div class="kpi-note">49 of 50 real quitters caught on held-out data</div>
+    </div>
+    <div class="card">
+      <div class="kpi-label">At-risk cost identified</div>
+      <div class="kpi kpi-red">$19.7M</div>
+      <div class="kpi-note">252 departures × $78,000 replacement cost</div>
+    </div>
+    <div class="card">
+      <div class="kpi-label">Models raced</div>
+      <div class="kpi">5</div>
+      <div class="kpi-note">Logistic Regression, RF, SVM, Tree, KNN</div>
+    </div>
+  </div>
+
+  <!-- TECH TAGS -->
+  <div class="tag-wrap mb">
+    <span class="tag">Python</span>
+    <span class="tag">scikit-learn</span>
+    <span class="tag">Logistic Regression</span>
+    <span class="tag">5-Fold Cross Validation</span>
+    <span class="tag">Streamlit</span>
+    <span class="tag">Longitudinal Data</span>
+    <span class="tag">Feature Engineering</span>
+    <span class="tag">StandardScaler</span>
+    <span class="tag">People Analytics</span>
+    <span class="tag">RTO Analysis</span>
+  </div>
+
+  <!-- WHAT MAKES THIS DIFFERENT -->
+  <h2>What makes this project different</h2>
+  <div class="grid g3">
+    <div class="card card-gold">
+      <div class="kpi-label">Longitudinal design</div>
+      <h3>Direction of change, not just snapshot</h3>
+      <p>An employee at 50 engagement today who was at 80 two years ago is more at risk than someone who has always been at 50. The trend is the signal.</p>
+    </div>
+    <div class="card card-gold">
+      <div class="kpi-label">Novel feature</div>
+      <h3>RTO Risk Index</h3>
+      <p>Commute shock — not commute distance — drives attrition. An employee forced from remote to in-person with a 60-minute commute added is fundamentally different from one who always commuted 60 minutes.</p>
+    </div>
+    <div class="card card-gold">
+      <div class="kpi-label">Disciplined selection</div>
+      <h3>Model race, not model guess</h3>
+      <p>Five models. Same data. Same metric. 5-fold cross validation. The data picks the winner. Logistic Regression won at 96.6% recall — proving that feature engineering outperforms algorithm complexity.</p>
+    </div>
+  </div>
+
+  <!-- HEADLINE FINDING -->
+  <div class="quote-gold mt">
+    <strong>The headline finding:</strong> Employees pushed more into office left at 23.6%.
+    Employees given flexibility left at 7.5%. A 3× gap driven by one policy decision.
+    The data said so before any model ran.
+  </div>
+
+  <!-- PIPELINE OVERVIEW -->
+  <h2>The full pipeline</h2>
+  <div class="pipeline">
+    <div class="pipe-step">
+      <div class="pipe-period">Annual</div>
+      <div class="pipe-name">Generate Data</div>
+      <div class="pipe-file">generate_data.py</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-period">Annual</div>
+      <div class="pipe-name">Train Model</div>
+      <div class="pipe-file">train_pipeline.py</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-period">Quarterly</div>
+      <div class="pipe-name">Score Employees</div>
+      <div class="pipe-file">score_pipeline.py</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-period">Quarterly</div>
+      <div class="pipe-name">Diana Acts</div>
+      <div class="pipe-file">app.py</div>
+    </div>
+  </div>
+
+  <div class="mt" style="display:flex;gap:10px">
+    <a href="https://can-north-flight-risk.streamlit.app/" target="_blank" class="btn-demo">↗ Open Live Demo</a>
+    <button class="btn-back" onclick="show('problem')">Read the full case study →</button>
+  </div>
+</div>
+
+<!-- SECTION 01: BUSINESS PROBLEM -->
+<div id="problem" class="section">
+  <div class="section-label">Section 01 — The Business Problem</div>
+  <div class="page-title">Before any model — what is Diana trying to solve?</div>
+  <div class="page-sub">
+    Every technical decision traces back to one business conversation.
+    Getting the problem framing right is more important than any algorithm choice.
+  </div>
+
+  <div class="split-4-6">
+    <div>
+      <div class="card card-navy">
+        <div class="kpi-label" style="color:#94a3b8">Organization</div>
+        <h3 style="color:#fff;font-size:18px;margin-bottom:4px">CAN North Financial</h3>
+        <p style="color:#c5d8f0;font-size:12px">1,400 employees · Toronto, Calgary, Vancouver<br>Pension · Wealth Management · Retail Banking</p>
+      </div>
+
+      <div class="card mt-sm">
+        <div class="kpi-label">The problem in numbers</div>
+        <div class="grid g2 mt-sm" style="gap:10px">
+          <div>
+            <div class="kpi kpi-red">18%</div>
+            <div class="kpi-note">Annual attrition rate</div>
+          </div>
+          <div>
+            <div class="kpi kpi-red">252</div>
+            <div class="kpi-note">Departures per year</div>
+          </div>
+          <div>
+            <div class="kpi" style="color:var(--yellow)">$78K</div>
+            <div class="kpi-note">Cost per departure</div>
+          </div>
+          <div>
+            <div class="kpi kpi-red">$19.7M</div>
+            <div class="kpi-note">Annual cost</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-red mt-sm">
+        <div class="kpi-label">RTO finding — before any model</div>
+        <div class="mt-sm">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <span style="font-size:12px;color:var(--red)">More office</span>
+            <strong style="color:var(--red)">23.6%</strong>
+          </div>
+          <div style="background:#f5c6c6;height:6px;border-radius:3px;margin-bottom:10px">
+            <div style="background:var(--red);height:6px;border-radius:3px;width:23.6%"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <span style="font-size:12px;color:var(--green)">More flexible</span>
+            <strong style="color:var(--green)">7.5%</strong>
+          </div>
+          <div style="background:#b7e4cc;height:6px;border-radius:3px">
+            <div style="background:var(--green);height:6px;border-radius:3px;width:7.5%"></div>
+          </div>
+          <p style="margin-top:10px;font-size:12px;color:var(--red)">
+            <strong>3× higher attrition</strong> from one policy decision.
+            Found in exploration — before any model ran.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h2 style="margin-top:0">CAN North Financial is losing people it cannot afford to lose</h2>
+      <p>
+        Diana is the Chief People Officer at CAN North Financial. Her company loses
+        roughly 18% of its workforce every year. Each departure costs an estimated
+        $78,000 in recruiting, onboarding, and lost productivity. Across 252 annual
+        departures that is $19.7 million leaving through the door — most of it
+        invisible until someone hands in their notice.
+      </p>
+      <p>The CEO's ask was direct: <em>"Tell me who is about to leave before they do. I want to call them."</em></p>
+
+      <div class="quote">
+        <strong>The strategic framing:</strong> This is a classification problem — predict
+        quit (1) or stay (0). The metric that matters is not accuracy. It is recall.
+        Missing a quitter costs $78,000. A false alarm costs one manager conversation.
+        The model must be optimised to catch real quitters, not to look good on paper.
+      </div>
+
+      <h3>Why accuracy is the wrong metric</h3>
+      <p>
+        CAN North's dataset is 82% stayers and 18% leavers. A model that predicts
+        "stays" for every single person scores 82% accuracy — and catches zero real
+        quitters. This is the class imbalance trap. Every subsequent decision —
+        model choice, threshold setting, evaluation — flows from understanding this.
+      </p>
+
+      <div class="card card-gold mt">
+        <div class="kpi-label">The right metric</div>
+        <h3>Recall — catching real quitters is Diana's priority</h3>
+        <p>
+          Of all employees who actually left — what percentage did the model identify
+          in advance? A recall of 98% means the model caught 49 of 50 real quitters
+          on data it had never seen. One slipped through. Ten unnecessary conversations
+          were had. That is the trade-off Diana accepts.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 02: DATA -->
+<div id="data" class="section">
+  <div class="section-label">Section 02 — The Data</div>
+  <div class="page-title">Why longitudinal data — and why these specific features</div>
+  <div class="page-sub">
+    The most important design decision was not which model to use. It was how to
+    structure the data. A snapshot tells you where someone stands today.
+    A longitudinal dataset tells you where they are going.
+  </div>
+
+  <div class="quote-gold">
+    "An employee at 50 engagement today who was at 80 two years ago is more at risk
+    than someone who has always been at 50. The direction of travel is the signal."
+  </div>
+
+  <div class="split">
+    <div>
+      <h2 style="margin-top:0">Three years. One employee. 68 columns.</h2>
+      <p>
+        The dataset covers 1,400 CAN North employees across 2023, 2024, and 2025.
+        Each employee has one row with 68 columns covering engagement survey scores,
+        performance ratings, compensation benchmarks, commute data, manager changes,
+        and organizational disruption flags — all tracked year over year.
+      </p>
+      <p>
+        The target variable — <span class="mono" style="background:#f1f5f9;padding:2px 6px;border-radius:3px">left</span>
+        — indicates whether this employee left by end of 2025. 252 left (18%).
+        1,148 stayed (82%).
+      </p>
+
+      <div class="quote">
+        <strong>Why commute shock — not commute distance:</strong>
+        An employee who always commuted 60 minutes has adapted. An employee whose
+        commute went from 0 to 60 minutes because of an RTO mandate has not.
+        The delta is the signal. This insight drove the design of the RTO Risk Index —
+        a novel composite feature not found in standard people analytics literature.
+      </div>
+
+      <h3 class="mt">All scores on a 0–100 scale</h3>
+      <p>
+        A deliberate design choice: every survey score, every index, every composite
+        feature lives on the same 0–100 scale. When Diana presents to the board,
+        there is no unit conversion. An engagement score of 34 means the same
+        thing as an RTO risk score of 34.
+      </p>
+    </div>
+
+    <div>
+      <div class="code-block"><span class="dim">── Dataset preview — first 3 employees ──────────</span>
+
+<span class="dim">employee_id  division           role       location</span>
+CNF0001      Wealth Management  Analyst    Calgary
+CNF0002      Retail Banking     Analyst    Vancouver
+CNF0003      Wealth Management  Analyst    Vancouver
+
+<span class="dim">eng_2023  eng_2024  eng_2025  trend</span>
+67.2      58.4      <span class="warn">51.1</span>      <span class="warn">−16.1</span>
+81.3      75.6      <span class="good">75.1</span>       <span class="good">−6.2</span>
+68.4      61.2      <span class="warn">52.1</span>      <span class="warn">−16.3</span>
+
+<span class="dim">rto_index  persona_direction  left</span>
+37.1       More office        <span class="good">0</span>
+25.3       No change          <span class="good">0</span>
+8.7        More flexible      <span class="good">0</span>
+
+<span class="dim">──────────────────────────────────────────────────</span>
+Shape:     1,400 rows × 68 columns
+Period:    2023 → 2025
+Attrition: 18.0% (252 of 1,400)
+Missing:   0 — clean dataset</div>
+
+      <div class="mt">
+        <div class="pill-group">
+          <div class="pill-group-label">Engagement survey — longitudinal (0–100)</div>
+          <div class="pill-row">
+            <span class="fpill">engagement_2023/24/25</span>
+            <span class="fpill">satisfaction_2023/24/25</span>
+            <span class="fpill">career_growth_2023/24/25</span>
+            <span class="fpill">mgr_effectiveness_2023/24/25</span>
+            <span class="fpill">wellbeing_2023/24/25</span>
+          </div>
+        </div>
+        <div class="pill-group">
+          <div class="pill-group-label">RTO and commute — the differentiator</div>
+          <div class="pill-row">
+            <span class="fpill">persona_direction</span>
+            <span class="fpill">commute_time_change_min</span>
+            <span class="fpill trend">rto_risk_index</span>
+            <span class="fpill">transit_dependent</span>
+            <span class="fpill">commute_km</span>
+          </div>
+        </div>
+        <div class="pill-group">
+          <div class="pill-group-label">Engineered trend features (calculated)</div>
+          <div class="pill-row">
+            <span class="fpill trend">engagement_trend</span>
+            <span class="fpill trend">satisfaction_trend</span>
+            <span class="fpill trend">career_growth_trend</span>
+            <span class="fpill trend">org_disruption_score</span>
+            <span class="fpill trend">manager_stability</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 03: EXPLORATION -->
+<div id="exploration" class="section">
+  <div class="section-label">Section 03 — Data Exploration</div>
+  <div class="page-title">What the data told us before any model ran</div>
+  <div class="page-sub">
+    The most actionable insights came from exploration — not modelling. Before a single
+    line of model code, the data produced findings Diana could take to the CEO immediately.
+  </div>
+
+  <div class="grid g4">
+    <div class="card">
+      <div class="kpi kpi-red">30.5</div>
+      <div class="kpi-label">Point satisfaction gap</div>
+      <div class="kpi-note">Leavers: 28.4/100. Stayers: 58.8/100. Largest single-feature gap found.</div>
+    </div>
+    <div class="card">
+      <div class="kpi kpi-red">3×</div>
+      <div class="kpi-label">RTO attrition multiplier</div>
+      <div class="kpi-note">More office: 23.6%. More flexible: 7.5%. One policy. Three times the loss.</div>
+    </div>
+    <div class="card">
+      <div class="kpi" style="color:var(--yellow)">−20.5</div>
+      <div class="kpi-label">Point engagement drop</div>
+      <div class="kpi-note">Leavers dropped 20.5 pts over 3 years. Stayers only 6.4. Trend beats snapshot.</div>
+    </div>
+    <div class="card">
+      <div class="kpi kpi-red">12</div>
+      <div class="kpi-label">Critical zone employees</div>
+      <div class="kpi-note">Eng &lt;40 + career &lt;40 + RTO &gt;60 = 100% historical attrition. Called immediately.</div>
+    </div>
+  </div>
+
+  <div class="split mt">
+    <div>
+      <div class="code-block"><span class="dim">── Top signals — leavers vs stayers ─────────────</span>
+
+<span class="dim">Signal                       Stayed   Left    Gap</span>
+Satisfaction 2025             58.8     <span class="warn">28.4</span>   <span class="good">+30.5</span>
+Engagement 2025               63.2     <span class="warn">36.4</span>   <span class="good">+26.8</span>
+Satisfaction trend (3yr)      -9.9    <span class="warn">-29.8</span>   <span class="good">+19.9</span>
+Engagement trend (3yr)        -6.3    <span class="warn">-22.0</span>   <span class="good">+15.7</span>
+Career growth 2025            55.2     <span class="warn">42.8</span>   <span class="good">+12.4</span>
+RTO risk index                27.9     <span class="warn">44.4</span>   <span class="warn">-16.6</span>
+Org disruption score          30.7     <span class="warn">43.2</span>   <span class="warn">-12.5</span>
+<span class="dim">──────────────────────────────────────────────────</span>
+Salary vs market              49.5     47.0    <span class="good">+2.5</span>
+<span class="dim">→ Salary barely registers. Not a pay problem.</span>
+
+<span class="dim">Correlation with attrition (top 5):</span>
+engagement_2025        <span class="hl">−0.558</span>  Higher = STAY
+satisfaction_2025      <span class="hl">−0.548</span>  Higher = STAY
+engagement_trend       <span class="hl">−0.502</span>  Higher = STAY
+satisfaction_trend     <span class="hl">−0.400</span>  Higher = STAY
+rto_risk_index         <span class="warn">+0.352</span>  Higher = LEAVE</div>
+    </div>
+
+    <div>
+      <h2 style="margin-top:0">The finding that changed the conversation</h2>
+      <p>
+        Salary vs market correlated with attrition at −0.07. Nearly nothing. This is
+        not a compensation problem. The data said so clearly before any model was built.
+      </p>
+      <p>
+        When Diana presented to the CEO, the first slide was not a model output. It was
+        the RTO chart: More office at 23.6%, More flexible at 7.5%. No statistical
+        literacy required. Just policy action.
+      </p>
+
+      <div class="quote">
+        <strong>The exploration finding that validated the entire design:</strong>
+        Engagement trend correlated at −0.502. Current engagement score correlated
+        at −0.558. A gap of only 0.056. The direction of change over three years is
+        almost as powerful as where someone stands today. This confirmed that building
+        longitudinal trend features was the right architectural choice.
+      </div>
+
+      <div class="card card-red mt">
+        <div class="kpi-label">What this means for Diana</div>
+        <p style="color:var(--red);font-weight:600;margin-bottom:4px">
+          Do not wait for the score to drop to 20. Act when it starts dropping.
+        </p>
+        <p style="font-size:12px;color:var(--muted)">
+          An employee trending from 70 → 55 → 40 is more urgent than one who has
+          always been at 40. The trajectory is the early warning. The model knows this.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 04: FEATURE ENGINEERING -->
+<div id="engineering" class="section">
+  <div class="section-label">Section 04 — Feature Engineering</div>
+  <div class="page-title">The work that happened before the model</div>
+  <div class="page-sub">
+    Feature engineering is where data science actually lives. The 98% recall result
+    was not a function of algorithm choice. It was a function of what we fed the algorithm.
+  </div>
+
+  <div class="tl">
+    <div class="tl-step">
+      <div class="tl-num">1</div>
+      <div class="tl-body">
+        <h3>From 68 columns to 31 meaningful features</h3>
+        <p>
+          The raw dataset had 68 columns. Feeding all 68 creates noise — correlated
+          features confuse the algorithm and dilute the signal. We selected 31 features
+          based on two criteria: correlation with attrition above 0.15, and domain logic
+          about what actually drives someone to leave.
+        </p>
+        <div class="quote">
+          <strong>Key decision:</strong> We kept current-year snapshots and engineered
+          trends — but dropped the intermediate years. If we have engagement_2023 and
+          engagement_2025, we do not need engagement_2024. The trend captures the history.
+          Keeping all three gives correlated information three times over.
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-step">
+      <div class="tl-num">2</div>
+      <div class="tl-body">
+        <h3>Engineering trend features — the longitudinal power</h3>
+        <p>The most important step: calculating year-over-year trends. Not collected — calculated.</p>
+        <div class="code-block"><span class="dim"># Direction of change is more predictive than snapshot</span>
+engagement_trend   = engagement_2025   - engagement_2023
+satisfaction_trend = satisfaction_2025 - satisfaction_2023
+career_trend       = career_growth_2025 - career_growth_2023
+absence_trend      = absence_days_2025 - absence_days_2023
+
+<span class="dim"># engagement_trend of -32 means this person dropped</span>
+<span class="dim"># 32 points over 3 years — the model reads freefall</span></div>
+      </div>
+    </div>
+
+    <div class="tl-step">
+      <div class="tl-num">3</div>
+      <div class="tl-body">
+        <h3>Building the RTO Risk Index — the novel composite</h3>
+        <p>No single column captured the full return-to-office impact. We combined three signals.</p>
+        <div class="code-block">RTO Risk Index =
+  commute time added (0-100)     × <span class="hl">0.40</span>
+  persona change direction        × <span class="hl">0.30</span>
+  satisfaction drop since RTO     × <span class="hl">0.30</span>
+
+<span class="dim">Persona direction scores:</span>
+  More office    → <span class="warn">80</span>   (highest risk)
+  No change      →  20   (baseline)
+  More flexible  → <span class="good">10</span>   (protective factor)
+
+<span class="dim">Final correlation with attrition: +0.352</span></div>
+      </div>
+    </div>
+
+    <div class="tl-step">
+      <div class="tl-num">4</div>
+      <div class="tl-body">
+        <h3>Encoding and scaling — making features compete fairly</h3>
+        <p>
+          Categorical columns — division, role level, work persona direction — were
+          encoded as numbers. Then StandardScaler converted every feature to mean=0,
+          std=1. Without this, tenure (0–25) would overpower engagement (0–100) purely
+          because its numbers are larger.
+        </p>
+        <div class="quote">
+          <strong>Critical rule:</strong> The scaler is fitted on training data only —
+          then applied to test data using the same parameters. Fitting on test data
+          leaks future information into the scaling process and invalidates the evaluation.
+          This rule is non-negotiable.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 05: MODELS -->
+<div id="models" class="section">
+  <div class="section-label">Section 05 — Model Selection</div>
+  <div class="page-title">Five models. Same data. The data picks the winner.</div>
+  <div class="page-sub">
+    Model selection is a controlled experiment. Same training data in. Same evaluation
+    metric out. The only variable is the model. 5-fold cross validation removes luck
+    from the evaluation.
+  </div>
+
+  <div class="split-6-4">
+    <div>
+      <h2 style="margin-top:0">The model race</h2>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:14px">
+        5-Fold Cross Validation · Primary metric: Recall · 1,120 training employees
+      </p>
+
+      <div class="race-row">
+        <div class="race-name">Logistic Regression</div>
+        <div class="race-bar-wrap"><div class="race-bar win" style="width:96.6%"></div></div>
+        <div class="race-score win">96.6%</div>
+        <div class="race-badge">Winner</div>
+      </div>
+      <div class="race-row">
+        <div class="race-name">SVM</div>
+        <div class="race-bar-wrap"><div class="race-bar" style="width:91.1%"></div></div>
+        <div class="race-score">91.1%</div>
+        <div class="race-badge empty">—</div>
+      </div>
+      <div class="race-row">
+        <div class="race-name">Random Forest</div>
+        <div class="race-bar-wrap"><div class="race-bar" style="width:82.2%"></div></div>
+        <div class="race-score">82.2%</div>
+        <div class="race-badge empty">—</div>
+      </div>
+      <div class="race-row">
+        <div class="race-name">Decision Tree</div>
+        <div class="race-bar-wrap"><div class="race-bar" style="width:79.2%"></div></div>
+        <div class="race-score">79.2%</div>
+        <div class="race-badge empty">—</div>
+      </div>
+      <div class="race-row">
+        <div class="race-name">KNN</div>
+        <div class="race-bar-wrap"><div class="race-bar" style="width:39.5%"></div></div>
+        <div class="race-score">39.5%</div>
+        <div class="race-badge empty">—</div>
+      </div>
+
+      <table class="mt">
+        <thead>
+          <tr><th>Model</th><th>CV Recall</th><th>AUC</th><th>Std Dev</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-dim">Logistic Regression ✓</td>
+            <td><span class="pill pill-green">96.6%</span></td>
+            <td class="mono">0.997</td>
+            <td class="mono td-dim">0.033</td>
+          </tr>
+          <tr>
+            <td>SVM</td>
+            <td class="mono">91.1%</td>
+            <td class="mono">0.991</td>
+            <td class="mono">0.039</td>
+          </tr>
+          <tr>
+            <td>Random Forest</td>
+            <td class="mono">82.2%</td>
+            <td class="mono">0.976</td>
+            <td class="mono">0.046</td>
+          </tr>
+          <tr>
+            <td>Decision Tree</td>
+            <td class="mono">79.2%</td>
+            <td class="mono">0.853</td>
+            <td class="mono" style="color:var(--red)">0.064</td>
+          </tr>
+          <tr>
+            <td>KNN</td>
+            <td class="mono" style="color:var(--red)">39.5%</td>
+            <td class="mono">0.938</td>
+            <td class="mono" style="color:var(--red)">0.075</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="code-block mt"><span class="dim">── Fold-by-fold recall (consistency check) ──────</span>
+
+<span class="dim">Model               F1      F2      F3      F4      F5</span>
+Logistic Regression 97.5%  100.0%  100.0%   92.7%   92.7%
+SVM                 95.0%   95.0%   92.5%   87.8%   85.4%
+Random Forest       85.0%   87.5%   85.0%   75.6%   78.0%
+Decision Tree       85.0%   85.0%   <span class="warn">70.0%</span>   73.2%   82.9%
+KNN                 <span class="warn">35.0%</span>   <span class="warn">27.5%</span>   45.0%   48.8%   41.5%
+
+<span class="dim">Low std = consistent = trustworthy for production use</span></div>
+    </div>
+
+    <div>
+      <h2 style="margin-top:0">Why the simplest model won</h2>
+      <p>
+        The most sophisticated model did not win. The simplest one did. Random Forest —
+        which builds 100 decision trees and takes a vote — came third at 82.2% recall.
+        Logistic Regression, which draws a single straight line, hit 96.6%.
+      </p>
+
+      <div class="quote-gold">
+        This is the most important finding of the model race. It tells us that feature
+        engineering created clean, linearly separable signals. When features are well
+        built, a simple model beats a complex one. Complexity was unnecessary.
+      </div>
+
+      <h3>Why Random Forest underperformed</h3>
+      <p>
+        Random Forest's strength is finding complex non-linear patterns when features
+        are messy. But engagement trend, satisfaction trend, and the RTO risk index
+        are clean, powerful, linear signals. The forest added noise, not value.
+        Feature engineering was the higher-leverage decision.
+      </p>
+
+      <h3 class="mt">Why KNN failed completely</h3>
+      <p>
+        KNN failed because of the curse of dimensionality. In 31-dimensional feature
+        space, every employee appears roughly equidistant from every other. Distance
+        calculations lose meaning. KNN needs very few features or very large data
+        to work in high dimensions. We had neither.
+      </p>
+
+      <div class="card card-gold mt">
+        <div class="kpi-label">Consistency is reliability</div>
+        <h3>Logistic Regression's fold scores: 97.5%, 100%, 100%, 92.7%, 92.7%</h3>
+        <p>
+          Standard deviation of 0.033 — lowest of all five models. Diana needs a model
+          that performs reliably every quarter, not one that is sometimes great and
+          sometimes mediocre. Consistency is reliability. Reliability is trust.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 06: RESULTS -->
+<div id="results" class="section">
+  <div class="section-label">Section 06 — Model Results</div>
+  <div class="page-title">What the model learned — and what it means for Diana</div>
+  <div class="page-sub">
+    The held-out test set is the only honest number. 280 employees the model has never
+    seen. Training scores do not matter. Cross-validation averages do not matter.
+    This is the real-world result.
+  </div>
+
+  <div class="split-4-6">
+    <div>
+      <div class="code-block"><span class="dim">── Final test results ───────────────────────────</span>
+<span class="dim">Winner: Logistic Regression</span>
+<span class="dim">Test set: 280 held-out employees</span>
+
+Recall:    <span class="hl">98.0%</span>
+Precision: <span class="hl">83.1%</span>
+F1 Score:  <span class="hl">0.899</span>
+AUC:       <span class="hl">0.999</span>
+
+<span class="dim">Confusion Matrix:</span>
+              Pred Stay  Pred Quit
+Actually Stayed   220         10
+Actually Left       <span class="warn">1</span>         <span class="good">49</span>
+
+<span class="dim">In plain English:</span>
+→ <span class="good">49</span> quitters CAUGHT — Diana intervenes
+→  <span class="warn">1</span> quitter  MISSED — walked out
+→ 10 false alarms — extra conversations
+
+<span class="dim">Business impact ($78k per departure):</span>
+→ Potential saves: <span class="good">$3,822,000</span>
+→ Missed cost:     <span class="warn">$78,000</span>
+→ False alarms:    10 conversations</div>
+
+      <div class="card card-green mt-sm">
+        <div class="kpi-label">Intervention ROI</div>
+        <div class="grid g2 mt-sm" style="gap:8px">
+          <div>
+            <div class="kpi kpi-red" style="font-size:22px">$3.0M</div>
+            <div class="kpi-note">Cost if Q2 at-risk leave</div>
+          </div>
+          <div>
+            <div class="kpi kpi-green" style="font-size:22px">38×</div>
+            <div class="kpi-note">Return on intervention</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h2 style="margin-top:0">What the model learned — coefficients</h2>
+      <p>
+        Logistic Regression produces one coefficient per feature. Negative = higher
+        value pushes toward staying. Positive = higher value pushes toward leaving.
+        These are what Diana shows the CEO to explain the model.
+      </p>
+
+      <div class="mt-sm">
+        <div class="coef-row">
+          <div class="coef-label">satisfaction_2025</div>
+          <div class="coef-bar-wrap"><div class="coef-bar neg" style="width:100%"></div></div>
+          <div class="coef-val neg">−4.00</div>
+        </div>
+        <div class="coef-row">
+          <div class="coef-label">engagement_2025</div>
+          <div class="coef-bar-wrap"><div class="coef-bar neg" style="width:92%"></div></div>
+          <div class="coef-val neg">−3.68</div>
+        </div>
+        <div class="coef-row">
+          <div class="coef-label">career_growth_2025</div>
+          <div class="coef-bar-wrap"><div class="coef-bar neg" style="width:84%"></div></div>
+          <div class="coef-val neg">−3.35</div>
+        </div>
+        <div class="coef-row">
+          <div class="coef-label">engagement_trend</div>
+          <div class="coef-bar-wrap"><div class="coef-bar neg" style="width:42%"></div></div>
+          <div class="coef-val neg">−1.68</div>
+        </div>
+        <div class="coef-row">
+          <div class="coef-label">org_disruption_score</div>
+          <div class="coef-bar-wrap"><div class="coef-bar pos" style="width:40%"></div></div>
+          <div class="coef-val pos">+1.58</div>
+        </div>
+        <div class="coef-row">
+          <div class="coef-label">rto_risk_index</div>
+          <div class="coef-bar-wrap"><div class="coef-bar pos" style="width:25%"></div></div>
+          <div class="coef-val pos">+1.00</div>
+        </div>
+      </div>
+      <p style="font-size:11px;color:var(--muted);margin-top:8px">
+        Green bars = push toward staying · Red bars = push toward leaving
+      </p>
+
+      <div class="quote mt">
+        <strong>Individual explanation — CNF0011:</strong>
+        Toronto · Pension Administration · Analyst. Score: 100%.
+        Engagement dropped from 59 to 15 over 3 years (−44 points).
+        RTO risk: 65/100. The engagement freefall alone contributed +8.6
+        to the model score. This person was not going to stay.
+      </div>
+
+      <h2>Scoring 200 current employees — Q2 2026</h2>
+      <div class="risk-grid">
+        <div class="risk-card crit">
+          <div class="risk-label">Critical</div>
+          <div class="risk-num">36</div>
+          <div class="risk-sub">Immediate action</div>
+        </div>
+        <div class="risk-card high">
+          <div class="risk-label">High</div>
+          <div class="risk-num">3</div>
+          <div class="risk-sub">This quarter</div>
+        </div>
+        <div class="risk-card med">
+          <div class="risk-label">Medium</div>
+          <div class="risk-num">5</div>
+          <div class="risk-sub">Monitor monthly</div>
+        </div>
+        <div class="risk-card low">
+          <div class="risk-label">Stable</div>
+          <div class="risk-num">156</div>
+          <div class="risk-sub">No action needed</div>
+        </div>
+      </div>
+
+      <div class="code-block"><span class="dim">#  ID       Division     Role      Loc     Score  Action</span>
+1  CNF1401  Pension      Manager   Calgary  <span class="warn">100%</span>   Urgent 1:1 HR BP
+2  CNF1408  Wealth       Sr Anlst  Calgary  <span class="warn">100%</span>   Flexibility + career
+3  CNF1413  Wealth       Director  Toronto  <span class="warn">100%</span>   Flexibility + career
+4  CNF1460  Wealth       Manager   Toronto  <span class="warn">100%</span>   Comp review
+5  CNF1446  Wealth       VP        Vanc.    <span class="warn">100%</span>   Flexibility + career
+
+<span class="dim">39 at risk · Est. cost if all leave: $3,042,000</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 07: DEPLOYMENT -->
+<div id="deployment" class="section">
+  <div class="section-label">Section 07 — Deployment</div>
+  <div class="page-title">From model to tool Diana actually uses</div>
+  <div class="page-sub">
+    A model living in a notebook is not a product. A tool Diana opens on Monday morning,
+    uploads her quarterly data, and hands a ranked list to HR business partners — that is a product.
+  </div>
+
+  <div class="split-6-4">
+    <div>
+      <h2 style="margin-top:0">The production pipeline</h2>
+      <p>
+        Three scripts. Three jobs. The data scientist's work is entirely separate from
+        the HR team's work. Diana never sees the training code. The data scientist never
+        touches Diana's quarterly upload.
+      </p>
+
+      <div class="pipeline">
+        <div class="pipe-step">
+          <div class="pipe-period">Annual</div>
+          <div class="pipe-name">Generate Data</div>
+          <div class="pipe-file">generate_data.py</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-period">Annual</div>
+          <div class="pipe-name">Train Model</div>
+          <div class="pipe-file">train_pipeline.py</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-period">Quarterly</div>
+          <div class="pipe-name">Score Employees</div>
+          <div class="pipe-file">score_pipeline.py</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-period">Quarterly</div>
+          <div class="pipe-name">Diana Acts</div>
+          <div class="pipe-file">app.py</div>
+        </div>
+      </div>
+
+      <div class="grid g2 mt-sm" style="gap:10px">
+        <div class="card card-navy">
+          <div class="kpi-label" style="color:#94a3b8">Mode 1 — Annual</div>
+          <h3 style="color:#fff">Training</h3>
+          <p style="color:#c5d8f0;font-size:12px">
+            Data scientist runs train_pipeline.py on confirmed historical data.
+            Three files saved: model.pkl, scaler.pkl, features.pkl. Model is frozen.
+          </p>
+        </div>
+        <div class="card card-gold">
+          <div class="kpi-label">Mode 2 — Quarterly</div>
+          <h3>Scoring</h3>
+          <p style="font-size:12px">
+            Diana's team uploads fresh employee data. Frozen model scores everyone.
+            Returns the ranked list. No retraining. No data scientist needed.
+          </p>
+        </div>
+      </div>
+
+      <h2>Data privacy and proprietary methodology</h2>
+      <p>
+        This demonstration runs on synthetic data only. The training pipeline, feature
+        engineering logic, and source code are not publicly available. The live demo
+        shows the methodology in action. Deployment for a real organization requires a
+        separate engagement to retrain on actual HRIS data within the client's
+        environment. Your data never leaves your infrastructure.
+      </p>
+
+      <div class="quote-gold mt">
+        <strong>Try the demo:</strong> Download the sample dataset from the app.
+        Open it in Excel. Change engagement scores, RTO risk, or satisfaction trends.
+        Upload your modified version and watch the predictions change in real time.
+        The model is responding to your inputs.
+      </div>
+
+      <div style="margin-top:16px;display:flex;gap:10px">
+        <a href="https://can-north-flight-risk.streamlit.app/" target="_blank" class="btn-demo">↗ Open Live Demo</a>
+        <button class="btn-back" onclick="show('overview')">← Back to overview</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="app-preview">
+        <div class="app-preview-bar">
+          <div class="ap-dot"></div>
+          <div class="ap-dot"></div>
+          <div class="ap-dot"></div>
+          <div class="ap-url">can-north-flight-risk.streamlit.app</div>
+        </div>
+        <div class="app-preview-body">
+          <div style="font-size:16px;font-weight:800;color:var(--navy);margin-bottom:3px">
+            🏦 CAN North Financial
+          </div>
+          <div style="font-size:11.5px;color:var(--muted);margin-bottom:14px">
+            Employee Flight Risk Intelligence System
+          </div>
+          <div style="background:var(--pale);border:1px solid #D6E4F7;border-radius:6px;padding:10px 14px;font-size:12px;color:var(--navy);margin-bottom:14px;line-height:1.6">
+            <strong>DEMONSTRATION VERSION</strong> — Synthetic data.
+            Download the sample dataset, tweak values in Excel,
+            upload and see predictions change in real time.
+          </div>
+          <div style="background:var(--green-bg);border:1px solid #b7e4cc;border-radius:6px;padding:8px 14px;font-size:12px;color:var(--green);margin-bottom:14px">
+            ✓ Model loaded — ready to score employees
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-bottom:14px">
+            <div style="background:#fff;padding:14px;text-align:center">
+              <div style="font-size:26px;font-weight:800;color:var(--red)">36</div>
+              <div style="font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)">Critical</div>
+            </div>
+            <div style="background:#fff;padding:14px;text-align:center">
+              <div style="font-size:26px;font-weight:800;color:var(--yellow)">3</div>
+              <div style="font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)">High</div>
+            </div>
+            <div style="background:#fff;padding:14px;text-align:center">
+              <div style="font-size:26px;font-weight:800;color:var(--blue)">5</div>
+              <div style="font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)">Medium</div>
+            </div>
+            <div style="background:#fff;padding:14px;text-align:center">
+              <div style="font-size:26px;font-weight:800;color:var(--green)">156</div>
+              <div style="font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)">Stable</div>
+            </div>
+          </div>
+          <div style="background:var(--red-bg);border:1px solid #f5c6c6;border-radius:6px;padding:10px 14px;font-size:12.5px;color:var(--red);margin-bottom:14px">
+            <strong>39 employees at risk</strong> —
+            estimated cost if all leave: <strong>$3,042,000</strong>
+          </div>
+          <a href="https://can-north-flight-risk.streamlit.app/" target="_blank" class="btn-demo" style="font-size:11px;padding:8px 16px">
+            ↗ Open Live Demo
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  // highlight nav button
+  document.querySelectorAll('.nav-btn').forEach(b => {
+    if(b.getAttribute('onclick') && b.getAttribute('onclick').includes("'" + id + "'")) {
+      b.classList.add('active');
+    }
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
