@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet"><title>Pay Equity Intelligence — Jaini Desai</title>
+<style>
+:root{
+  --navy:#1F3864;--blue:#2E5FA3;--gold:#C8973A;--gold-bg:#fffbf0;--gold-border:#e8d5a3;
+  --ink:#0E1B2A;--muted:#64748B;--line:#E2E8F0;--pale:#F0F5FC;--soft:#F7F8FA;
+  --green:#1f7a4d;--green-bg:#e9f6ef;--yellow:#9a6b08;--yellow-bg:#fff4d9;
+  --red:#a33a3a;--red-bg:#fae9e9;--white:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#fff;color:var(--ink);font-size:13.5px;line-height:1.6}
+.app{display:grid;grid-template-columns:258px 1fr;min-height:100vh}
+aside{background:#f9fafb;border-right:1px solid var(--line);padding:24px 16px;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+main{padding:36px 48px 80px;max-width:1160px}
+.brand-name{font-size:17px;font-weight:800;color:var(--navy);letter-spacing:.01em;margin-bottom:4px;padding-bottom:8px;border-bottom:2px solid var(--gold)}
+.brand-title{font-size:10.5px;color:var(--muted);line-height:1.5;margin-bottom:24px}
+.nav-group{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding:12px 10px 4px;font-weight:700}
+.nav-btn{display:block;width:100%;text-align:left;background:none;border:1px solid transparent;border-radius:6px;padding:9px 10px;font-size:12.5px;color:#374151;cursor:pointer;margin:2px 0;transition:all .12s;font-family:inherit}
+.nav-btn:hover{background:#fff;border-color:var(--line);color:var(--navy)}
+.nav-btn.active{background:#fff;border-color:var(--line);box-shadow:0 1px 3px rgba(0,0,0,.06);font-weight:700;color:var(--navy);border-left:3px solid var(--gold)}
+.sidebar-note{font-size:10px;color:var(--muted);line-height:1.5;border-top:1px solid var(--line);padding-top:12px;margin-top:auto}
+.section{display:none}
+.section.active{display:block}
+.page-title{font-size:26px;font-weight:800;color:var(--ink);letter-spacing:-.02em;line-height:1.2;margin-bottom:6px}
+.page-sub{font-size:13px;color:var(--muted);max-width:720px;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+h2{font-size:19px;font-weight:800;color:var(--ink);margin-bottom:8px;margin-top:28px}
+h2:first-child{margin-top:0}
+h3{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:8px}
+p{font-size:13px;color:#374151;line-height:1.65;margin-bottom:10px}
+p:last-child{margin-bottom:0}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{border:1px solid var(--line);background:#fff;border-radius:10px;padding:16px;box-shadow:0 1px 2px rgba(14,27,42,.04)}
+.card-navy{background:var(--navy);border-color:var(--navy)}
+.card-navy h3{color:#fff}
+.card-navy p{color:#c5d8f0}
+.card-gold{background:var(--gold-bg);border-color:var(--gold-border)}
+.card-red{background:var(--red-bg);border-color:#f5c6c6}
+.card-green{background:var(--green-bg);border-color:#b7e4cc}
+.kpi{font-size:30px;font-weight:800;color:var(--navy);margin-bottom:3px;line-height:1}
+.kpi-blue{color:var(--blue)}
+.kpi-red{color:var(--red)}
+.kpi-green{color:var(--green)}
+.kpi-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;font-weight:700;margin-bottom:5px}
+.kpi-note{font-size:11px;color:var(--muted);line-height:1.4}
+.pill{display:inline-block;border-radius:999px;padding:3px 9px;font-size:10.5px;font-weight:700}
+.pill-blue{background:var(--pale);color:var(--navy)}
+.pill-green{background:var(--green-bg);color:var(--green)}
+.pill-yellow{background:var(--yellow-bg);color:var(--yellow)}
+.pill-red{background:var(--red-bg);color:var(--red)}
+.pill-gold{background:var(--gold-bg);color:#7a5a10}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th{text-align:left;color:var(--muted);font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid var(--line);padding:9px 11px}
+td{padding:10px 11px;border-bottom:1px solid #f0f3f7;color:var(--ink);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafbfc}
+.td-dim{font-weight:700;color:var(--navy)}
+.td-muted{color:var(--muted);font-size:11.5px}
+.quote{background:#f8fafc;border-left:3px solid var(--navy);padding:14px 16px;border-radius:0 7px 7px 0;color:#1e293b;line-height:1.7;margin:12px 0;font-size:13px}
+.quote-gold{background:var(--gold-bg);border-left:3px solid var(--gold);padding:14px 16px;border-radius:0 7px 7px 0;color:#1e293b;line-height:1.7;margin:12px 0;font-size:13px}
+.tag-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.tag{background:var(--pale);border:1px solid #D6E4F7;color:var(--navy);border-radius:5px;padding:4px 10px;font-size:11px;font-weight:700}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.split-6-4{display:grid;grid-template-columns:6fr 4fr;gap:16px;align-items:start}
+.split-4-6{display:grid;grid-template-columns:4fr 6fr;gap:16px;align-items:start}
+.mono{font-family:'Consolas','Courier New',monospace;font-size:12px}
+.disclaimer{background:var(--yellow-bg);border:1px solid #f0d078;border-radius:8px;padding:12px 16px;font-size:12px;color:var(--yellow);line-height:1.7;margin-bottom:20px}
+.code-block{background:#f1f5f9;border:1px solid var(--line);border-radius:8px;padding:14px 16px;font-family:'Consolas','Courier New',monospace;font-size:12px;line-height:1.85;color:#1e293b;margin:10px 0;white-space:pre-wrap;word-break:break-word}
+.code-block .hl{color:var(--blue);font-weight:700}
+.code-block .good{color:var(--green)}
+.code-block .warn{color:var(--red)}
+.code-block .dim{color:#94a3b8}
+
+/* ── GAP BARS ──────────────────────────────────────────────────────────── */
+.gap-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0f3f7}
+.gap-row:last-child{border-bottom:none}
+.gap-name{font-size:12.5px;color:var(--ink);width:130px;flex-shrink:0}
+.gap-bar-wrap{flex:1;background:#f0f3f7;height:8px;border-radius:99px}
+.gap-bar{height:8px;border-radius:99px;background:var(--red)}
+.gap-val{font-family:'Consolas',monospace;font-size:12px;color:var(--red);width:60px;text-align:right;font-weight:700}
+.gap-sig{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--red-bg);color:var(--red);border:1px solid #f5c6c6;padding:3px 8px;border-radius:99px;white-space:nowrap}
+
+/* ── PIPELINE ───────────────────────────────────────────────────────────── */
+.pipeline{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:14px 0}
+.pipe-step{background:#fff;padding:16px 18px;flex:1;border-right:1px solid var(--line);text-align:center}
+.pipe-step:last-child{border-right:none}
+.pipe-period{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:4px}
+.pipe-name{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px}
+.pipe-file{font-family:'Consolas',monospace;font-size:10.5px;color:var(--muted)}
+
+/* ── APP PREVIEW ────────────────────────────────────────────────────────── */
+.app-preview{border:1px solid var(--line);border-radius:10px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.07)}
+.app-preview-bar{background:#f1f5f9;border-bottom:1px solid var(--line);padding:10px 16px;display:flex;align-items:center;gap:6px}
+.ap-dot{width:10px;height:10px;border-radius:50%}
+.ap-dot:nth-child(1){background:#FC5F57}
+.ap-dot:nth-child(2){background:#FDBC2C}
+.ap-dot:nth-child(3){background:#33C748}
+.ap-url{background:#fff;border:1px solid var(--line);border-radius:4px;padding:3px 12px;font-family:'Consolas',monospace;font-size:11px;color:var(--muted);margin-left:6px}
+.app-preview-body{padding:20px}
+
+/* ── TIMELINE ───────────────────────────────────────────────────────────── */
+.tl{display:flex;flex-direction:column;gap:0}
+.tl-step{display:grid;grid-template-columns:36px 1fr;gap:16px;padding-bottom:28px;position:relative}
+.tl-step:last-child{padding-bottom:0}
+.tl-step::before{content:'';position:absolute;left:17px;top:36px;bottom:0;width:1px;background:var(--line)}
+.tl-step:last-child::before{display:none}
+.tl-num{width:36px;height:36px;border-radius:50%;background:var(--navy);color:#fff;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:1}
+.tl-body h3{padding-top:6px;margin-bottom:8px}
+.tl-body p{font-size:13px;color:#374151;line-height:1.7}
+
+/* ── UTIL ───────────────────────────────────────────────────────────────── */
+.mt{margin-top:20px}
+.mt-sm{margin-top:10px}
+.mb{margin-bottom:14px}
+.section-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.btn-demo{display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:#fff;font-size:12px;font-weight:700;padding:10px 20px;border-radius:6px;text-decoration:none;transition:background .15s}
+.btn-demo:hover{background:#16305a}
+.btn-back{display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--muted);font-size:12px;font-weight:600;padding:10px 20px;border-radius:6px;border:1px solid var(--line);text-decoration:none;transition:all .15s}
+.btn-back:hover{border-color:var(--navy);color:var(--navy)}
+/* ── TOP NAV ─────────────────────────────────────────────────────────────── */
+.top-nav{display:flex;justify-content:space-between;align-items:center;padding:18px 48px;border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:200}
+.top-nav-logo{font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;font-weight:500;color:var(--ink);letter-spacing:.02em;text-decoration:none}
+.top-nav-links{display:flex;gap:36px;list-style:none}
+.top-nav-links a{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9ca3af;text-decoration:none;font-weight:400;transition:color .2s}
+.top-nav-links a:hover,.top-nav-links a.active{color:var(--navy)}
+</style>
+</head>
+<body>
+<nav class="top-nav">
+  <a class="top-nav-logo" href="index.html">Jaini Desai</a>
+  <ul class="top-nav-links">
+    <li><a href="index.html?section=home">Home</a></li>
+    <li><a href="index.html?section=studio" class="active">Studio</a></li>
+    <li><a href="index.html?section=about">About</a></li>
+    <li><a href="index.html?section=contact">Contact</a></li>
+  </ul>
+</nav>
+<div class="app">
+
+<!-- ── SIDEBAR ──────────────────────────────────────────────────────────── -->
+<aside>
+  <div class="brand-name">Jaini Desai</div>
+
+  <div class="nav-group">This Project</div>
+  <button class="nav-btn active" onclick="show('overview')">Overview</button>
+  <button class="nav-btn" onclick="show('problem')">01 · Business Problem</button>
+  <button class="nav-btn" onclick="show('data')">02 · The Data</button>
+  <button class="nav-btn" onclick="show('analysis')">03 · The Analysis</button>
+  <button class="nav-btn" onclick="show('decomposition')">04 · Decomposition</button>
+  <button class="nav-btn" onclick="show('remediation')">05 · Remediation Plan</button>
+  <button class="nav-btn" onclick="show('agent')">06 · The Agent</button>
+  <button class="nav-btn" onclick="show('deployment')">07 · Deployment</button>
+
+
+  <div class="sidebar-note">
+    <strong>Demonstration project.</strong><br>
+    All data is synthetically generated. CAN North Financial is fictional.
+    Legislation references are real and sourced from official government websites.<br><br>
+    <a href="https://can-north-pay-equity.streamlit.app/" target="_blank"
+       style="color:var(--blue);font-weight:700;text-decoration:none">
+      ↗ Open Live Demo
+    </a>
+  </div>
+</aside>
+
+<!-- ── MAIN ─────────────────────────────────────────────────────────────── -->
+<main>
+
+<!-- ══ OVERVIEW ══════════════════════════════════════════════════════════ -->
+<div id="overview" class="section active">
+  <div class="page-title">Pay Equity Intelligence System</div>
+  <div class="page-sub">
+    Pillar 1 of the Total Rewards Intelligence Platform — CAN North Financial · 1,400 employees · Federal and Ontario jurisdiction
+  </div>
+
+  <div class="disclaimer">
+    ⚠ <strong>Demonstration only.</strong> CAN North Financial is a fictional organization. All employee data is synthetically generated — no real people, no real salaries, no data retained. Legislation references are real and sourced directly from official government websites as cited throughout.
+  </div>
+
+  <div class="split-6-4">
+    <div>
+      <h2>What this system does</h2>
+      <p>Pay Equity Intelligence identifies, measures, and remediates gender-based pay gaps in a legally defensible, audit-ready format. It separates the gap that can be explained by legitimate factors — role, tenure, performance — from the gap that cannot. The unexplained portion is the legal exposure.</p>
+      <p>The system produces a formal pay equity report, a phased remediation plan, and an AI agent that answers questions against both the analysis results and approved legislation. It is the tool Diana Chen, Head of People Analytics at CAN North Financial, takes to the Pay Equity Commissioner.</p>
+
+      <div class="quote-gold" style="margin-top:16px">
+        "Pay equity analysis is not about whether you intend to discriminate. It is about whether the numbers show that you do. This system makes the numbers impossible to ignore — and gives you a plan to fix them."
+      </div>
+    </div>
+
+    <div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="section-label">Key Findings — CAN North 2025</div>
+        <div class="kpi-label">Overall Gap</div>
+        <div class="kpi kpi-red">$5,807</div>
+        <div class="kpi-note">5.2% of male average pay · statistically significant</div>
+      </div>
+      <div class="card">
+        <div class="kpi-label">Employees Requiring Adjustment</div>
+        <div class="kpi" style="font-size:36px">234</div>
+        <div class="kpi-note" style="margin-top:6px">Total remediation cost: <strong>$1,684,100</strong></div>
+        <div class="kpi-note">Legal minimum (1% payroll): <strong>$1,513,371</strong></div>
+        <div class="kpi-note" style="margin-top:4px">Net business benefit: <strong style="color:var(--green)">$4,616,200</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt">
+    <h2>Where this fits</h2>
+    <div class="grid g3">
+      <div class="card card-navy">
+        <h3>Pillar 1 — Pay Equity ✓</h3>
+        <p>This project. Measures the unexplained gender gap. Produces the remediation plan. Agent 1 answers questions under the Act.</p>
+      </div>
+      <div class="card">
+        <h3>Pillar 2 — Job Evaluation</h3>
+        <p>Evaluates the intrinsic worth of each job using O*NET point factor data. Agent 2 answers: is this role graded correctly?</p>
+        <div style="margin-top:8px"><span class="pill pill-yellow">In Development</span></div>
+      </div>
+      <div class="card">
+        <h3>Pillar 3 — Market Benchmarking</h3>
+        <p>Connects job evaluation to ESDC wage data via NOC codes. Agent 3 answers: are we paying competitively?</p>
+        <div style="margin-top:8px"><span class="pill pill-yellow">In Development</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt">
+    <h2>How it connects to Flight Risk</h2>
+    <p>This is the same 1,400-employee universe as the Flight Risk Intelligence system — same CAN North Financial, same Diana Chen, same divisions. The two platforms are designed to be read together. Flight Risk shows <em>who will leave</em>. Pay Equity shows <em>why pay is unfair</em>. The Master Orchestrator Agent will eventually connect both.</p>
+    <div class="tag-wrap">
+      <span class="tag">pandas</span>
+      <span class="tag">scipy</span>
+      <span class="tag">OLS regression</span>
+      <span class="tag">Oaxaca-Blinder decomposition</span>
+      <span class="tag">linear programming</span>
+      <span class="tag">Anthropic Claude API</span>
+      <span class="tag">Streamlit</span>
+      <span class="tag">Pay Equity Act S.C. 2018</span>
+      <span class="tag">Ontario Pay Equity Act R.S.O. 1990</span>
+    </div>
+  </div>
+
+  <div class="mt" style="display:flex;gap:12px">
+    <a class="btn-demo" href="https://can-north-pay-equity.streamlit.app/" target="_blank">↗ Open Live Demo</a>
+    <a class="btn-back" href="index.html?section=studio">← Back to Portfolio</a>
+  </div>
+</div>
+
+<!-- ══ BUSINESS PROBLEM ════════════════════════════════════════════════════ -->
+<div id="problem" class="section">
+  <div class="page-title">The problem Diana cannot ignore</div>
+  <div class="page-sub">Pay equity is not optional. It is a legal obligation with a named regulator, a posted notice requirement, and enforcement powers. The question is not whether to comply — it is whether you discover the problem before the Commissioner does.</div>
+
+  <h2>What the law requires</h2>
+  <div class="split">
+    <div class="card">
+      <div class="section-label">Federal — Pay Equity Act, S.C. 2018</div>
+      <h3>Who it covers</h3>
+      <p>All federally regulated employers with 10 or more employees. CAN North Financial, as a financial services firm, falls under federal jurisdiction.</p>
+      <h3 class="mt-sm">What it requires</h3>
+      <p>Employers must establish a pay equity plan, identify gaps, and post a notice of the plan. For employers with 100+ employees, remediation may be phased over a maximum of three years. Each year, the minimum spend is 1% of the previous year's total payroll.</p>
+      <div style="margin-top:10px">
+        <a href="https://laws-lois.justice.gc.ca/eng/acts/P-4.2/" target="_blank" style="font-size:11.5px;color:var(--blue)">↗ laws-lois.justice.gc.ca/eng/acts/P-4.2/</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-label">Ontario — Pay Equity Act, R.S.O. 1990</div>
+      <h3>Who it covers</h3>
+      <p>All Ontario employers with 10 or more employees, including public and private sector. Ontario's regime was one of the first in North America and remains one of the most detailed.</p>
+      <h3 class="mt-sm">What it requires</h3>
+      <p>Employers must achieve and maintain pay equity between job classes where female-dominated classes are compared to male-dominated classes. Section 13(4) contains the same 1% minimum annual spend rule as the federal Act.</p>
+      <div style="margin-top:10px">
+        <a href="https://ontario.ca/laws/statute/90p07" target="_blank" style="font-size:11.5px;color:var(--blue)">↗ ontario.ca/laws/statute/90p07</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt">
+    <h2>The business case — why this is an investment, not a cost</h2>
+    <div class="grid g3">
+      <div class="card card-red">
+        <div class="kpi-label">Legal Risk Avoided</div>
+        <div class="kpi kpi-red">3×</div>
+        <div class="kpi-note">The model estimates legal exposure at 3× the remediation cost — Commissioner enforcement orders, financial penalties, and reputational damage.</div>
+      </div>
+      <div class="card card-green">
+        <div class="kpi-label">Retention Value</div>
+        <div class="kpi kpi-green">35%</div>
+        <div class="kpi-note">Senior women (Director/VP) currently underpaid. Closing gaps reduces senior female attrition by an estimated 35%. Replacing a VP costs $78,000.</div>
+      </div>
+      <div class="card card-gold">
+        <div class="kpi-label">Net Benefit</div>
+        <div class="kpi" style="color:var(--gold)">$4.6M</div>
+        <div class="kpi-note">Total benefit of retention value plus legal risk avoided, net of the $1.68M remediation cost.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt">
+    <h2>Why this is hard without the right tool</h2>
+    <div class="quote">
+      The raw gap is easy to calculate. The difficult question is: how much of that gap is explained by legitimate factors — role level, tenure, performance, location — and how much is not? The unexplained portion is what the law requires you to fix. Without a regression model, you cannot separate the two.
+    </div>
+    <p>Most organizations stop at the raw gap. They look at average male salary versus average female salary and conclude the gap is explained by the fact that more men are in senior roles. This is incomplete. Pay equity law requires comparison <em>within</em> comparable job classes, controlling for legitimate factors. The within-class, controlled gap is the legally actionable number.</p>
+  </div>
+</div>
+
+<!-- ══ THE DATA ════════════════════════════════════════════════════════════ -->
+<div id="data" class="section">
+  <div class="page-title">The data model — built for legal defensibility</div>
+  <div class="page-sub">1,400 CAN North Financial employees · synthetic data · 10 features · gender gap deliberately embedded for detection validation</div>
+
+  <h2>Why synthetic data</h2>
+  <p>Real salary data is among the most sensitive personal data an organization holds. For a demonstration portfolio, synthetic data is the only responsible choice. The data is mathematically generated to mirror the structure of real salary data at a Canadian financial services firm — right-skewed distribution, role-driven compensation hierarchy, division and location premiums — with a deliberately embedded gender gap to validate that the analysis can find what it is designed to find.</p>
+  <div class="quote-gold">A model that cannot detect a gap we deliberately planted is not trustworthy. The embedded gap is the test. Detection proves the methodology works.</div>
+
+  <div class="mt">
+    <h2>Data structure</h2>
+    <div class="grid g2">
+      <div>
+        <div class="section-label">Features</div>
+        <table>
+          <thead><tr><th>Column</th><th>Type</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td class="td-dim">employee_id</td><td>String</td><td class="td-muted">Masked — CNF0001 format. Never a model feature.</td></tr>
+            <tr><td class="td-dim">gender</td><td>Categorical</td><td class="td-muted">Male / Female. Excluded from the salary model by design.</td></tr>
+            <tr><td class="td-dim">job_class</td><td>String</td><td class="td-muted">Human-readable title. e.g. Wealth Analyst, VP Pension.</td></tr>
+            <tr><td class="td-dim">job_grade</td><td>Ordinal</td><td class="td-muted">Grade 3 to Grade 7. Primary grouping for analysis.</td></tr>
+            <tr><td class="td-dim">role_level</td><td>Categorical</td><td class="td-muted">Analyst / Sr Analyst / Manager / Director / VP</td></tr>
+            <tr><td class="td-dim">role_level_encoded</td><td>Integer</td><td class="td-muted">1–5. Ordinal encoding preserving hierarchy.</td></tr>
+            <tr><td class="td-dim">division</td><td>Categorical</td><td class="td-muted">Pension Admin / Wealth Mgmt / Retail Banking</td></tr>
+            <tr><td class="td-dim">location</td><td>Categorical</td><td class="td-muted">Toronto / Calgary / Vancouver</td></tr>
+            <tr><td class="td-dim">tenure_years</td><td>Float</td><td class="td-muted">0–25. More tenure = higher pay, diminishing returns.</td></tr>
+            <tr><td class="td-dim">performance</td><td>Integer</td><td class="td-muted">0–100. Centered at 70 average; low variance.</td></tr>
+            <tr><td class="td-dim">salary</td><td>Integer</td><td class="td-muted">Annual base CAD. Target variable for the model.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="section-label">Embedded Gap Structure</div>
+        <div class="card card-red" style="margin-bottom:12px">
+          <div class="kpi-label">Base Gender Gap</div>
+          <div class="kpi kpi-red">−$6,500</div>
+          <div class="kpi-note">Applied to all female employees regardless of role. This is the baseline discriminatory component.</div>
+        </div>
+        <div class="card card-red">
+          <div class="kpi-label">Senior Grade Premium Gap (Grade 6–7)</div>
+          <div class="kpi kpi-red">−$4,000</div>
+          <div class="kpi-note">Additional gap at senior grades. Reflects real-world pattern where gaps widen at higher levels.</div>
+        </div>
+        <div class="quote" style="margin-top:14px;font-size:12px">
+          <strong>Why this structure?</strong> Real pay gaps are not uniform. They are larger at senior levels and not explained by role alone. The synthetic structure mimics this pattern so the analysis must work harder to find it — exactly as it would in a real audit.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt">
+    <h2>Salary drivers — the three tiers</h2>
+    <div class="grid g3">
+      <div class="card card-navy">
+        <h3>Tier 1 — Dominant drivers</h3>
+        <p>Role level (Analyst vs VP is a 3× salary difference). Division (Wealth Management pays more than Retail Banking). These two factors explain most of the variation.</p>
+      </div>
+      <div class="card">
+        <h3>Tier 2 — Moderate drivers</h3>
+        <p>Tenure (more years = higher pay, but diminishing returns). Performance (weak effect — scores cluster around 70, low variance). Location (Toronto premium).</p>
+      </div>
+      <div class="card card-red">
+        <h3>Tier 3 — Should NOT drive salary</h3>
+        <p>Gender. Zero legitimate influence on pay. Any measurable effect after controlling for Tier 1 and 2 is the unexplained gap. That is the equity problem.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ANALYSIS ═══════════════════════════════════════════════════════════ -->
+<div id="analysis" class="section">
+  <div class="page-title">What the analysis found</div>
+  <div class="page-sub">Exploratory analysis confirmed the gap exists across every role level and division. Then the regression model measured how much of it is unexplained.</div>
+
+  <h2>The raw gap — by role level</h2>
+  <p>The raw gap is the simple difference in average salaries. It exists at every level — which matters. A gap only at VP level could be explained by seniority mix. A gap at Analyst level, where men and women are equally new to the organization, has no structural explanation.</p>
+
+  <div class="card mt-sm">
+    <div class="section-label">Gap by Role Level — CAN North Financial 2025</div>
+    <div class="gap-row">
+      <div class="gap-name">Analyst</div>
+      <div class="gap-bar-wrap"><div class="gap-bar" style="width:47%"></div></div>
+      <div class="gap-val">$5,817</div>
+      <span class="gap-sig">Significant</span>
+    </div>
+    <div class="gap-row">
+      <div class="gap-name">Senior Analyst</div>
+      <div class="gap-bar-wrap"><div class="gap-bar" style="width:58%"></div></div>
+      <div class="gap-val">$7,956</div>
+      <span class="gap-sig">Significant</span>
+    </div>
+    <div class="gap-row">
+      <div class="gap-name">Manager</div>
+      <div class="gap-bar-wrap"><div class="gap-bar" style="width:46%"></div></div>
+      <div class="gap-val">$5,925</div>
+      <span class="gap-sig">Significant</span>
+    </div>
+    <div class="gap-row">
+      <div class="gap-name">Director</div>
+      <div class="gap-bar-wrap"><div class="gap-bar" style="width:90%"></div></div>
+      <div class="gap-val">$11,636</div>
+      <span class="gap-sig">Significant</span>
+    </div>
+    <div class="gap-row">
+      <div class="gap-name">VP</div>
+      <div class="gap-bar-wrap"><div class="gap-bar" style="width:100%"></div></div>
+      <div class="gap-val">$12,208</div>
+      <span class="gap-sig">Significant</span>
+    </div>
+  </div>
+
+  <div class="mt">
+    <h2>The regression model — predicting fair pay</h2>
+    <p>The model predicts what each employee <em>should</em> earn, based only on legitimate factors: role level, tenure, performance, division, and location. Gender is deliberately excluded. This is the architecture of a legally defensible pay equity model — we predict fair pay without gender, then check whether actual pay differs by gender after controlling for everything.</p>
+
+    <div class="split">
+      <div>
+        <div class="section-label">Model Architecture</div>
+        <div class="code-block"><span class="hl">Features used:</span>
+  role_level_encoded     <span class="good">← strongest signal (r=0.94)</span>
+  tenure_years           <span class="dim">← moderate</span>
+  performance            <span class="dim">← weak (low variance)</span>
+  div_Retail_Banking     <span class="dim">← vs Pension Admin baseline</span>
+  div_Wealth_Management  <span class="dim">← vs Pension Admin baseline</span>
+  loc_Toronto            <span class="dim">← vs Calgary baseline</span>
+  loc_Vancouver          <span class="dim">← vs Calgary baseline</span>
+
+<span class="warn">Excluded:  gender (not a legitimate pay factor)</span>
+<span class="warn">Excluded:  years_in_role (multicollinear with tenure)</span>
+<span class="warn">Excluded:  employee_id (identifier only)</span>
+
+Algorithm: Ordinary Least Squares (OLS)
+Train/test: 80/20 split · 1,120 training employees</div>
+      </div>
+      <div>
+        <div class="section-label">Model Performance</div>
+        <div class="card card-green" style="margin-bottom:12px">
+          <div class="kpi-label">R² — Test Set</div>
+          <div class="kpi kpi-green">0.940</div>
+          <div class="kpi-note">Legitimate features explain 94% of salary variation. 6% is unexplained — and some of that unexplained portion is the equity gap.</div>
+        </div>
+        <div class="card">
+          <div class="kpi-label">Mean Absolute Error</div>
+          <div class="kpi" style="font-size:26px">$7,510</div>
+          <div class="kpi-note">On average, the model predicts salary within $7,510. The gender gap of $5,807 is well within measurable range.</div>
+        </div>
+        <div class="quote" style="margin-top:12px;font-size:12px">
+          No overfitting — training R² (0.933) and test R² (0.940) are nearly identical. The model generalizes well.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DECOMPOSITION ══════════════════════════════════════════════════════ -->
+<div id="decomposition" class="section">
+  <div class="page-title">Separating explained from unexplained</div>
+  <div class="page-sub">The Oaxaca-Blinder decomposition is the statistical method used by economists, governments, and courts worldwide to measure discrimination in wages. It splits the gap into two parts: the part we can explain and the part we cannot.</div>
+
+  <h2>Why this matters legally</h2>
+  <p>The raw gap includes both legitimate differences (men have slightly longer average tenure at CAN North; more men are in Wealth Management, which pays more) and discriminatory differences (same role, same tenure, different pay because of gender). The law only requires you to fix the unexplained part — but you must prove you have identified it correctly.</p>
+
+  <div class="quote-gold">
+    Imagine two Wealth Analysts. Both joined in 2021. Both score 74 on performance. One is male, one is female. The model predicts they should each earn the same amount. One earns $7,955 more. That difference — with identical characteristics — is the Oaxaca-Blinder unexplained gap. That is what this system is designed to find and fix.
+  </div>
+
+  <div class="mt">
+    <h2>The decomposition result</h2>
+    <div class="grid g3">
+      <div class="card">
+        <div class="kpi-label">Raw Gap (Overall)</div>
+        <div class="kpi kpi-red">$5,807</div>
+        <div class="kpi-note">Simple difference in average male vs female salary. Includes both explained and unexplained portions.</div>
+      </div>
+      <div class="card card-green">
+        <div class="kpi-label">Explained Portion</div>
+        <div class="kpi kpi-green">~$0</div>
+        <div class="kpi-note">Role mix, tenure, and location differences between genders. This is legitimate — not legally actionable.</div>
+      </div>
+      <div class="card card-red">
+        <div class="kpi-label">Unexplained Gap</div>
+        <div class="kpi kpi-red">$5,807</div>
+        <div class="kpi-note">The gap that remains after controlling for every legitimate factor. This is the legally actionable number Diana defends to the Commissioner.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt">
+    <h2>Why no ML — a deliberate architecture decision</h2>
+    <p>Pay equity analysis is measurement, not prediction. The goal is not to classify or predict outcomes — it is to measure a gap with statistical precision that will hold up in a legal proceeding. OLS regression and Oaxaca-Blinder decomposition are the methodologies accepted by the Pay Equity Commissioner, taught in economics programs, and cited in case law. Using a black-box model would undermine the legal defensibility of the output.</p>
+    <div class="code-block"><span class="hl">Architecture decision:</span>  No ML. No neural networks. No train/test optimization loop.
+<span class="good">Tools:</span>  pandas + scipy + OLS only
+<span class="good">Why:</span>   Coefficients must be interpretable in plain English to a judge.
+         "Role level adds $28,400 per grade" is defensible.
+         "The SHAP value of role_level_encoded is 0.82" is not.</div>
+  </div>
+</div>
+
+<!-- ══ REMEDIATION PLAN ═══════════════════════════════════════════════════ -->
+<div id="remediation" class="section">
+  <div class="page-title">From gap to remediation plan</div>
+  <div class="page-sub">The analysis identifies who needs an adjustment and by how much. The plan optimizes which employees to adjust first, subject to the legislated budget constraint.</div>
+
+  <h2>The legislated budget</h2>
+  <p>The Pay Equity Act does not ask how much the employer wants to spend. It sets a minimum floor: 1% of total payroll per year. Employers may spend more. They cannot spend less. For CAN North Financial with a total annual payroll of approximately $151 million, the annual minimum is $1,513,371.</p>
+
+  <div class="grid g4 mt-sm">
+    <div class="card">
+      <div class="kpi-label">Total Payroll</div>
+      <div class="kpi" style="font-size:22px">$151.2M</div>
+      <div class="kpi-note">Annual base pay, all 1,400 employees</div>
+    </div>
+    <div class="card card-red">
+      <div class="kpi-label">Legal Minimum (1%)</div>
+      <div class="kpi kpi-red" style="font-size:22px">$1.51M</div>
+      <div class="kpi-note">Minimum annual spend required by the Act</div>
+    </div>
+    <div class="card">
+      <div class="kpi-label">Total Remediation</div>
+      <div class="kpi" style="font-size:22px">$1.68M</div>
+      <div class="kpi-note">Exceeds 1% threshold — phased plan permitted</div>
+    </div>
+    <div class="card card-navy">
+      <div class="kpi-label">Employees Affected</div>
+      <div class="kpi" style="font-size:22px;color:#fff">234</div>
+      <div class="kpi-note" style="color:#c5d8f0">Underpaid female employees below 95% compa-ratio</div>
+    </div>
+  </div>
+
+  <div class="mt">
+    <h2>Risk-prioritized optimization</h2>
+    <p>When total remediation exceeds the 1% floor, a phased plan is legally permitted. But the order of adjustments matters. The system assigns each affected employee a risk score weighted across three components, then uses linear programming to allocate the annual budget to maximize risk closed per dollar spent.</p>
+
+    <div class="split">
+      <div class="card">
+        <div class="section-label">Risk Score Components</div>
+        <div class="gap-row">
+          <div class="gap-name">Legal risk</div>
+          <div class="gap-bar-wrap"><div class="gap-bar" style="width:50%;background:var(--red)"></div></div>
+          <div class="gap-val" style="color:var(--ink);font-weight:700">50%</div>
+        </div>
+        <div class="gap-row">
+          <div class="gap-name">Flight risk</div>
+          <div class="gap-bar-wrap"><div class="gap-bar" style="width:30%;background:var(--blue)"></div></div>
+          <div class="gap-val" style="color:var(--ink);font-weight:700">30%</div>
+        </div>
+        <div class="gap-row">
+          <div class="gap-name">Reputational risk</div>
+          <div class="gap-bar-wrap"><div class="gap-bar" style="width:20%;background:var(--gold)"></div></div>
+          <div class="gap-val" style="color:var(--ink);font-weight:700">20%</div>
+        </div>
+        <p style="font-size:11.5px;color:var(--muted);margin-top:12px">Legal carries the most weight because the Commissioner focuses enforcement on the largest gaps. Flight risk is second — a departing senior woman costs $78,000 to replace.</p>
+      </div>
+      <div>
+        <div class="section-label">Phased Plan — CAN North</div>
+        <table>
+          <thead><tr><th>Year</th><th>Employees</th><th>Spend</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="td-dim">Year 1</td>
+              <td>225</td>
+              <td>$1,510,900</td>
+              <td><span class="pill pill-red">Legal minimum met</span></td>
+            </tr>
+            <tr>
+              <td class="td-dim">Year 2</td>
+              <td>9</td>
+              <td>$173,200</td>
+              <td><span class="pill pill-green">Gap closed</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="quote" style="margin-top:14px;font-size:12px">
+          <strong>Legislative reference:</strong> Pay Equity Act, S.C. 2018, c. 27, s. 416 — Section 61(2). Phased implementation for 100+ employee organizations. Maximum phase-in: 3 years. Minimum annual spend: 1% of previous year payroll.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ THE AGENT ═══════════════════════════════════════════════════════════ -->
+<div id="agent" class="section">
+  <div class="page-title">An agent that answers questions under the Act</div>
+  <div class="page-sub">Diana does not want to re-read the analysis every time a board member asks a question. The Pay Equity Agent reads the analysis results and the approved legislation — and answers in plain English.</div>
+
+  <h2>What the agent knows</h2>
+  <p>The agent is deliberately constrained. It has exactly two knowledge sources and nothing else. This is not a limitation — it is a legal architecture decision. When Diana presents this analysis to the Pay Equity Commissioner, every answer must be traceable to either the data or the statute. An agent that searches the internet or invents answers is a liability, not an asset.</p>
+
+  <div class="grid g2 mt-sm">
+    <div class="card card-navy">
+      <h3>Knowledge Source 1</h3>
+      <p>The analysis results from the current session — the gap findings, the decomposition, the remediation plan, the list of affected employees. This resets with each new analysis. The agent never confuses one organization's data with another's.</p>
+    </div>
+    <div class="card card-gold">
+      <h3>Knowledge Source 2</h3>
+      <p>Three approved legislation URLs only: the federal Pay Equity Act, the Ontario Pay Equity Act, and the Ontario Pay Equity Commission guidance. The agent fetches and reads these directly — no cached summaries that could be out of date.</p>
+    </div>
+  </div>
+
+  <div class="mt">
+    <h2>Format — every answer follows the Whizlink framework</h2>
+    <div class="grid g4">
+      <div class="card">
+        <div class="kpi-label">WHAT</div>
+        <p>The direct answer to the question. One or two sentences.</p>
+      </div>
+      <div class="card">
+        <div class="kpi-label">WHY</div>
+        <p>The legislative basis or analytical methodology behind the answer.</p>
+      </div>
+      <div class="card">
+        <div class="kpi-label">SO WHAT</div>
+        <p>The business or legal implication for Diana and CAN North.</p>
+      </div>
+      <div class="card">
+        <div class="kpi-label">HOW</div>
+        <p>The next action — what Diana or the organization should do with this information.</p>
+      </div>
+    </div>
+    <div class="disclaimer mt-sm">
+      ⚠ Every agent response includes a declaration: <strong>this is not legal advice.</strong> The agent provides information based on publicly available legislation and synthetic analysis data. Diana should consult qualified legal counsel for decisions with legal consequences.
+    </div>
+  </div>
+
+  <div class="mt">
+    <h2>Sample questions the agent handles</h2>
+    <table>
+      <thead><tr><th>Question</th><th>What the agent draws on</th></tr></thead>
+      <tbody>
+        <tr><td>"What is our overall pay gap and is it significant?"</td><td class="td-muted">Analysis results — raw gap, t-test p-value</td></tr>
+        <tr><td>"Which job grade has the largest gap?"</td><td class="td-muted">Analysis results — grade-level gap table</td></tr>
+        <tr><td>"What does Section 61(2) say about phased implementation?"</td><td class="td-muted">Federal Pay Equity Act — live URL fetch</td></tr>
+        <tr><td>"Do we have to post a pay equity notice?"</td><td class="td-muted">Federal Act + Ontario Act — legislation</td></tr>
+        <tr><td>"How many employees need adjustments in Year 1?"</td><td class="td-muted">Analysis results — phased plan</td></tr>
+        <tr><td>"What is the 1% rule and does it apply to us?"</td><td class="td-muted">Both Acts — Section 61(2) and Section 13(4)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══ DEPLOYMENT ═════════════════════════════════════════════════════════ -->
+<div id="deployment" class="section">
+  <div class="page-title">From script to tool Diana actually uses</div>
+  <div class="page-sub">The analysis pipeline runs on a local machine. The Streamlit application wraps it in a three-path interface that works for a demo, for tweaking, and for real data.</div>
+
+  <h2>The pipeline architecture</h2>
+  <div class="pipeline">
+    <div class="pipe-step">
+      <div class="pipe-period">Data</div>
+      <div class="pipe-name">generate_data.py</div>
+      <div class="pipe-file">Synthetic 1,400-employee dataset with embedded gap</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-period">Analysis</div>
+      <div class="pipe-name">analyse.py</div>
+      <div class="pipe-file">EDA → regression → decomposition → remediation plan</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-period">Intelligence</div>
+      <div class="pipe-name">agent_pay_equity.py</div>
+      <div class="pipe-file">Claude API + legislation URLs + session results</div>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-period">Interface</div>
+      <div class="pipe-name">app.py</div>
+      <div class="pipe-file">Streamlit — three paths + agent tab</div>
+    </div>
+  </div>
+
+  <div class="mt">
+    <h2>Three paths through the app</h2>
+    <div class="tl">
+      <div class="tl-step">
+        <div class="tl-num">1</div>
+        <div class="tl-body">
+          <h3>See the Demo</h3>
+          <p>One click runs the full analysis on CAN North's 1,400-employee dataset. The complete pay equity report appears immediately — gap findings, statistical tests, decomposition, and a phased remediation plan. The Agent tab becomes available to ask questions against the results.</p>
+        </div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-num">2</div>
+        <div class="tl-body">
+          <h3>Tweak the Demo Data</h3>
+          <p>Download the synthetic CSV. Change values in Excel — widen the gap, change the grade distribution, adjust tenure. Re-upload and re-run. This path shows how the analysis responds to different data structures and helps users understand what drives the findings.</p>
+        </div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-num">3</div>
+        <div class="tl-body">
+          <h3>Upload Your Own Data</h3>
+          <p>Download the template CSV with column headers and instructions. Fill it with masked employee data. Upload. Choose a remediation budget. Run the analysis. Download the report, the remediation list, and the phased plan — ready to present to the Pay Equity Commissioner.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt">
+    <h2>What is not pushed to the repo</h2>
+    <p>The same philosophy as the Flight Risk system: the methodology stays on the developer's machine. Only the app interface and the pre-generated analysis outputs go to Streamlit Cloud. The analysis pipeline, the data generation logic, and the regression notebooks are proprietary.</p>
+    <div class="code-block"><span class="good">Pushed to Streamlit Cloud:</span>
+  app.py               ← the interface
+  requirements.txt     ← dependencies
+  outputs/             ← pre-run analysis results
+
+<span class="warn">Stays on local machine:</span>
+  generate_data.py     ← synthetic data methodology
+  analyse.py           ← the full regression pipeline
+  agent_pay_equity.py  ← agent architecture
+  data/                ← raw employee data</div>
+  </div>
+
+  <div class="mt" style="display:flex;gap:12px">
+    <a class="btn-demo" href="https://can-north-pay-equity.streamlit.app/" target="_blank">↗ Open Live Demo</a>
+    <a class="btn-back" href="index.html?section=studio">← Back to Portfolio</a>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
