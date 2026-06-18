@@ -365,6 +365,220 @@
     .about-body p { margin-bottom: 22px; }
     .about-body p:last-child { margin-bottom: 0; color: #1a1a2e; font-weight: 400; }
 
+
+    /* ── ABOUT — SKILLS + PROJECTS ── */
+    .about-section-label {
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #9ca3af;
+      font-weight: 500;
+      margin: 40px 0 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .skill-group { margin-bottom: 20px; }
+    .skill-group-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: #1a1a2e;
+      margin-bottom: 8px;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .skill-tag {
+      background: #f0f5fc;
+      border: 1px solid #d6e4f7;
+      color: #1F3864;
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-size: 11.5px;
+      font-weight: 500;
+    }
+    .proj-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    .proj-table th {
+      text-align: left;
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: #9ca3af;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-bottom: 2px solid #e5e7eb;
+    }
+    .proj-table td {
+      padding: 12px 12px;
+      border-bottom: 1px solid #f3f4f6;
+      font-size: 13px;
+      vertical-align: top;
+      line-height: 1.5;
+    }
+    .proj-table tr:last-child td { border-bottom: none; }
+    .proj-table tr:hover td { background: #fafbfc; }
+    .proj-name { font-weight: 700; color: #1F3864; }
+    .proj-problem { color: #374151; }
+    .proj-tag {
+      display: inline-block;
+      background: #fffbf0;
+      border: 1px solid #e8d5a3;
+      color: #7a5a10;
+      border-radius: 3px;
+      padding: 2px 7px;
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+
+    /* ── REFINED PROOF STRIP ── */
+    .proof-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border: 1px solid #e8edf5;
+      border-radius: 8px;
+      overflow: hidden;
+      max-width: 720px;
+      margin-top: 18px;
+      background: #ffffff;
+    }
+    .proof-item {
+      padding: 22px 24px;
+      border-right: 1px solid #e8edf5;
+    }
+    .proof-item:last-child { border-right: none; }
+    .proof-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 30px;
+      font-weight: 500;
+      color: #1e3a8a;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .proof-label {
+      font-size: 11px;
+      color: #6b7280;
+      line-height: 1.55;
+      font-weight: 300;
+    }
+
+    /* ── ABOUT — CLEAN PORTFOLIO CARDS ── */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 10px;
+    }
+    .portfolio-card {
+      border: 1px solid #e8edf5;
+      border-radius: 8px;
+      padding: 16px 18px;
+      background: #ffffff;
+    }
+    .portfolio-card:hover { background: #fafbfc; }
+    .portfolio-card-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    .portfolio-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: #1a1a2e;
+      line-height: 1.25;
+      margin: 0;
+    }
+    .portfolio-card p {
+      font-size: 12px;
+      line-height: 1.65;
+      color: #4b5563;
+      margin: 0 0 10px;
+      font-weight: 300;
+    }
+    .portfolio-card .capability {
+      font-size: 10px;
+      line-height: 1.5;
+      color: #1e3a8a;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-weight: 600;
+    }
+    .portfolio-card a {
+      color: inherit;
+      text-decoration: none;
+    }
+    @media (max-width: 800px) {
+      .portfolio-grid { grid-template-columns: 1fr; }
+      .proof-strip { grid-template-columns: 1fr; }
+      .proof-item { border-right: none; border-bottom: 1px solid #e8edf5; }
+      .proof-item:last-child { border-bottom: none; }
+    }
+
+
+    /* ── ABOUT — THREE PRACTICE CARDS ── */
+    .practice-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 12px;
+    }
+    .practice-card {
+      border: 1px solid #e8edf5;
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 20px 20px 18px;
+      min-height: 245px;
+    }
+    .practice-card:hover { background: #fafbfc; }
+    .practice-kicker {
+      font-size: 9px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: #1e3a8a;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .practice-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      line-height: 1.15;
+      font-weight: 500;
+      color: #1a1a2e;
+      margin-bottom: 12px;
+    }
+    .practice-card p {
+      font-size: 12.5px;
+      line-height: 1.7;
+      color: #4b5563;
+      font-weight: 300;
+      margin-bottom: 14px;
+    }
+    .practice-list {
+      list-style: none;
+      display: grid;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .practice-list li {
+      font-size: 11.5px;
+      color: #6b7280;
+      line-height: 1.45;
+      padding-left: 12px;
+      position: relative;
+    }
+    .practice-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #1e3a8a;
+    }
+    @media (max-width: 900px) {
+      .practice-grid { grid-template-columns: 1fr; }
+      .practice-card { min-height: auto; }
+    }
+
     /* ── CONTACT ── */
     .contact-wrap {
       max-width: 600px;
@@ -446,8 +660,8 @@
     <div class="nav-logo" onclick="show('home')">Jaini Desai</div>
     <ul class="nav-links">
       <li><a onclick="show('home')" id="nav-home" class="active">Home</a></li>
-      <li><a onclick="show('studio')" id="nav-studio">Studio</a></li>
       <li><a onclick="show('about')" id="nav-about">About</a></li>
+      <li><a onclick="show('studio')" id="nav-studio">Studio</a></li>
       <li><a onclick="show('contact')" id="nav-contact">Contact</a></li>
     </ul>
   </nav>
@@ -459,26 +673,30 @@
       <h1>Jaini Desai</h1>
             <div class="home-divider"></div>
       <p class="home-bio">
-        I sit at the intersection of workforce strategy, people analytics, and AI enablement — 
-        building the intelligence infrastructure that helps organizations make workforce decisions 
-        with the same rigour they bring to finance and operations. Fifteen years inside Canada's 
-        largest enterprises, accountable for outcomes.
+        I help organizations make workforce decisions with the same rigour they bring to finance
+        and operations. Over the past ten years, I have built People Analytics capabilities at
+        Walmart Canada and Starbucks Canada — leading workforce intelligence, talent analytics,
+        and AI-enabled decision support from strategy through to execution.
       </p>
-
+      <p class="home-bio" style="margin-top:14px">
+        Recent work includes Talent Intelligence Agents, Pay Equity Intelligence, Total Rewards
+        Intelligence Platform, Employee Feedback Intelligence, and decision-science storytelling systems.
+      </p>
       <div class="proof-strip">
         <div class="proof-item">
-          <div class="proof-num">15+</div>
-          <div class="proof-label">Years in enterprise analytics</div>
+          <div class="proof-num">10+ yrs</div>
+          <div class="proof-label">People Analytics, BI, workforce intelligence, and HR transformation experience.</div>
         </div>
         <div class="proof-item">
-          <div class="proof-num">2×</div>
-          <div class="proof-label">People analytics built from ground up</div>
+          <div class="proof-num">100K+</div>
+          <div class="proof-label">Enterprise-scale workforce environments supported through analytics and decision systems.</div>
         </div>
         <div class="proof-item">
-          <div class="proof-num">10+</div>
-          <div class="proof-label">AI agents deployed in HR operations</div>
+          <div class="proof-num">AI + DS</div>
+          <div class="proof-label">Advanced analytics, intelligent automation, and executive storytelling brought together.</div>
         </div>
       </div>
+
     </div>
   </div>
 
@@ -594,6 +812,13 @@
               </div>
               <div class="entry-desc">Regression-based pay equity analysis with Oaxaca-Blinder decomposition and a legislatively compliant remediation plan.</div>
             </a>
+            <a class="pillar-entry" href="Storytelling_with_Data.html" target="_blank">
+              <div class="entry-row">
+                <div class="entry-title">Decision Science: Storytelling with Data</div>
+                <div class="entry-tag">Case Study</div>
+              </div>
+              <div class="entry-desc">A complete analytical story — framing the question, exploring patterns, mapping risk, identifying drivers, and translating signals into executive action.</div>
+            </a>
           </div>
         </div>
 
@@ -604,26 +829,105 @@
   <!-- ── ABOUT ── -->
   <div id="about" class="section">
     <div class="about-wrap">
-      <div class="section-eyebrow">Background</div>
+      <div class="section-eyebrow">Executive Profile</div>
       <h2>About</h2>
       <div class="about-body">
         <p>
-          For ten years I have been building analytics infrastructure and designing workforce 
-          intelligence systems inside some of Canada's largest enterprises — not as an outside 
-          advisor, but as the practitioner accountable for outcomes.
+          I am a People Analytics and AI Enablement leader with 10+ years of experience building
+          workforce intelligence capabilities inside large enterprise environments. My work sits at
+          the intersection of workforce strategy, advanced analytics, HR technology, and decision support.
         </p>
         <p>
-          My work sits at the intersection of workforce strategy, people analytics, data science, 
-          and AI enablement. I turn complex organizational challenges into clarity — uncovering 
-          the insights that reshape how leaders think about their people, their processes, and 
-          their future.
+          I help organizations move from reporting what happened to understanding what is changing,
+          where risk is emerging, and what leaders should do next. My work combines data science,
+          enterprise systems thinking, and executive storytelling to translate complex workforce signals
+          into practical decisions.
         </p>
         <p>
-          I am focused on building the intelligence infrastructure that helps organizations make 
-          workforce decisions with the same rigour they bring to finance and operations — and on 
-          publishing original frameworks for workforce transformation in the AI era.
+          My focus is building intelligent systems that make people decisions more proactive, consistent,
+          and business-relevant.
         </p>
-        <p>That is what I build. That is what this platform is for.</p>
+      </div>
+
+      <div class="about-section-label">Core Areas of Practice</div>
+      <div class="practice-grid">
+        <div class="practice-card">
+          <div class="practice-kicker">01</div>
+          <h3>Workforce Intelligence</h3>
+          <p>Understanding workforce dynamics before they become business problems.</p>
+          <ul class="practice-list">
+            <li>Workforce planning and organizational effectiveness</li>
+            <li>Talent intelligence, succession, and readiness</li>
+            <li>Retention, absenteeism, engagement, and labour risk</li>
+            <li>Executive workforce narratives and decision support</li>
+          </ul>
+        </div>
+
+        <div class="practice-card">
+          <div class="practice-kicker">02</div>
+          <h3>AI Enablement</h3>
+          <p>Designing intelligent systems that improve decision quality and reduce manual work.</p>
+          <ul class="practice-list">
+            <li>Copilot Studio and AI-assisted workflows</li>
+            <li>Multi-agent systems and RAG-based intelligence</li>
+            <li>HR process automation and decision support</li>
+            <li>Enterprise AI transformation and adoption</li>
+          </ul>
+        </div>
+
+        <div class="practice-card">
+          <div class="practice-kicker">03</div>
+          <h3>Data Science &amp; Advanced Analytics</h3>
+          <p>Transforming complex data into actionable insight, risk signals, and predictive decision support.</p>
+          <ul class="practice-list">
+            <li>Predictive modelling, regression, and classification</li>
+            <li>NLP, topic modelling, and sentiment analysis</li>
+            <li>Pay equity, workforce risk, and scenario analysis</li>
+            <li>Data visualization and executive storytelling</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="about-section-label">Technical &amp; Domain Capabilities</div>
+      <div class="skill-group">
+        <div class="skill-group-name">Analytics &amp; Modelling</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Predictive Modelling</span>
+          <span class="skill-tag">Regression</span>
+          <span class="skill-tag">NLP</span>
+          <span class="skill-tag">Topic Modelling</span>
+          <span class="skill-tag">Clustering</span>
+          <span class="skill-tag">PCA</span>
+          <span class="skill-tag">Time Series</span>
+          <span class="skill-tag">Pay Equity Analysis</span>
+          <span class="skill-tag">Executive Storytelling</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-name">AI, Data &amp; Platforms</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">Power BI</span>
+          <span class="skill-tag">Power Platform</span>
+          <span class="skill-tag">Copilot Studio</span>
+          <span class="skill-tag">Multi-Agent Systems</span>
+          <span class="skill-tag">RAG Architecture</span>
+          <span class="skill-tag">Snowflake</span>
+          <span class="skill-tag">Azure Databricks</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-name">HR &amp; Workforce Domain</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Workforce Planning</span>
+          <span class="skill-tag">Talent Management</span>
+          <span class="skill-tag">Succession Planning</span>
+          <span class="skill-tag">Engagement Analysis</span>
+          <span class="skill-tag">Total Rewards</span>
+          <span class="skill-tag">Labour Relations</span>
+          <span class="skill-tag">Organizational Effectiveness</span>
+        </div>
       </div>
     </div>
   </div>
