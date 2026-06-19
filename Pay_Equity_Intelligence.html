@@ -162,7 +162,7 @@ tr:hover td{background:#fafbfc}
     <strong>Demonstration project.</strong><br>
     All data is synthetically generated. CAN North Financial is fictional.
     Legislation references are real and sourced from official government websites.<br><br>
-    <a href="https://pay-equity.streamlit.app/" target="_blank">
+    <a href="https://pay-equity.streamlit.app/" target="_blank"
        style="color:var(--blue);font-weight:700;text-decoration:none">
       ↗ Open Live Demo
     </a>
@@ -176,7 +176,7 @@ tr:hover td{background:#fafbfc}
 <div id="overview" class="section active">
   <div class="page-title">Pay Equity Intelligence System</div>
   <div class="page-sub">
-    Pillar 1 of the Total Rewards Intelligence Platform — CAN North Financial · 1,400 employees · Federal and Ontario jurisdiction
+    A female Director at CAN North earns $11,636 less than her male equivalent. Same role. Same grade. She does not know. Her manager does not know. The Pay Equity Commissioner will eventually know — and the organization will be accountable. This system finds the gap, measures it precisely, and produces a legally defensible plan to close it before the Commissioner arrives.
   </div>
 
   <div class="disclaimer">
@@ -248,7 +248,7 @@ tr:hover td{background:#fafbfc}
   </div>
 
   <div class="mt" style="display:flex;gap:12px">
-    <a class="btn-demo" href="https://can-north-pay-equity.streamlit.app/" target="_blank">↗ Open Live Demo</a>
+    <a class="btn-demo" href="https://pay-equity.streamlit.app/" target="_blank">↗ Open Live Demo</a>
     <a class="btn-back" href="index.html?section=studio">← Back to Portfolio</a>
   </div>
 </div>
@@ -499,15 +499,6 @@ Train/test: 80/20 split · 1,120 training employees</div>
     </div>
   </div>
 
-  <div class="mt">
-    <h2>Why no ML — a deliberate architecture decision</h2>
-    <p>Pay equity analysis is measurement, not prediction. The goal is not to classify or predict outcomes — it is to measure a gap with statistical precision that will hold up in a legal proceeding. OLS regression and Oaxaca-Blinder decomposition are the methodologies accepted by the Pay Equity Commissioner, taught in economics programs, and cited in case law. Using a black-box model would undermine the legal defensibility of the output.</p>
-    <div class="code-block"><span class="hl">Architecture decision:</span>  No ML. No neural networks. No train/test optimization loop.
-<span class="good">Tools:</span>  pandas + scipy + OLS only
-<span class="good">Why:</span>   Coefficients must be interpretable in plain English to a judge.
-         "Role level adds $28,400 per grade" is defensible.
-         "The SHAP value of role_level_encoded is 0.82" is not.</div>
-  </div>
 </div>
 
 <!-- ══ REMEDIATION PLAN ═══════════════════════════════════════════════════ -->
@@ -724,7 +715,7 @@ Train/test: 80/20 split · 1,120 training employees</div>
   </div>
 
   <div class="mt" style="display:flex;gap:12px">
-    <a class="btn-demo" href="https://can-north-pay-equity.streamlit.app/" target="_blank">↗ Open Live Demo</a>
+    <a class="btn-demo" href="https://pay-equity.streamlit.app/" target="_blank">↗ Open Live Demo</a>
     <a class="btn-back" href="index.html?section=studio">← Back to Portfolio</a>
   </div>
 </div>
