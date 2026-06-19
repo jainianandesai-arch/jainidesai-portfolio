@@ -61,6 +61,27 @@
       color: #1e3a8a;
     }
 
+    .nav-resume-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #1F3864;
+      border: 1.5px solid #1F3864;
+      border-radius: 5px;
+      padding: 7px 14px;
+      text-decoration: none;
+      transition: background .15s, color .15s;
+      margin-left: 16px;
+    }
+    .nav-resume-btn:hover {
+      background: #1F3864;
+      color: #fff;
+    }
+
     /* ── SECTIONS ── */
     .section { display: none; animation: fadeIn 0.25s ease; }
     .section.active { display: block; }
@@ -664,6 +685,12 @@
       <li><a onclick="show('studio')" id="nav-studio">Studio</a></li>
       <li><a onclick="show('contact')" id="nav-contact">Contact</a></li>
     </ul>
+    <a class="nav-resume-btn" href="Jaini_Desai_WorkforceIntelligence_Resume.pdf" download>
+      <svg width="11" height="13" viewBox="0 0 11 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5.5 1v8M5.5 9L3 6.5M5.5 9L8 6.5M1 11.5h9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Resume
+    </a>
   </nav>
 
   <!-- ── HOME ── -->
@@ -815,7 +842,7 @@
             <a class="pillar-entry" href="Storytelling_with_Data.html" target="_blank">
               <div class="entry-row">
                 <div class="entry-title">Decision Science: Storytelling with Data</div>
-                <div class="entry-tag">Case Study</div>
+                <div class="entry-tag">Analytical Framework</div>
               </div>
               <div class="entry-desc">A complete analytical story — framing the question, exploring patterns, mapping risk, identifying drivers, and translating signals into executive action.</div>
             </a>
@@ -928,6 +955,17 @@
           <span class="skill-tag">Labour Relations</span>
           <span class="skill-tag">Organizational Effectiveness</span>
         </div>
+      </div>
+
+      <div style="margin-top:32px;padding-top:24px;border-top:1px solid #e8e8f0">
+        <a href="Jaini_Desai_WorkforceIntelligence_Resume.pdf" download
+           style="display:inline-flex;align-items:center;gap:10px;background:#1F3864;color:#fff;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:13px 24px;border-radius:6px;text-decoration:none;transition:background .15s"
+           onmouseover="this.style.background='#16305a'" onmouseout="this.style.background='#1F3864'">
+          <svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 1v9M7 10l-3-3M7 10l3-3M1 13h12" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Download Resume
+        </a>
       </div>
     </div>
   </div>
