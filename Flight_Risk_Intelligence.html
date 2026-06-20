@@ -160,9 +160,23 @@ tr:hover td{background:#fafbfc}
 .btn-demo:hover{background:#16305a}
 .btn-back{display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--muted);font-size:12px;font-weight:600;padding:10px 20px;border-radius:6px;border:1px solid var(--line);text-decoration:none;transition:all .15s}
 .btn-back:hover{border-color:var(--navy);color:var(--navy)}
+.top-nav{display:flex;justify-content:space-between;align-items:center;padding:18px 48px;border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:200}
+.top-nav-logo{font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;font-weight:500;color:var(--ink);letter-spacing:.02em;text-decoration:none}
+.top-nav-links{display:flex;gap:36px;list-style:none}
+.top-nav-links a{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9ca3af;text-decoration:none;font-weight:400;transition:color .2s}
+.top-nav-links a:hover,.top-nav-links a.active{color:var(--navy)}
 </style>
 </head>
 <body>
+<nav class="top-nav">
+  <a class="top-nav-logo" href="index.html">Jaini Desai</a>
+  <ul class="top-nav-links">
+    <li><a href="index.html?section=home">Home</a></li>
+    <li><a href="index.html?section=studio" class="active">Studio</a></li>
+    <li><a href="index.html?section=about">About</a></li>
+    <li><a href="index.html?section=contact">Contact</a></li>
+  </ul>
+</nav>
 <div class="app">
 
 <!-- ── SIDEBAR ──────────────────────────────────────────────────────────── -->
@@ -200,10 +214,10 @@ tr:hover td{background:#fafbfc}
 <div id="overview" class="section active">
   <div class="page-title">Employee Flight Risk Intelligence System</div>
   <div class="page-sub">
-    A predictive people analytics pipeline that identifies which employees are most
-    likely to leave in the next 90 days — trained on 3 years of longitudinal engagement,
-    performance, commute, and organizational data. Built end-to-end: from data design
-    to deployed Streamlit application.
+    CAN North Financial loses an estimated 252 employees a year. At $78,000 per
+    departure¹ that is $19.7 million leaving through the door — most of it invisible
+    until someone hands in their notice. The CEO’s question was simple: tell me who
+    is about to leave before they do. This is the system that answers it.
   </div>
 
   <div class="disclaimer">
@@ -212,6 +226,15 @@ tr:hover td{background:#fafbfc}
     fictional company created for demonstration purposes. The model, methodology,
     and analytical framework are genuine and production-ready.
     Methodology and source code are proprietary.
+  </div>
+
+  <div class="disclaimer" style="background:#f8fafc;border-color:#e2e8f0;color:#64748b;margin-top:-8px">
+    ¹ <strong>$78,000 replacement cost methodology:</strong> Calculated as 0.5× average
+    annual salary at CAN North Financial ($107,991), reflecting direct costs — recruiting
+    fees (15–20% of salary), onboarding, productivity loss during the 3–6 month ramp
+    period, and manager time. Consistent with SHRM’s published range of 50–200% of annual
+    salary for mid-level professional roles. Applied uniformly across all departures as a
+    conservative floor estimate.
   </div>
 
   <!-- KPI ROW -->
